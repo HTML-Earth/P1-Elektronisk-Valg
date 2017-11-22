@@ -145,6 +145,23 @@ bigint bigint_modulus(bigint a, bigint b) {
     return result;
 }
 
+/* Bigint power function */
+bigint bigint_pow(bigint a, bigint b)
+{
+    bigint result, i, one;
+
+    result = create_bigint_from_string("1");
+    i = create_bigint_from_string("0");
+    one = create_bigint_from_string("1");
+
+    while (bigint_compare(i, b) < 0) {
+        result = bigint_multiply(result, a);
+        i = bigint_add(i, one);
+    }
+
+    return result;
+}
+
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
 int bigint_compare(bigint a, bigint b) {
     if (a.length > b.length)
@@ -201,7 +218,7 @@ int custom_pow(int a, int b)
 {
     int res = 1, i;
     for (i = 0; i < b; i++)
-    res *= a;
+        res *= a;
 
     return res;
 }

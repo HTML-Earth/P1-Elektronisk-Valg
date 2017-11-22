@@ -26,6 +26,9 @@ bigint bigint_divide(bigint a, bigint b);
 /* a % b */
 bigint bigint_modulus(bigint a, bigint b);
 
+/* Bigint power function */
+bigint bigint_pow(bigint a, bigint b);
+
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
 int bigint_compare(bigint a, bigint b);
 
