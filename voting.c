@@ -54,39 +54,43 @@ int voting_function(void){
 	printf("Input the number representing the party you would like to vote for:    ");
 	
 	if (scanf("%d", &user_input) != 1){
-		printf("Invalid input");
+		printf("Invalid input!\n");
+		return(1);
+	}
+	if (user_input < 0 || user_input > 10){
+		printf("User input must be between 0 and 10\n");
 		return(1);
 	}
 	
 	switch(user_input){
-		case '1' :
+		case 1 :
 			printf("Do you wish to vote for (A) Socialdemokraterne?\n");
 			break;
-		case '2' :
+		case 2 :
 			printf("Do you wish to vote for (B) Radikale Venstre?\n");
 			break;
-		case '3' :
+		case 3 :
 			printf("Do you wish to vote for (C) Det Konservative Folkeparti?\n");
 			break;
-		case '4' :
+		case 4 :
 			printf("Do you wish to vote for (F) Socilistisk Folkeparti?\n");
 			break;
-		case '5' :
+		case 5 :
 			printf("Do you wish to vote for (I) Liberal Alliance?\n");
 			break;
-		case '6' :
+		case 6 :
 			printf("Do you wish to vote for (K) Kristendemokraterne?\n");
 			break;
-		case '7' :
+		case 7 :
 			printf("Do you wish to vote for (O) Dansk Folkeparti?\n");
 			break;
-		case '8' :
+		case 8 :
 			printf("Do you wish to vote for (V) Venstre?\n");
 			break;
-		case '9' :
+		case 9 :
 			printf("Do you wish to vote for (OE) Enhedslisten\n");
 			break;
-		case '0' :
+		case 10 :
 			printf("Do you wish to vote for (AA) Alternativet\n");
 			break;
 		default :
