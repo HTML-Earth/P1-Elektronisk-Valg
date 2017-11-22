@@ -10,7 +10,7 @@ int main(void){
 	FILE *votes;
     unsigned long v, c, d, n, dec_vote;
 
-	votes = fopen("secretvotes.txt","w");
+	votes = fopen("secretvotes.txt","a");
     get_vote(&v);
     c = encrypt_vote(v, &d, &n);
     printf("The encrypted vote is: %lu\n", c);	
