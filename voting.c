@@ -2,14 +2,18 @@
 #include	<string.h>
 
 
+int	vote_counting(void);
 int voting_function(void);
 int vote_or_decrypt(void);
+
 int main (void){
-	
+
 	vote_or_decrypt();
-	
+	vote_counting(/*Here you input the decrypted_vote to count it*/);
+	vote_decrypt(/*Here we input user input so he can decrypt his own vote*/);
 	return(0);
 }
+
 /*
 This function gives the user the option to choose between voting or decrypting an already encrypted vote.
 And when either option is choosen, it goes to it's own function.
@@ -17,6 +21,7 @@ And when either option is choosen, it goes to it's own function.
 int vote_or_decrypt(void){
 	
 	char user_choice[6];
+	int	vote;
 	
 	printf("Would you like to 'vote' or 'check' an existing vote?:    ");
 	if (scanf("%s", &user_choice) != 1){
@@ -25,7 +30,7 @@ int vote_or_decrypt(void){
 	}
 	if (strcmp(user_choice, "vote") == 0 || strcmp(user_choice, "Vote") == 0){
 		printf("You have chosen to vote\n");
-		voting_function();
+		vote = voting_function();
 	}
 	else if (strcmp(user_choice, "check") == 0 || strcmp(user_choice, "Check") == 0){
 		printf("You have chosen to check an exisiting vote\n");
@@ -36,8 +41,9 @@ int vote_or_decrypt(void){
 		return(1);
 	}
 	
-	return(0);
+	return vote;
 }
+
 /*
 This function handles the voting in itself. It gives the option to choose between the 10 politcal parties of Denmark plus an option to vote blank.
 */
@@ -67,9 +73,7 @@ int voting_function(void){
 		printf("User input must be between 0 and 10\n");
 		return(1);
 	}
-	/*
-	This switch looks at what the user voted for and asks if they are sure that they wanted to vote for that.
-	*/		
+	
 	switch(user_input){
 		case 1 :
 			printf("Do you wish to vote for (A) Socialdemokraterne?\n");
@@ -114,7 +118,7 @@ int voting_function(void){
 		}
 			if (strcmp(user_confirmation, "Yes") == 0 || strcmp(user_confirmation, "yes") == 0){
 				printf("Vote registered\n");
-				//vote_confirmed_function();
+				return user_input;
 			}
 		
 		else{
@@ -122,6 +126,56 @@ int voting_function(void){
 			return(0);
 		}
 		
+	
+	return(0);
+}
+
+/*
+Now that the user confirmed his input, we send the vote to the corresponding party
+*/
+int	vote_counting(int decrypted_vote){
+
+	switch(decrypted_vote){
+		 
+		case 1 :
+			
+			break;
+		case 2 :
+		
+			break;
+		case 3 :
+		
+			break;
+		case 4 :
+		
+			break;
+		case 5 :
+		
+			break;
+		case 6 :
+		
+			break;
+		case 7 :
+		
+			break;
+		case 8 :
+		
+			break;
+		case 9 :
+		
+			break;
+		case 10 :
+		
+			break;
+			
+		default :
+			
+	}
+	
+	return(0);
+}
+
+vote_decrypt(void){
 	
 	return(0);
 }
