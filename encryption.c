@@ -7,11 +7,16 @@ unsigned long exp_func(unsigned long v, unsigned long e);
 unsigned long decrypt_vote(unsigned long c, unsigned long d, unsigned long n);
 
 int main(void){
+	FILE *votes;
     unsigned long v, c, d, n, dec_vote;
 
+	votes = fopen("secretvotes.txt","w");
     get_vote(&v);
     c = encrypt_vote(v, &d, &n);
-    printf("The encrypted vote is: %lu\n", c);
+    printf("The encrypted vote is: %lu\n", c);	
+	fprintf(votes,"%lu",c);
+	fclose(votes);
+	
     dec_vote = decrypt_vote(c, d, n);
     printf("The decrypted vote is: %lu\n", dec_vote);
 
