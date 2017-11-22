@@ -2,7 +2,8 @@
 #include	<string.h>
 
 
-int	vote_counting(void);
+int	vote_counting(int decrypted_vote);
+int vote_decrypt(void);
 int voting_function(void);
 int vote_or_decrypt(void);
 
@@ -175,7 +176,10 @@ int	vote_counting(int decrypted_vote){
 	return(0);
 }
 
-vote_decrypt(void){
+/*
+Here the user can decrypt his own vote to make sure it was counted right
+*/
+int vote_decrypt(/*some user input*/){
 	
 	return(0);
 }
