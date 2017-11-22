@@ -1,12 +1,12 @@
 #include "bigints.h"
 
-/* Test function
+/*
 int main(void) {
     int i;
     bigint a, b, result;
 
     a = create_bigint_from_string("18446744073709551615");
-    b = create_bigint_from_string("1000000");
+    b = create_bigint_from_string("999");
 
     result = bigint_multiply(a, b);
 
@@ -92,9 +92,31 @@ bigint bigint_subtract(bigint a, bigint b) {
     return result;
 }
 
-
 /* Multiplies two bigints */
 bigint bigint_multiply(bigint a, bigint b) {
+    bigint result, temp;
+    int i, j, k, tempint;
+    char str[MAX_DIGITS];
+    result = create_bigint_from_string("0");
+
+    for (i = 0; i < a.length; i++) {
+        for (j = 0; j < b.length; j++) {
+            tempint = a.digits[i] * b.digits[j];
+            sprintf(str, "%d", tempint);
+
+            for (k = 0; k < i + j; k++)
+                strcat(str, "0");
+
+            temp = create_bigint_from_string(str);
+            result = bigint_add(result, temp);
+        }
+    }
+
+    return result;
+}
+
+/* UNOPTIMIZED Multiplies two bigints */
+bigint bigint_multiply_old(bigint a, bigint b) {
     int i, j;
     bigint result;
     result = create_bigint_from_string("0");
