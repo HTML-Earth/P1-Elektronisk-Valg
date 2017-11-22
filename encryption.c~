@@ -43,12 +43,6 @@ unsigned long encrypt_vote(unsigned long v){
     return exp_func(v,e) % n;
 }
 
-/* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
-unsigned long decrypt_vote(unsigned long c, unsigned long d, unsigned long n){
-
-    return exp_func(c,d) % n;
-}
-
 /* takes a number and a value for exponent - multiplies the given number with itself as many times as the exponent indicates */
 unsigned long exp_func(unsigned long v, unsigned long exp){
     int i;
