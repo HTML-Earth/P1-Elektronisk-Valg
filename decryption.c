@@ -7,12 +7,15 @@ unsigned long decrypt_vote(unsigned long c);
 int main(void){
     FILE *votes;
     unsigned long c, dec_vote;
+    int control;
 
     votes = fopen("secretvotes.txt","r");
-    fscanf(votes, " %lu", &c);	
-    dec_vote = decrypt_vote(c);
-    printf("The decrypted vote is: %lu\n", dec_vote);
-
+    
+    while ((control = fgetc(votes)) != EOF){
+      fscanf(votes, " %lu", &c);	
+      dec_vote = decrypt_vote(c);
+      printf("The decrypted vote is: %lu\n", dec_vote);
+    }
     return 0;
 }
 

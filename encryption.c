@@ -15,7 +15,7 @@ int main(void){
     c = encrypt_vote(v);
 
     /*printf("The encrypted vote is: %lu\n", c);*/	
-    fprintf(votes,"%lu" " - ",c);
+    fprintf(votes, "\n" "%lu",c);
     
     fclose(votes);
 
