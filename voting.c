@@ -38,7 +38,8 @@ int vote_or_decrypt(void){
 
 int voting_function(void){
 	
-	int	user_input = 0;
+	int		user_input = 0;
+	char	user_confirmation[4];
 	
 	printf("[0]	(0) Blank\n");
 	printf("[1]	(A) Socialdemokraterne\n");
@@ -97,15 +98,23 @@ int voting_function(void){
 			printf("Do you wish to vote blank?\n");
 			
 	}
-			
-		
-		
-		/*
-	(user_input == 1){
-		printf("Do you wish to vote for (A) Socialdemokraterne?\n");
-	}
-	*/
 	
+		printf("'Yes' / 'No' ?\n");
+		
+		if (scanf("%s", user_confirmation) != 1){
+			printf("Invalid input!");
+			return(0);
+		}
+			if (strcmp(user_confirmation, "Yes") == 0 || strcmp(user_confirmation, "yes") == 0){
+				printf("Vote registered\n");
+				//vote_confirmed_function();
+			}
+		
+		else{
+			printf("Voting cancelled\n");
+			return(0);
+		}
+		
 	
 	return(0);
 }
