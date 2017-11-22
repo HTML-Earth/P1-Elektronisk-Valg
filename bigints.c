@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 #define MAX_DIGITS 1000
 
@@ -18,6 +17,7 @@ bigint bigint_divide(bigint a, bigint b);
 bigint bigint_modulus(bigint a, bigint b);
 int bigint_compare(bigint a, bigint b);
 int bigint_compare_helper(bigint a, bigint b, int length);
+int custom_pow(int a, int b);
 
 int char_to_int(char c);
 
@@ -25,10 +25,10 @@ int main(void) {
     int i;
     bigint a, b, result;
 
-    a = create_bigint_from_string("5");
-    b = create_bigint_from_string("11");
+    a = create_bigint_from_string("18446744073709551615");
+    b = create_bigint_from_string("1000000");
 
-    result = bigint_modulus(a, b);
+    result = bigint_multiply(a, b);
 
     for (i = result.length - 1; i >= 0; i--) {
         printf("%d", result.digits[i]);
@@ -111,6 +111,7 @@ bigint bigint_subtract(bigint a, bigint b) {
     return result;
 }
 
+
 /* Multiplies two bigints */
 bigint bigint_multiply(bigint a, bigint b) {
     int i, j;
@@ -118,7 +119,7 @@ bigint bigint_multiply(bigint a, bigint b) {
     result = create_bigint_from_string("0");
 
     for (i = 0; i < b.length; i++) {
-        for (j = 0; j < pow(10, i) * b.digits[i]; j++) {
+        for (j = 0; j < custom_pow(10, i) * b.digits[i]; j++) {
             result = bigint_add(result, a);
         }
     }
@@ -211,4 +212,13 @@ int char_to_int(char c) {
         return 9;
     }
     return -1;
+}
+
+int custom_pow(int a, int b)
+{
+    int res = 1, i;
+    for (i = 0; i < b; i++)
+    res *= a;
+
+    return res;
 }
