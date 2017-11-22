@@ -16,6 +16,8 @@ bigint bigint_subtract(bigint a, bigint b);
 bigint bigint_multiply(bigint a, bigint b);
 bigint bigint_divide(bigint a, bigint b);
 bigint bigint_modulus(bigint a, bigint b);
+int bigint_compare(bigint a, bigint b);
+int bigint_compare_helper(bigint a, bigint b, int length);
 
 int char_to_int(char c);
 
@@ -23,10 +25,10 @@ int main(void) {
     int i;
     bigint a, b, result;
 
-    a = create_bigint_from_string("4");
-    b = create_bigint_from_string("5");
+    a = create_bigint_from_string("5");
+    b = create_bigint_from_string("11");
 
-    result = bigint_multiply(a, b);
+    result = bigint_modulus(a, b);
 
     for (i = result.length - 1; i >= 0; i--) {
         printf("%d", result.digits[i]);
@@ -126,14 +128,62 @@ bigint bigint_multiply(bigint a, bigint b) {
 
 /* Divides two bigints */
 bigint bigint_divide(bigint a, bigint b) {
-    bigint result;
-    return result;
+    bigint result, times, one;
+
+    result = create_bigint_from_string("0");
+    times = create_bigint_from_string("0");
+    one = create_bigint_from_string("1");
+
+    while (bigint_compare(result, a) < 0) {
+        result = bigint_add(result, b);
+        times = bigint_add(times, one);
+    }
+
+    if (bigint_compare(result, a) > 0)
+        times = bigint_subtract(times, one);
+
+    return times;
 }
 
 /* a % b */
 bigint bigint_modulus(bigint a, bigint b) {
     bigint result;
+
+    result = create_bigint_from_string("0");
+
+    while (bigint_compare(result, a) < 0) {
+        result = bigint_add(result, b);
+    }
+
+    if (bigint_compare(result, a) > 0)
+        result = bigint_subtract(result, b);
+
+    result = bigint_subtract(a, result);
+
     return result;
+}
+
+/* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
+int bigint_compare(bigint a, bigint b) {
+    if (a.length > b.length)
+        return 1;
+    else if (a.length < b.length)
+        return -1;
+    else
+        return bigint_compare_helper(a, b, a.length);
+}
+
+int bigint_compare_helper(bigint a, bigint b, int length) {
+    if (a.digits[length-1] > b.digits[length-1])
+        return 1;
+    else if (a.digits[length-1] < b.digits[length-1])
+        return -1;
+    else {
+        if (length < 2)
+            return 0;
+        else
+            return bigint_compare_helper(a, b, length-1);
+    }
 }
 
 /* Converts char to int */
