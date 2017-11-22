@@ -155,6 +155,7 @@ int bigint_compare(bigint a, bigint b) {
         return bigint_compare_helper(a, b, a.length);
 }
 
+/* Recursive function used by bigint_compare */
 int bigint_compare_helper(bigint a, bigint b, int length) {
     if (a.digits[length-1] > b.digits[length-1])
         return 1;
@@ -195,6 +196,7 @@ int char_to_int(char c) {
     return -1;
 }
 
+/* Power function that works with ints */
 int custom_pow(int a, int b)
 {
     int res = 1, i;
