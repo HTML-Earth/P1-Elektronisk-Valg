@@ -10,7 +10,10 @@ int main (void){
 	
 	return(0);
 }
-
+/*
+This function gives the user the option to choose between voting or decrypting an already encrypted vote.
+And when either option is choosen, it goes to it's own function.
+*/
 int vote_or_decrypt(void){
 	
 	char user_choice[6];
@@ -35,7 +38,9 @@ int vote_or_decrypt(void){
 	
 	return(0);
 }
-
+/*
+This function handles the voting in itself. It gives the option to choose between the 10 politcal parties of Denmark plus an option to vote blank.
+*/
 int voting_function(void){
 	
 	int	user_input = 0;
@@ -57,7 +62,9 @@ int voting_function(void){
 		printf("Invalid input");
 		return(1);
 	}
-	
+	/*
+	This switch looks at what the user voted for and asks if they are sure that they wanted to vote for that.
+	*/		
 	switch(user_input){
 		case '1' :
 			printf("Do you wish to vote for (A) Socialdemokraterne?\n");
