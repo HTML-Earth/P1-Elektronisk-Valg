@@ -1,14 +1,13 @@
 #include "bigints.h"
 
-/*
 int main(void) {
     int i;
     bigint a, b, result;
 
-    a = create_bigint_from_string("18446744073709551615");
-    b = create_bigint_from_string("999");
+    a = create_bigint_from_string("1100");
+    b = create_bigint_from_string("1");
 
-    result = bigint_multiply(a, b);
+    result = bigint_subtract(a, b);
 
     for (i = result.length - 1; i >= 0; i--) {
         printf("%d", result.digits[i]);
@@ -18,7 +17,6 @@ int main(void) {
 
     return 0;
 }
-*/
 
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string) {
@@ -40,14 +38,14 @@ bigint create_bigint_from_string(char *string) {
 /* Adds two bigints */
 bigint bigint_add(bigint a, bigint b) {
     bigint result;
-    int i, length, added; 
+    int i, length, added;
 	int mente=0;
 
     result = create_bigint_from_string("0");
 
     length = (a.length > b.length) ? a.length : b.length;
 
-    for (i = 0; i < length; i++){
+    for (i = 0; i < length; i++) {
         added = a.digits[i] + b.digits[i] + mente;
 
         if (added > 9) {
@@ -75,11 +73,11 @@ bigint bigint_subtract(bigint a, bigint b) {
 
     length = (a.length > b.length) ? a.length : b.length;
 
-    for (i = 0; i < length; i++){
-        borrow = (a.digits[i] < b.digits[i]) ? 10 : 0;
+    for (i = 0; i < length; i++) {
+        borrow = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 10 : 0;
         subbed = a.digits[i] - b.digits[i] + borrow - mente;
 
-        mente = (a.digits[i] < b.digits[i]) ? 1 : 0;
+        mente = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 1 : 0;
 
         result.digits[i] = (subbed < 0) ? 0 : subbed;
     }
