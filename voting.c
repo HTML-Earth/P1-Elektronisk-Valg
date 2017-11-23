@@ -10,10 +10,10 @@ int vote_or_decrypt(void);
 int main (void){
 
     vote_or_decrypt(decrypted_vote);
-	/* this is the function to call when the vote has been encrypted and decrypted
-	   this function will then assign the vote to the corresponding party*/
-	vote_counting(decrypted_vote);
-	
+    /* this is the function to call when the vote has been encrypted and decrypted
+       this function will then assign the vote to the corresponding party*/
+    vote_counting(decrypted_vote);
+
     return(0);
 }
 
@@ -38,7 +38,7 @@ int vote_or_decrypt(int decrypted_vote){
     }
     else if (strcmp(user_choice, "check") == 0 || strcmp(user_choice, "Check") == 0){
         printf("You have chosen to check an exisiting vote\n");
-		vote_decrypt(decrypted_vote);
+        vote_decrypt(decrypted_vote);
     }
     else{
         printf("Invalid input!\n");
@@ -171,7 +171,7 @@ int    vote_counting(int decrypted_vote){
 Here the user can decrypt his own vote to make sure it was counted right
 */
 int vote_decrypt(int decrypted_vote){
-	
+
     switch(decrypted_vote){
 
         case 1 :
@@ -207,6 +207,6 @@ int vote_decrypt(int decrypted_vote){
         default :
             printf("Do you wish to vote blank?\n");
     }
-	
+
     return(0);
 }
