@@ -1,5 +1,6 @@
 #include "bigints.h"
 
+/*
 int main(void) {
     int i;
     bigint a, b, result;
@@ -17,6 +18,7 @@ int main(void) {
 
     return 0;
 }
+*/
 
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string) {
