@@ -40,7 +40,8 @@ bigint create_bigint_from_string(char *string) {
 /* Adds two bigints */
 bigint bigint_add(bigint a, bigint b) {
     bigint result;
-    int i, length, added, mente;
+    int i, length, added; 
+	int mente=0;
 
     result = create_bigint_from_string("0");
 
