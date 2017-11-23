@@ -1,19 +1,25 @@
 #include    <stdio.h>
 #include    <string.h>
+#include    <stdlib.h>
+#include    <unistd.h>
 
 
 int vote_counting(int decrypted_vote);
-int vote_decrypt(void);
+int vote_decrypt(int decrypted_vote);
 int voting_function(void);
-int vote_or_decrypt(void);
+int vote_or_decrypt(int decrypted_vote);
 
 int main (void){
 
-    vote_or_decrypt(decrypted_vote);
+    int decrypted_vote;
+    
+   // vote_or_decrypt(decrypted_vote);
+    printf("Testing for vote counting\nInput the decrypted number from 0-10\n");
+    scanf("%d", &decrypted_vote);
     /* this is the function to call when the vote has been encrypted and decrypted
        this function will then assign the vote to the corresponding party*/
     vote_counting(decrypted_vote);
-
+    
     return(0);
 }
 
@@ -139,30 +145,64 @@ Now that the user confirmed his input, we send the vote to the corresponding par
 */
 int    vote_counting(int decrypted_vote){
 
+    char    party_voted_on[50], filename[50];
+    FILE    *vote_count_file;
+    int     votes_already = 0;
+
     switch(decrypted_vote){
 
         case 1 :
+            strcpy(party_voted_on, "Socialdemokraterne");
             break;
         case 2 :
+            strcpy(party_voted_on, "Radikale_Venstre");
             break;
         case 3 :
+            strcpy(party_voted_on, "Det_Konservative_Folkeparti");
             break;
         case 4 :
+            strcpy(party_voted_on, "Socilistisk_Folkeparti");
             break;
         case 5 :
+            strcpy(party_voted_on, "Liberal_Alliance");
             break;
         case 6 :
+            strcpy(party_voted_on, "Kristendemokraterne");
             break;
         case 7 :
+            strcpy(party_voted_on, "Dansk_Folkeparti");
             break;
         case 8 :
+            strcpy(party_voted_on, "Venstre");
             break;
         case 9 :
+            strcpy(party_voted_on, "Enhedslisten");
             break;
         case 10 :
+            strcpy(party_voted_on, "Alternativet");
             break;
         default :
+            strcpy(party_voted_on, "Blank_votes");
     }
+
+    sprintf(filename, "%s.txt", party_voted_on);
+    
+    if (access (filename, F_OK) != -1){
+        vote_count_file = fopen(filename, "r");
+        fscanf(vote_count_file, "%d\n", &votes_already);
+        fclose(vote_count_file);
+        vote_count_file = fopen(filename, "w+");
+        votes_already++;
+        rewind(vote_count_file);
+        fprintf(vote_count_file, "%d\n", votes_already);
+        fclose(vote_count_file);
+    }
+    else
+        vote_count_file = fopen(filename, "w+");
+        rewind(vote_count_file);
+        fprintf(vote_count_file, "1\n");
+        fclose(vote_count_file);
+
 
     return(0);
 }
@@ -171,7 +211,7 @@ int    vote_counting(int decrypted_vote){
 Here the user can decrypt his own vote to make sure it was counted right
 */
 int vote_decrypt(int decrypted_vote){
-
+    
     switch(decrypted_vote){
 
         case 1 :
@@ -207,6 +247,6 @@ int vote_decrypt(int decrypted_vote){
         default :
             printf("Do you wish to vote blank?\n");
     }
-
+    
     return(0);
 }
