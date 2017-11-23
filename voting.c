@@ -9,9 +9,11 @@ int vote_or_decrypt(void);
 
 int main (void){
 
-    vote_or_decrypt();
-    vote_counting(/*Here you input the decrypted_vote to count it*/);
-    vote_decrypt(/*Here we input user input so he can decrypt his own vote*/);
+    vote_or_decrypt(decrypted_vote);
+	/* this is the function to call when the vote has been encrypted and decrypted
+	   this function will then assign the vote to the corresponding party*/
+	vote_counting(decrypted_vote);
+	
     return(0);
 }
 
@@ -19,10 +21,11 @@ int main (void){
 This function gives the user the option to choose between voting or decrypting an already encrypted vote.
 And when either option is choosen, it goes to it's own function.
 */
-int vote_or_decrypt(void){
+
+int vote_or_decrypt(int decrypted_vote){
 
     char user_choice[6];
-    int    vote;
+    int  vote;
 
     printf("Would you like to 'vote' or 'check' an existing vote?:    ");
     if (scanf("%s", &user_choice) != 1){
@@ -35,7 +38,7 @@ int vote_or_decrypt(void){
     }
     else if (strcmp(user_choice, "check") == 0 || strcmp(user_choice, "Check") == 0){
         printf("You have chosen to check an exisiting vote\n");
-        //deencrypting_function();
+		vote_decrypt(decrypted_vote);
     }
     else{
         printf("Invalid input!\n");
@@ -50,7 +53,7 @@ This function handles the voting in itself. It gives the option to choose betwee
 */
 int voting_function(void){
 
-    int        user_input = 0;
+    int     user_input = 0;
     char    user_confirmation[4];
 
     printf("[0]    (0) Blank\n");
@@ -63,7 +66,7 @@ int voting_function(void){
     printf("[7]    (O) Dansk Folkeparti\n");
     printf("[8]    (V) Venstre\n");
     printf("[9]    (OE) Enhedslisten\n");
-    printf("[10]    (AA) Alternativet\n");
+    printf("[10]   (AA) Alternativet\n");
     printf("Input the number representing the party you would like to vote for:    ");
 
     if (scanf("%d", &user_input) != 1){
@@ -139,38 +142,26 @@ int    vote_counting(int decrypted_vote){
     switch(decrypted_vote){
 
         case 1 :
-
             break;
         case 2 :
-
             break;
         case 3 :
-
             break;
         case 4 :
-
             break;
         case 5 :
-
             break;
         case 6 :
-
             break;
         case 7 :
-
             break;
         case 8 :
-
             break;
         case 9 :
-
             break;
         case 10 :
-
             break;
-
         default :
-
     }
 
     return(0);
@@ -179,7 +170,43 @@ int    vote_counting(int decrypted_vote){
 /*
 Here the user can decrypt his own vote to make sure it was counted right
 */
-int vote_decrypt(/*some user input*/){
+int vote_decrypt(int decrypted_vote){
+	
+    switch(decrypted_vote){
 
+        case 1 :
+            printf("Your vote was registered for (A) Socialdemokraterne?\n");
+            break;
+        case 2 :
+            printf("Your vote was registered for (B) Radikale Venstre?\n");
+            break;
+        case 3 :
+            printf("Your vote was registered for (C) Det Konservative Folkeparti?\n");
+            break;
+        case 4 :
+            printf("Your vote was registered for (F) Socilistisk Folkeparti?\n");
+            break;
+        case 5 :
+            printf("Your vote was registered for (I) Liberal Alliance?\n");
+            break;
+        case 6 :
+            printf("Your vote was registered for (K) Kristendemokraterne?\n");
+            break;
+        case 7 :
+            printf("Your vote was registered for (O) Dansk Folkeparti?\n");
+            break;
+        case 8 :
+            printf("Your vote was registered for (V) Venstre?\n");
+            break;
+        case 9 :
+            printf("Your vote was registered for (OE) Enhedslisten\n");
+            break;
+        case 10 :
+            printf("Your vote was registered for (AA) Alternativet\n");
+            break;
+        default :
+            printf("Do you wish to vote blank?\n");
+    }
+	
     return(0);
 }
