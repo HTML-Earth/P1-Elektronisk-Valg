@@ -67,7 +67,7 @@ bigint bigint_add(bigint a, bigint b) {
 /* Subtracts two bigints (only works for a >= b) */
 bigint bigint_subtract(bigint a, bigint b) {
     bigint result;
-    int i, length, subbed, mente, borrow;
+    int i, length, subbed, mente = 0, borrow;
 
     result = create_bigint_from_string("0");
 
