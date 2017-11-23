@@ -13,9 +13,7 @@ int main (void){
 
     int decrypted_vote;
     
-   // vote_or_decrypt(decrypted_vote);
-    printf("Testing for vote counting\nInput the decrypted number from 0-10\n");
-    scanf("%d", &decrypted_vote);
+    vote_or_decrypt(decrypted_vote);
     /* this is the function to call when the vote has been encrypted and decrypted
        this function will then assign the vote to the corresponding party*/
     vote_counting(decrypted_vote);
