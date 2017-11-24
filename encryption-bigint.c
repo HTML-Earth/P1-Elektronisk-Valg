@@ -40,18 +40,22 @@ void get_vote(char *v){
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint encrypt_vote(bigint v){
-    bigint p1, p2, e, n;
-    char n[CHARLENGTH];
-    FILE *Nvalue;
+    bigint e, n;
+    char nstring[CHARLENGTH], estring[CHARLENGTH];
+    FILE *value;
     
-    Nvalue = fopen("superhemmeligvalues","r")
+    value = fopen("superhemmeligvalues","r")
     
-    fscanf(Nvalue"N=%s",n);
+    fscanf(value," N=%s",nstring);
+    fscanf(value," E=%s",estring);
+    
+    
+    fclose(value);
     
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
        
-    e = create_bigint_from_string("7");
-    n = create_bigint_from_string(n);
+    e = create_bigint_from_string(estring);
+    n = create_bigint_from_string(nstring);
 
     return bigint_modulus(bigint_pow(v, e), n);
 }
