@@ -11,6 +11,12 @@ typedef struct bigint bigint;
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string);
 
+/* Prints bigint to standard output */
+void bigint_print(bigint b);
+
+/* Prints bigint to a file */
+void bigint_print_file(FILE *file, bigint b);
+
 /* Adds two bigints */
 bigint bigint_add(bigint a, bigint b);
 

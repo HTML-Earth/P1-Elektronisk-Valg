@@ -37,6 +37,24 @@ bigint create_bigint_from_string(char *string) {
     return b;
 }
 
+/* Prints bigint to standard output */
+void bigint_print(bigint b)
+{
+    int i;
+    for (i = b.length - 1; i >= 0; i--) {
+        printf("%d", b.digits[i]);
+    }
+}
+
+/* Prints bigint to a file */
+void bigint_print_file(FILE *file, bigint b)
+{
+    int i;
+    for (i = b.length - 1; i >= 0; i--) {
+        fprintf(file, "%d", b.digits[i]);
+    }
+}
+
 /* Adds two bigints */
 bigint bigint_add(bigint a, bigint b) {
     bigint result;
