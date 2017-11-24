@@ -2,13 +2,15 @@
 #include <stdio.h>
 #include "bigints.h"
 
+#define CHARLENGTH 10
+
 void get_vote(char *v);
 bigint encrypt_vote(bigint v);
 
 int main(void){
     FILE *votes;
     bigint v, c;
-    char vote[5];
+    char vote[CHARLENGTH];
     int i;
     
  
@@ -39,13 +41,17 @@ void get_vote(char *v){
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint encrypt_vote(bigint v){
     bigint p1, p2, e, n;
-
-    /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
-    p1 = create_bigint_from_string("3");
-    p2 = create_bigint_from_string("11");
+    char n[CHARLENGTH];
+    FILE *Nvalue;
     
+    Nvalue = fopen("superhemmeligvalues","r")
+    
+    fscanf(Nvalue"N=%s",n);
+    
+    /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
+       
     e = create_bigint_from_string("7");
-    n = bigint_multiply(p1, p2);
+    n = create_bigint_from_string(n);
 
     return bigint_modulus(bigint_pow(v, e), n);
 }
