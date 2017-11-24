@@ -161,7 +161,7 @@ int    vote_counting(int decrypted_vote){
             strcpy(party_voted_on, "Det_Konservative_Folkeparti");
             break;
         case 4 :
-            strcpy(party_voted_on, "Socilistisk_Folkeparti");
+            strcpy(party_voted_on, "Socalistisk_Folkeparti");
             break;
         case 5 :
             strcpy(party_voted_on, "Liberal_Alliance");
@@ -211,8 +211,10 @@ int    vote_counting(int decrypted_vote){
 Here the user can decrypt his own vote to make sure it was counted right
 */
 int vote_decrypt(int decrypted_vote){
+	
+	printf("What is your encrypted vote?\n");
     
-    switch(decrypted_vote){
+    switch(scanf("%f", &decrypted_vote)){
 
         case 1 :
             printf("Your vote was registered for (A) Socialdemokraterne?\n");
