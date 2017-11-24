@@ -1,25 +1,5 @@
 #include "bigints.h"
 
-/*
-int main(void) {
-    int i;
-    bigint a, b, result;
-
-    a = create_bigint_from_string("1100");
-    b = create_bigint_from_string("1");
-
-    result = bigint_subtract(a, b);
-
-    for (i = result.length - 1; i >= 0; i--) {
-        printf("%d", result.digits[i]);
-    }
-
-    printf("\n");
-
-    return 0;
-}
-*/
-
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string) {
     bigint b;
@@ -59,7 +39,7 @@ void bigint_print_file(FILE *file, bigint b)
 bigint bigint_add(bigint a, bigint b) {
     bigint result;
     int i, length, added;
-	int mente=0;
+	int mente = 0;
 
     result = create_bigint_from_string("0");
 
@@ -71,7 +51,7 @@ bigint bigint_add(bigint a, bigint b) {
         if (added > 9) {
             result.digits[i] = added - 10;
             mente = 1;
-            if (i == length - 1)
+            if (i == length-1)
                 length++;
         }
         else {
@@ -96,12 +76,11 @@ bigint bigint_subtract(bigint a, bigint b) {
     for (i = 0; i < length; i++) {
         borrow = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 10 : 0;
         subbed = a.digits[i] - b.digits[i] + borrow - mente;
-
         mente = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 1 : 0;
 
         result.digits[i] = (subbed < 0) ? 0 : subbed;
     }
-    i = length - 1;
+    i = length-1;
     while (i > 0 && result.digits[i] == 0) {
         length--;
         i--;
