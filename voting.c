@@ -117,7 +117,9 @@ int voting_function(void){
             printf("Do you wish to vote blank?\n");
 
     }
-
+    	/*
+    	Asks for confirmation 
+    	*/
         printf("'Yes' / 'No' ?\n");
 
         if (scanf("%s", user_confirmation) != 1){
