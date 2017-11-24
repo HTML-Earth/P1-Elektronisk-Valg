@@ -55,7 +55,7 @@ void bigint_print_file(FILE *file, bigint b)
 /* Adds two bigints */
 bigint bigint_add(bigint a, bigint b) {
     bigint result;
-    int i, length, added;
+    int i, length, added, temp_a, temp_b;
 	int mente = 0;
 
     length = (a.length > b.length) ? a.length : b.length;
@@ -63,7 +63,9 @@ bigint bigint_add(bigint a, bigint b) {
     result = create_bigint(length+1);
 
     for (i = 0; i < length; i++) {
-        added = ((i < a.length) ? a.digits[i] : 0) + ((i < b.length) ? b.digits[i] : 0) + mente;
+        temp_a = (i < a.length) ? a.digits[i] : 0;
+        temp_b = (i < b.length) ? b.digits[i] : 0;
+        added = temp_a + temp_b + mente;
 
         if (added > 9) {
             result.digits[i] = added - 10;
@@ -84,16 +86,19 @@ bigint bigint_add(bigint a, bigint b) {
 /* Subtracts two bigints (only works for a >= b) */
 bigint bigint_subtract(bigint a, bigint b) {
     bigint result;
-    int i, length, subbed, mente = 0, borrow;
+    int i, length, subbed, mente = 0, borrow, temp_a, temp_b;
 
     length = (a.length > b.length) ? a.length : b.length;
 
     result = create_bigint(length);
 
     for (i = 0; i < length; i++) {
-        borrow = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 10 : 0;
-        subbed = a.digits[i] - b.digits[i] + borrow - mente;
-        mente = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 1 : 0;
+        temp_a = (i < a.length) ? a.digits[i] : 0;
+        temp_b = (i < b.length) ? b.digits[i] : 0;
+
+        borrow = (temp_a < temp_b || temp_a < mente) ? 10 : 0;
+        subbed = temp_a - temp_b + borrow - mente;
+        mente = (temp_a < temp_b || temp_a < mente) ? 1 : 0;
 
         result.digits[i] = (subbed < 0) ? 0 : subbed;
     }
