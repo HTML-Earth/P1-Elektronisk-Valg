@@ -5,18 +5,30 @@
 
 #define MAX_NUMBER 10
 
+void manual_test();
 void automated_test();
-void test_function(char *a, char *b, char *expected, char symbol);
 void test_add(char *a, char *b, char *expected);
 void test_subtract(char *a, char *b, char *expected);
 void test_multiply(char *a, char *b, char *expected);
 void test_divide(char *a, char *b, char *expected);
 void test_modulus(char *a, char *b, char *expected);
 void test_pow(char *a, char *b, char *expected);
-void test_compare(char *a, char *b, char *expected);
+void test_compare(char *a, char *b, int expected);
+void test_generic(char *a, char *b, char *expected, char symbol);
 
-int main(void){
-    /*
+int main(int argc, char *argv[]){
+
+    if (argc < 2) { /* no arguments */
+        automated_test();
+    }
+    else if (strcmp(argv[1], "manual") == 0) {
+        manual_test();
+    }
+    return 0;
+}
+
+void manual_test()
+{
     bigint n1, n2, result;
     char nc1[MAX_NUMBER], nc2[MAX_NUMBER];
     int i, func_choice, done = 0;
@@ -52,11 +64,6 @@ int main(void){
         }
         else done = 1;
     }
-    */
-
-    automated_test();
-
-    return 0;
 }
 
 void automated_test() {
@@ -90,9 +97,68 @@ void automated_test() {
 
     printf("TESTING bigint_pow:\n\n");
     test_pow("10","10","10000000000");
+
+    printf("TESTING bigint_compare:\n\n");
+    test_compare("1","2", -1);
+    test_compare("2","1", 1);
+    test_compare("2","2", 0);
+    test_compare("100000000000001","99", 1);
+    test_compare("54321","12345", 1);
 }
 
-void test_function(char *a, char *b, char *expected, char symbol) {
+void test_add(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'+');
+}
+
+void test_subtract(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'-');
+}
+
+void test_multiply(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'*');
+}
+
+void test_divide(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'/');
+}
+
+void test_modulus(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'%');
+}
+
+void test_pow(char *a, char *b, char *expected) {
+    test_generic(a,b,expected,'p');
+}
+
+void test_compare(char *a, char *b, int expected) {
+    bigint bi_a, bi_b;
+    int actual;
+    char c_expected, c_actual;
+
+    switch (expected) {
+        case -1: c_expected = '<'; break;
+        case 0: c_expected = '='; break;
+        case 1: c_expected = '>'; break;
+    }
+
+    printf("Expected: %s %c %s\n", a, c_expected, b);
+
+    bi_a = create_bigint_from_string(a);
+    bi_b = create_bigint_from_string(b);
+
+    actual = bigint_compare(bi_a, bi_b);
+
+    switch (actual) {
+        case -1: c_actual = '<'; break;
+        case 0: c_actual = '='; break;
+        case 1: c_actual = '>'; break;
+    }
+
+    printf("     Got: %s %c %s\n\n", a, c_actual, b);
+    assert(expected == actual);
+}
+
+void test_generic(char *a, char *b, char *expected, char symbol) {
     bigint bi_a, bi_b, bi_actual;
     char str_actual[MAX_DIGITS];
 
@@ -115,32 +181,4 @@ void test_function(char *a, char *b, char *expected, char symbol) {
 
     printf("Got %s\n\n", str_actual);
     assert((strcmp(expected, str_actual)) == 0);
-}
-
-void test_add(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'+');
-}
-
-void test_subtract(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'-');
-}
-
-void test_multiply(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'*');
-}
-
-void test_divide(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'/');
-}
-
-void test_modulus(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'%');
-}
-
-void test_pow(char *a, char *b, char *expected) {
-    test_function(a,b,expected,'p');
-}
-
-void test_compare(char *a, char *b, char *expected) {
-
 }
