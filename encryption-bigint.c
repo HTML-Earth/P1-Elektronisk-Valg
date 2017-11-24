@@ -44,7 +44,7 @@ bigint encrypt_vote(bigint v){
     char nstring[CHARLENGTH], estring[CHARLENGTH];
     FILE *value;
     
-    value = fopen("superhemmeligvalues","r")
+    value = fopen("superhemmeligvalues","r");
     
     fscanf(value," N=%s",nstring);
     fscanf(value," E=%s",estring);
