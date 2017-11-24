@@ -24,6 +24,10 @@ int main(int argc, char *argv[]){
     else if (strcmp(argv[1], "manual") == 0) {
         manual_test();
     }
+    else {
+        printf("Invalid parameters.\n");
+        printf("Use 'manual' for manual test.\n");
+    }
     return 0;
 }
 
