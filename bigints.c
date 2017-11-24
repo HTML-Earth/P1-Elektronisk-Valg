@@ -1,13 +1,12 @@
 #include "bigints.h"
 
-
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string) {
     bigint b;
     int i, ph, j = 0;
     b.length = strlen(string);
     b.digits = (int*)calloc(b.length, sizeof(int));
-   
+
     printf("lenght of number is = %d\n", b.length);
 
     printf(" I have reset the bigint\n");

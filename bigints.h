@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #define MAX_DIGITS 1000
 
 struct bigint {
     int length;
-    int digits[MAX_DIGITS];
+    int *digits;
 };
 typedef struct bigint bigint;
 
