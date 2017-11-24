@@ -14,6 +14,9 @@ bigint create_bigint_from_string(char *string);
 /* Prints bigint to standard output */
 void bigint_print(bigint b);
 
+/* Prints bigint to a string */
+void bigint_print_string(char *str, bigint b);
+
 /* Prints bigint to a file */
 void bigint_print_file(FILE *file, bigint b);
 

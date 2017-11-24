@@ -26,6 +26,16 @@ void bigint_print(bigint b)
     }
 }
 
+/* Prints bigint to a string */
+void bigint_print_string(char *str, bigint b)
+{
+    int i, j = 0;
+    for (i = b.length - 1; i >= 0; i--) {
+        sprintf(str+j, "%d", b.digits[i]);
+        j++;
+    }
+}
+
 /* Prints bigint to a file */
 void bigint_print_file(FILE *file, bigint b)
 {
@@ -96,6 +106,11 @@ bigint bigint_multiply(bigint a, bigint b) {
     int i, j, k, tempint;
     char str[MAX_DIGITS];
     result = create_bigint_from_string("0");
+
+    if ((a.length == 1 && a.digits[0] == 0) || (b.length == 1 && b.digits[0] == 0)){
+        /* multiplication by 0, therefore the result is 0 */
+        return result;
+    }
 
     for (i = 0; i < a.length; i++) {
         for (j = 0; j < b.length; j++) {
