@@ -245,7 +245,7 @@ int vote_decrypt(int decrypted_vote){
             printf("Your vote was registered for (AA) Alternativet\n");
             break;
         default :
-            printf("Do you wish to vote blank?\n");
+            printf("No vote to decrypt found\n");
     }
     
     return(0);
