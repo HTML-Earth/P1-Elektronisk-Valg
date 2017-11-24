@@ -2,7 +2,7 @@
 #include <string.h>
 #include "bigints.h"
 
-#define MAX_NUMBER 5
+#define MAX_NUMBER 10
 
 int main(void){
 
