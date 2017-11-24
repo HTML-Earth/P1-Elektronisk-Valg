@@ -58,12 +58,12 @@ bigint bigint_add(bigint a, bigint b) {
     int i, length, added;
 	int mente = 0;
 
-    result = create_bigint_from_string("0");
-
     length = (a.length > b.length) ? a.length : b.length;
 
+    result = create_bigint(length+1);
+
     for (i = 0; i < length; i++) {
-        added = a.digits[i] + b.digits[i] + mente;
+        added = ((i < a.length) ? a.digits[i] : 0) + ((i < b.length) ? b.digits[i] : 0) + mente;
 
         if (added > 9) {
             result.digits[i] = added - 10;
@@ -86,9 +86,9 @@ bigint bigint_subtract(bigint a, bigint b) {
     bigint result;
     int i, length, subbed, mente = 0, borrow;
 
-    result = create_bigint_from_string("0");
-
     length = (a.length > b.length) ? a.length : b.length;
+
+    result = create_bigint(length);
 
     for (i = 0; i < length; i++) {
         borrow = (a.digits[i] < b.digits[i] || a.digits[i] < mente) ? 10 : 0;
@@ -112,7 +112,8 @@ bigint bigint_multiply(bigint a, bigint b) {
     bigint result, temp;
     int i, j, k, tempint;
     char str[MAX_DIGITS];
-    result = create_bigint_from_string("0");
+
+    result = create_bigint(a.length + b.length);
 
     if ((a.length == 1 && a.digits[0] == 0) || (b.length == 1 && b.digits[0] == 0)){
         /* multiplication by 0, therefore the result is 0 */
@@ -152,18 +153,21 @@ bigint bigint_multiply_old(bigint a, bigint b) {
 
 /* Divides two bigints */
 bigint bigint_divide(bigint a, bigint b) {
-    bigint result, times, one;
+    bigint sum, times, one;
+    int sum_length;
 
-    result = create_bigint_from_string("0");
-    times = create_bigint_from_string("0");
+    sum_length = (a.length > b.length) ? a.length : b.length;
+
+    sum = create_bigint(sum_length+1);
+    times = create_bigint(a.length);
     one = create_bigint_from_string("1");
 
-    while (bigint_compare(result, a) < 0) {
-        result = bigint_add(result, b);
+    while (bigint_compare(sum, a) < 0) {
+        sum = bigint_add(sum, b);
         times = bigint_add(times, one);
     }
 
-    if (bigint_compare(result, a) > 0)
+    if (bigint_compare(sum, a) > 0)
         times = bigint_subtract(times, one);
 
     return times;
@@ -173,7 +177,7 @@ bigint bigint_divide(bigint a, bigint b) {
 bigint bigint_modulus(bigint a, bigint b) {
     bigint result;
 
-    result = create_bigint_from_string("0");
+    result = create_bigint(a.length);
 
     while (bigint_compare(result, a) < 0) {
         result = bigint_add(result, b);
@@ -192,9 +196,9 @@ bigint bigint_pow(bigint a, bigint b)
 {
     bigint result, i, one;
 
-    result = create_bigint_from_string("1");
-    i = create_bigint_from_string("0");
+    i = create_bigint(b.length);
     one = create_bigint_from_string("1");
+    result = create_bigint_from_string("1");
 
     while (bigint_compare(i, b) < 0) {
         result = bigint_multiply(result, a);

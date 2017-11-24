@@ -75,9 +75,15 @@ void automated_test() {
     test_add("1","1","2");
     test_add("2","2","4");
     test_add("1","9","10");
+    test_add("1","10","11");
+    test_add("1","11","12");
+    test_add("200","300","500");
+    test_add("123","877","1000");
+    test_add("12","877","889");
+    test_add("5","95","100");
     test_add("1","99","100");
     test_add("1","999","1000");
-    test_add("123","877","1000");
+    test_add("2","9999","10001");
 
     printf("TESTING bigint_subtract:\n\n");
     test_subtract("2","1","1");
@@ -152,6 +158,9 @@ void test_compare(char *a, char *b, int expected) {
 
     actual = bigint_compare(bi_a, bi_b);
 
+    free(bi_a.digits);
+    free(bi_b.digits);
+
     switch (actual) {
         case -1: c_actual = '<'; break;
         case 0: c_actual = '='; break;
@@ -181,7 +190,12 @@ void test_generic(char *a, char *b, char *expected, char symbol) {
         default : printf("Invalid symbol\n");
     }
 
+    free(bi_a.digits);
+    free(bi_b.digits);
+
     bigint_print_string(str_actual, bi_actual);
+
+    free(bi_actual.digits);
 
     printf("Got %s\n\n", str_actual);
     assert((strcmp(expected, str_actual)) == 0);
