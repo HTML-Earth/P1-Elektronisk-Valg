@@ -9,6 +9,9 @@ struct bigint {
 };
 typedef struct bigint bigint;
 
+/* Creates an empty bigint with defined length */
+bigint create_bigint(int length);
+
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string);
 

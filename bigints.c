@@ -1,24 +1,25 @@
 #include "bigints.h"
 
+/* Creates an empty bigint with defined length */
+bigint create_bigint (int length) {
+    bigint b;
+    b.length = length;
+    b.digits = (int*)calloc(b.length, sizeof(int));
+    return b;
+}
+
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string) {
     bigint b;
     int i, ph, j = 0;
-    b.length = strlen(string);
-    b.digits = (int*)calloc(b.length, sizeof(int));
 
-    printf("lenght of number is = %d\n", b.length);
-
-    printf(" I have reset the bigint\n");
+    b = create_bigint(strlen(string));
 
     for (i = b.length - 1; i >= 0; i--) {
        ph = char_to_int(string[j]);
        b.digits[i] = ph;
        j++;
-    printf(" I is now: %d\n", i);
     }
-
-    printf(" I have now copied all numbers into bigint\n");
 
     return b;
 }
