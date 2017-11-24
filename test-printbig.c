@@ -2,7 +2,7 @@
 #include "bigints.h"
 #include <string.h>
 
-#define MAX_CHAR 1000
+#define MAX_CHAR 10000
 
 void bigint_print_to_string(char *str);
 
@@ -23,6 +23,8 @@ int main(void){
     bigint_print(b1);
 
     printf(" I have printed bigint\n");
+
+    free(b1.digit); 
 
     return 0;
 
