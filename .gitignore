@@ -57,3 +57,4 @@ dkms.conf
 *.c~
 *.c~
 encryption-bigint.c~
+voting.c

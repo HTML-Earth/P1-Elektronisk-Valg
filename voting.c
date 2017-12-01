@@ -3,20 +3,31 @@
 #include    <stdlib.h>
 #include    <unistd.h>
 
+#include    "bigints.h"
+#include    "encryption.h"
+#include    "decryption.h"
 
 int vote_counting(int decrypted_vote);
 int vote_decrypt(int decrypted_vote);
 int voting_function(void);
 int vote_or_decrypt(int decrypted_vote);
+void check(char *pin);
 
 int main (void){
-
     int decrypted_vote;
-    decrypted_vote = voting_function();
+    char *pin[12]
 
-    /* this is the function to call when the vote has been encrypted and decrypted
-       this function will then assign the vote to the corresponding party*/
-    vote_counting(decrypted_vote);
+    decrypted_vote=vote_or_decrypt;
+    
+    if(decrypted_vote==-1)
+        printf("ERROR!\n");
+    else if(decrypted_vote==-10){
+        printf("Please enter your Randomly generated pin.\n")   
+        scanf("%s\n",pin);
+        check(pin);
+    }
+    else
+    encryption(decrypted_vote);
 
     return(0);
 }
@@ -26,32 +37,32 @@ This function gives the user the option to choose between voting or decrypting a
 And when either option is choosen, it goes to it's own function.
 */
 
-/*int vote_or_decrypt(int decrypted_vote){
+int vote_or_decrypt(void){
 
     char user_choice[6];
     int  vote;
 
-    printf("Would you like to 'vote' or 'check' an existing vote?:    ");
+    printf("Would you like to 'vote' or 'decrypt' votes?:    ");
     if (scanf("%s", &user_choice) != 1){
         printf("Invalid input!\n");
-        return(1);
+        return(-1);
     }
     if (strcmp(user_choice, "vote") == 0 || strcmp(user_choice, "Vote") == 0){
         printf("You have chosen to vote\n");
         vote = voting_function();
     }
-    else if (strcmp(user_choice, "check") == 0 || strcmp(user_choice, "Check") == 0){
-        printf("You have chosen to check an exisiting vote\n");
-        vote_decrypt(decrypted_vote);
+    else if (strcmp(user_choice, "decrypt") == 0 || strcmp(user_choice, "Decrypt") == 0){
+        printf("You have chosen to count exisiting votes\n");
+        return -10;
     }
     else{
         printf("Invalid input!\n");
-        return(1);
+        return(-1);
     }
 
     return vote;
 }
-*/
+
 /*
 This function handles the voting in itself. It gives the option to choose between the 10 politcal parties of Denmark plus an option to vote blank.
 */
@@ -139,10 +150,25 @@ int voting_function(void){
     return user_input;
 }
 
+void check(char *pin){
+    char *pincheck;
+    FILE *pinregistry;
+    
+    pinregistry=fopen("pin.txt","r");
+    
+    fscanf("%s",pincheck);
+    
+    if(strcmp(pincheck,pin)==0)
+        decryption();
+
+    else
+        printf("Error");
+}
+
 /*
 Now that the user confirmed his input, we send the vote to the corresponding party
 */
-int vote_counting(int decrypted_vote){
+/*int    vote_counting(int decrypted_vote){
 
     char    party_voted_on[50], filename[50];
     FILE    *vote_count_file;
@@ -205,12 +231,12 @@ int vote_counting(int decrypted_vote){
 
 
     return(0);
-}
+}*/
 
 /*
 Here the user can decrypt his own vote to make sure it was counted right
 */
-int vote_decrypt(int decrypted_vote){
+/*int vote_decrypt(int decrypted_vote){
 
 	printf("What is your encrypted vote?\n");
 
@@ -252,3 +278,4 @@ int vote_decrypt(int decrypted_vote){
 
     return(0);
 }
+*/
