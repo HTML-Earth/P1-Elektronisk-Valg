@@ -187,6 +187,45 @@ bigint bigint_divide(bigint a, bigint b) {
 
 /* a % b */
 bigint bigint_modulus(bigint a, bigint b) {
+    bigint result, subtractor;
+    char b_str[MAX_DIGITS];
+    int i, zeroes, loopcount = 0;
+
+    if (a.length < b.length)
+        return a;
+    else if (a.length == b.length && bigint_compare(a,b) == -1){
+        return a;
+    }
+    else {
+        result = a;
+
+        do {
+            /*
+            printf("doin the mod %d\n", loopcount);
+            loopcount++;*/
+            memset(b_str, '\0', MAX_DIGITS);
+            bigint_print_string(b_str, b);
+
+            if (result.length > b.length + 1) {
+                zeroes = result.length - b.length - 1;
+
+                for (i = 0; i < zeroes; i++)
+                    strcat(b_str, "0");
+            }
+
+            subtractor = create_bigint_from_string(b_str);
+            result = bigint_subtract(result, subtractor);
+            bigint_print(result);
+            printf("\n");
+        }
+        while (bigint_compare(result, b) >= 0);
+
+        return result;
+    }
+}
+
+/* UNOPTIMIZED a % b */
+bigint bigint_modulus_old(bigint a, bigint b) {
     bigint result;
 
     result = create_bigint(b.length);
