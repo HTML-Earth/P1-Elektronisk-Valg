@@ -52,9 +52,7 @@ bigint encryption(int v){
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
 
     e = create_bigint_from_string(estring);
-    printf("created e\n");
     n = create_bigint_from_string(nstring);
-    printf("created n\n");
 
     return bigint_modulus(bigint_pow(bv, e), n);
 }

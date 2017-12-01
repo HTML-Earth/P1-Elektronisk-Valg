@@ -6,10 +6,10 @@ int vote_decrypt(int decrypted_vote);
 int voting_function(void);
 int vote_or_decrypt(void);
 int check(char *pin);
-void print_votes(single_vote *dec_votes);
+void print_votes(single_vote *dec_votes, int *counted_votes);
 
 int main (void){
-    int decrypted_vote, i;
+    int decrypted_vote, i, counted_votes = 0;
     char pin[12], string_vote[5];
     single_vote enc_votes[500], dec_votes[500];
     bigint enc_vote, temp_vote;
@@ -20,26 +20,23 @@ int main (void){
         printf("ERROR!\n");
     else if(decrypted_vote==-10){
         printf("Please enter your Randomly generated pin.\n");
-        scanf("%s\n",pin);
+        scanf("%s",pin);
         if(check(pin)){
-            import_vote(enc_votes);
-
-            for (i = 0; i < 500; i++){
+            import_vote(enc_votes, &counted_votes);
+            
+            for (i = 0; i < counted_votes; i++){
                 temp_vote = create_bigint_from_string(enc_votes[i].vote);
                 temp_vote = decryption(temp_vote);
                 bigint_print_string(string_vote, temp_vote);
                 strcpy(dec_votes[i].vote, string_vote);
             }
-            print_votes(dec_votes);
+            print_votes(dec_votes, &counted_votes);
         }
     }
     else {
         enc_vote = encryption(decrypted_vote);
-        printf("encrypted vote returned\n");
         bigint_print_string(string_vote, enc_vote);
-        printf("printed string\n");
         export_vote(string_vote);
-        printf("exported vote\n");
     }
     return(0);
 }
@@ -166,13 +163,13 @@ int check(char *pin){
     char pincheck[12];
     FILE *pinregistry;
 
-    pinregistry=fopen("pin.txt","r");
+    pinregistry = fopen("pin.txt","r");
 
     fscanf(pinregistry, "%s", pincheck);
 
     fclose(pinregistry);
 
-    if(strcmp(pincheck,pin)==0)
+    if(strcmp(pincheck , pin) ==0)
         return 1;
 
     else {
@@ -297,10 +294,10 @@ Here the user can decrypt his own vote to make sure it was counted right
 }
 */
 
-void print_votes(single_vote *dec_votes){
+void print_votes(single_vote *dec_votes, int *counted_votes){
     int i;
 
-    for(i = 0; i < 500; i++){
+    for(i = 0; i < *counted_votes; i++){
         printf("Vote: %s\n", dec_votes[i].vote);
     }
 }
