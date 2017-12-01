@@ -12,7 +12,7 @@ int main (void){
     int decrypted_vote;
     char *pin[12]
 
-    decrypted_vote=vote_or_decrypt;
+    decrypted_vote = vote_or_decrypt;
 
     if(decrypted_vote==-1)
         printf("ERROR!\n");

@@ -32,10 +32,13 @@ void get_vote(char *v){
 }
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
-bigint encrypt_vote(bigint v){
-    bigint e, n;
-    char nstring[CHARLENGTH], estring[CHARLENGTH];
+bigint encryption(int v){
+    bigint e, n, bv;
+    char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
+  
+    sprintf(vote, %d, v);
+    bv = create_bigint_from_string(vote);
 
     value = fopen("superhemmeligvalues","r");
 

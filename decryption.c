@@ -24,7 +24,7 @@ int main(void){
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
-bigint decrypt_vote(bigint c){
+bigint decryption(bigint c){
     bigint p1, p2, n, d;
     p1 = create_bigint_from_string("3");
     p2 = create_bigint_from_string("11");
