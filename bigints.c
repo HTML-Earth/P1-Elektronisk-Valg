@@ -126,11 +126,15 @@ bigint bigint_multiply(bigint a, bigint b) {
     /* for each digit pair */
     for (ia = 0; ia < a.length; ia++) {
         for (ib = 0; ib < b.length; ib++) {
-            tempint = a.digits[ia] * b.digits[ib]; /* multiply ints */
-            sprintf(str, "%d", tempint); /* add result to string */
+            /* multiply ints */
+            tempint = a.digits[ia] * b.digits[ib];
 
+            /* add result to string */
+            sprintf(str, "%d", tempint);
+
+            /* add zeroes to end of string */
             for (zeroes = 0; zeroes < ia + ib; zeroes++)
-                strcat(str, "0"); /* add zeroes to end of string */
+                strcat(str, "0");
 
             /* make bigint from string, and add to overall result */
             temp = create_bigint_from_string(str);
