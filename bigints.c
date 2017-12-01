@@ -25,8 +25,7 @@ bigint create_bigint_from_string(char *string) {
 }
 
 /* Prints bigint to standard output */
-void bigint_print(bigint b)
-{
+void bigint_print(bigint b) {
     int i;
     for (i = b.length - 1; i >= 0; i--) {
         printf("%d", b.digits[i]);
@@ -34,8 +33,7 @@ void bigint_print(bigint b)
 }
 
 /* Prints bigint to a string */
-void bigint_print_string(char *str, bigint b)
-{
+void bigint_print_string(char *str, bigint b) {
     int i, j = 0;
     for (i = b.length - 1; i >= 0; i--) {
         sprintf(str+j, "%d", b.digits[i]);
@@ -44,8 +42,7 @@ void bigint_print_string(char *str, bigint b)
 }
 
 /* Prints bigint to a file */
-void bigint_print_file(FILE *file, bigint b)
-{
+void bigint_print_file(FILE *file, bigint b) {
     int i;
     for (i = b.length - 1; i >= 0; i--) {
         fprintf(file, "%d", b.digits[i]);
@@ -197,8 +194,7 @@ bigint bigint_modulus(bigint a, bigint b) {
 }
 
 /* Bigint power function */
-bigint bigint_pow(bigint a, bigint b)
-{
+bigint bigint_pow(bigint a, bigint b) {
     bigint result, i, one;
 
     i = create_bigint(b.length);
@@ -265,8 +261,7 @@ int char_to_int(char c) {
 }
 
 /* Power function that works with ints */
-int custom_pow(int a, int b)
-{
+int custom_pow(int a, int b) {
     int res = 1, i;
     for (i = 0; i < b; i++)
         res *= a;
