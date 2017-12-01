@@ -189,7 +189,7 @@ bigint bigint_divide(bigint a, bigint b) {
 bigint bigint_modulus(bigint a, bigint b) {
     bigint result;
 
-    result = create_bigint(a.length);
+    result = create_bigint(b.length);
 
     while (bigint_compare(result, a) < 0) {
         result = bigint_add(result, b);

@@ -1,37 +1,46 @@
-#include    "bigints.h"
 #include    "encryption.h"
-#include    "structs.h"
 #include    "file-man.h"
 
 int vote_counting(int decrypted_vote);
 int vote_decrypt(int decrypted_vote);
 int voting_function(void);
-int vote_or_decrypt(int decrypted_vote);
-void check(char *pin);
+int vote_or_decrypt(void);
+int check(char *pin);
+void print_votes(single_vote *dec_votes);
 
 int main (void){
-    int decrypted_vote;
-    char pin[12], string_vote[5]; 
-    bigint enc_vote;
-    single_vote enc_votes[500];
-    
-    decrypted_vote = vote_or_decrypt;
+    int decrypted_vote, i;
+    char pin[12], string_vote[5];
+    single_vote enc_votes[500], dec_votes[500];
+    bigint enc_vote, temp_vote;
+
+    decrypted_vote = vote_or_decrypt();
 
     if(decrypted_vote==-1)
         printf("ERROR!\n");
     else if(decrypted_vote==-10){
-        printf("Please enter your Randomly generated pin.\n")
+        printf("Please enter your Randomly generated pin.\n");
         scanf("%s\n",pin);
         if(check(pin)){
-            import_vote();
-            decryption(&dec_votes);
-            print_votes(&dec_votes); 
+            import_vote(enc_votes);
+
+            for (i = 0; i < 500; i++){
+                temp_vote = create_bigint_from_string(enc_votes[i].vote);
+                temp_vote = decryption(temp_vote);
+                bigint_print_string(string_vote, temp_vote);
+                strcpy(dec_votes[i].vote, string_vote);
+            }
+            print_votes(dec_votes);
         }
     }
-    else
-    enc_vote = encryption(decrypted_vote);
-    bigint_print_string(string_vote, enc_vote);
-    export_vote(string_vote);
+    else {
+        enc_vote = encryption(decrypted_vote);
+        printf("encrypted vote returned\n");
+        bigint_print_string(string_vote, enc_vote);
+        printf("printed string\n");
+        export_vote(string_vote);
+        printf("exported vote\n");
+    }
     return(0);
 }
 
@@ -46,7 +55,7 @@ int vote_or_decrypt(void){
     int  vote;
 
     printf("Would you like to 'vote' or 'decrypt' votes?:    ");
-    if (scanf("%s", &user_choice) != 1){
+    if (scanf("%s", user_choice) != 1){
         printf("Invalid input!\n");
         return(-1);
     }
@@ -154,19 +163,23 @@ int voting_function(void){
 }
 
 int check(char *pin){
-    char *pincheck;
+    char pincheck[12];
     FILE *pinregistry;
 
     pinregistry=fopen("pin.txt","r");
 
-    fscanf("%s",pincheck);
+    fscanf(pinregistry, "%s", pincheck);
+
+    fclose(pinregistry);
 
     if(strcmp(pincheck,pin)==0)
         return 1;
 
-    else
+    else {
+
         printf("Wrong pin\n");
         return 0;
+    }
 }
 
 /*
@@ -284,10 +297,10 @@ Here the user can decrypt his own vote to make sure it was counted right
 }
 */
 
-void print_votes(all_votes *dec_votes){
+void print_votes(single_vote *dec_votes){
     int i;
 
-    for(i = 0; i < dec_votes->counted_votes; i++){
-        printf("Vote: %s\n", dec_votes->single_vote[i]);
+    for(i = 0; i < 500; i++){
+        printf("Vote: %s\n", dec_votes[i].vote);
     }
 }

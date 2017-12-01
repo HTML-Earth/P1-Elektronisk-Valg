@@ -4,5 +4,5 @@
 #define CHARLENGTH 10
 
 void get_vote(char *v);
-bigint encrypt_vote(bigint v);
+bigint encryption(int v);
 bigint decryption(bigint c);
