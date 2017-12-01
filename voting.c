@@ -19,7 +19,8 @@ int main (void){
     else if(decrypted_vote==-10){
         printf("Please enter your Randomly generated pin.\n")
         scanf("%s\n",pin);
-        check(pin);
+        if(check(pin)){
+            decryption(); 
     }
     else
     encryption(decrypted_vote);
@@ -145,7 +146,7 @@ int voting_function(void){
     return user_input;
 }
 
-void check(char *pin){
+int check(char *pin){
     char *pincheck;
     FILE *pinregistry;
 
@@ -154,10 +155,11 @@ void check(char *pin){
     fscanf("%s",pincheck);
 
     if(strcmp(pincheck,pin)==0)
-        decryption();
+        return 1;
 
     else
-        printf("Error");
+        printf("Wrong pin\n");
+        return 0;
 }
 
 /*
