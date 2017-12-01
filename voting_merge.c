@@ -2,8 +2,9 @@
 #include    <string.h>
 #include    <stdlib.h>
 #include    <unistd.h>
-
-
+#include    "bigints.h"
+#include    "decryption.h"
+#include    "encryption.h"
 
 
 int vote_counting(int decrypted_vote);
