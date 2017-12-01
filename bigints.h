@@ -5,6 +5,7 @@
 
 struct bigint {
     int length;
+    int max_digits;
     int *digits;
 };
 typedef struct bigint bigint;

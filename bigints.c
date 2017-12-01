@@ -3,8 +3,9 @@
 /* Creates an empty bigint with defined length */
 bigint create_bigint (int length) {
     bigint b;
-    b.length = length;
-    b.digits = (int*)calloc(b.length, sizeof(int));
+    b.length = 1;
+    b.max_digits = length;
+    b.digits = (int*)calloc(length, sizeof(int));
     return b;
 }
 
@@ -14,8 +15,9 @@ bigint create_bigint_from_string(char *string) {
     int i, ph, j = 0;
 
     b = create_bigint(strlen(string));
+    b.length = b.max_digits;
 
-    for (i = b.length - 1; i >= 0; i--) {
+    for (i = b.max_digits - 1; i >= 0; i--) {
        ph = char_to_int(string[j]);
        b.digits[i] = ph;
        j++;
@@ -138,6 +140,7 @@ bigint bigint_multiply(bigint a, bigint b) {
 
             /* make bigint from string, and add to overall result */
             temp = create_bigint_from_string(str);
+
             result = bigint_add(result, temp);
         }
     }
