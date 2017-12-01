@@ -1,8 +1,3 @@
-#include    <stdio.h>
-#include    <string.h>
-#include    <stdlib.h>
-#include    <unistd.h>
-
 #include    "bigints.h"
 #include    "encryption.h"
 #include    "decryption.h"
@@ -18,11 +13,11 @@ int main (void){
     char *pin[12]
 
     decrypted_vote=vote_or_decrypt;
-    
+
     if(decrypted_vote==-1)
         printf("ERROR!\n");
     else if(decrypted_vote==-10){
-        printf("Please enter your Randomly generated pin.\n")   
+        printf("Please enter your Randomly generated pin.\n")
         scanf("%s\n",pin);
         check(pin);
     }
@@ -153,11 +148,11 @@ int voting_function(void){
 void check(char *pin){
     char *pincheck;
     FILE *pinregistry;
-    
+
     pinregistry=fopen("pin.txt","r");
-    
+
     fscanf("%s",pincheck);
-    
+
     if(strcmp(pincheck,pin)==0)
         decryption();
 
