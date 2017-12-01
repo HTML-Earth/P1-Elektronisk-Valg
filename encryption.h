@@ -5,3 +5,4 @@
 
 void get_vote(char *v);
 bigint encrypt_vote(bigint v);
+bigint decryption(bigint c);
