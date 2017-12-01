@@ -3,6 +3,7 @@
 
 # Backup files
 *.c~
+*.h~
 
 # Object files
 *.o
@@ -56,3 +57,4 @@ dkms.conf
 *.c~
 *.c~
 encryption-bigint.c~
+voting.c

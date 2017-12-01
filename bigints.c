@@ -25,8 +25,7 @@ bigint create_bigint_from_string(char *string) {
 }
 
 /* Prints bigint to standard output */
-void bigint_print(bigint b)
-{
+void bigint_print(bigint b) {
     int i;
     for (i = b.length - 1; i >= 0; i--) {
         printf("%d", b.digits[i]);
@@ -34,8 +33,7 @@ void bigint_print(bigint b)
 }
 
 /* Prints bigint to a string */
-void bigint_print_string(char *str, bigint b)
-{
+void bigint_print_string(char *str, bigint b) {
     int i, j = 0;
     for (i = b.length - 1; i >= 0; i--) {
         sprintf(str+j, "%d", b.digits[i]);
@@ -44,8 +42,7 @@ void bigint_print_string(char *str, bigint b)
 }
 
 /* Prints bigint to a file */
-void bigint_print_file(FILE *file, bigint b)
-{
+void bigint_print_file(FILE *file, bigint b) {
     int i;
     for (i = b.length - 1; i >= 0; i--) {
         fprintf(file, "%d", b.digits[i]);
@@ -115,9 +112,10 @@ bigint bigint_subtract(bigint a, bigint b) {
 /* Multiplies two bigints */
 bigint bigint_multiply(bigint a, bigint b) {
     bigint result, temp;
-    int i, j, k, tempint;
+    int ia, ib, zeroes, tempint;
     char str[MAX_DIGITS];
 
+    /* result max digits is combined digit amount */
     result = create_bigint(a.length + b.length);
 
     if ((a.length == 1 && a.digits[0] == 0) || (b.length == 1 && b.digits[0] == 0)){
@@ -125,14 +123,20 @@ bigint bigint_multiply(bigint a, bigint b) {
         return result;
     }
 
-    for (i = 0; i < a.length; i++) {
-        for (j = 0; j < b.length; j++) {
-            tempint = a.digits[i] * b.digits[j];
+    /* for each digit pair */
+    for (ia = 0; ia < a.length; ia++) {
+        for (ib = 0; ib < b.length; ib++) {
+            /* multiply ints */
+            tempint = a.digits[ia] * b.digits[ib];
+
+            /* add result to string */
             sprintf(str, "%d", tempint);
 
-            for (k = 0; k < i + j; k++)
+            /* add zeroes to end of string */
+            for (zeroes = 0; zeroes < ia + ib; zeroes++)
                 strcat(str, "0");
 
+            /* make bigint from string, and add to overall result */
             temp = create_bigint_from_string(str);
             result = bigint_add(result, temp);
         }
@@ -197,8 +201,7 @@ bigint bigint_modulus(bigint a, bigint b) {
 }
 
 /* Bigint power function */
-bigint bigint_pow(bigint a, bigint b)
-{
+bigint bigint_pow(bigint a, bigint b) {
     bigint result, i, one;
 
     i = create_bigint(b.length);
@@ -265,8 +268,7 @@ int char_to_int(char c) {
 }
 
 /* Power function that works with ints */
-int custom_pow(int a, int b)
-{
+int custom_pow(int a, int b) {
     int res = 1, i;
     for (i = 0; i < b; i++)
         res *= a;
