@@ -3,12 +3,11 @@
 #include <stdlib.h>
 #define MAX_DIGITS 1000
 
-struct bigint {
+typedef struct {
     int length;
     int max_digits;
     int *digits;
-};
-typedef struct bigint bigint;
+} bigint;
 
 /* Creates an empty bigint with defined length */
 bigint create_bigint(int length);
