@@ -112,7 +112,7 @@ bigint bigint_subtract(bigint a, bigint b) {
 /* Multiplies two bigints */
 bigint bigint_multiply(bigint a, bigint b) {
     bigint result, temp;
-    int i, j, k, tempint;
+    int ia, ib, zeroes, tempint;
     char str[MAX_DIGITS];
 
     /* result max digits is combined digit amount */
@@ -124,12 +124,12 @@ bigint bigint_multiply(bigint a, bigint b) {
     }
 
     /* for each digit pair */
-    for (i = 0; i < a.length; i++) {
-        for (j = 0; j < b.length; j++) {
-            tempint = a.digits[i] * b.digits[j]; /* multiply ints */
+    for (ia = 0; ia < a.length; ia++) {
+        for (ib = 0; ib < b.length; ib++) {
+            tempint = a.digits[ia] * b.digits[ib]; /* multiply ints */
             sprintf(str, "%d", tempint); /* add result to string */
 
-            for (k = 0; k < i + j; k++)
+            for (zeroes = 0; zeroes < ia + ib; zeroes++)
                 strcat(str, "0"); /* add zeroes to end of string */
 
             /* make bigint from string, and add to overall result */
