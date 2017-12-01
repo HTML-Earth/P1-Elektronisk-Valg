@@ -12,12 +12,12 @@ int vote_or_decrypt(int decrypted_vote);
 int main (void){
 
     int decrypted_vote;
-    decrypted_vote = voting_function(void);
-    
+    decrypted_vote = voting_function();
+
     /* this is the function to call when the vote has been encrypted and decrypted
        this function will then assign the vote to the corresponding party*/
     vote_counting(decrypted_vote);
-    
+
     return(0);
 }
 
@@ -118,7 +118,7 @@ int voting_function(void){
 
     }
     	/*
-    	Asks for confirmation 
+    	Asks for confirmation
     	*/
         printf("'Yes' / 'No' ?\n");
 
@@ -132,7 +132,7 @@ int voting_function(void){
 
         else{
             printf("Voting resetting\n");
-            voting_function(void);
+            voting_function();
         }
 
 
@@ -185,7 +185,7 @@ int    vote_counting(int decrypted_vote){
     }
 
     sprintf(filename, "%s.txt", party_voted_on);
-    
+
     if (access (filename, F_OK) != -1){
         vote_count_file = fopen(filename, "r");
         fscanf(vote_count_file, "%d\n", &votes_already);
@@ -196,11 +196,12 @@ int    vote_counting(int decrypted_vote){
         fprintf(vote_count_file, "%d\n", votes_already);
         fclose(vote_count_file);
     }
-    else
+    else{
         vote_count_file = fopen(filename, "w+");
         rewind(vote_count_file);
         fprintf(vote_count_file, "1\n");
         fclose(vote_count_file);
+    }
 
 
     return(0);
@@ -210,9 +211,9 @@ int    vote_counting(int decrypted_vote){
 Here the user can decrypt his own vote to make sure it was counted right
 */
 int vote_decrypt(int decrypted_vote){
-	
+
 	printf("What is your encrypted vote?\n");
-    
+
     switch(scanf("%f", &decrypted_vote)){
 
         case 1 :
@@ -248,6 +249,6 @@ int vote_decrypt(int decrypted_vote){
         default :
             printf("No vote to decrypt found\n");
     }
-    
+
     return(0);
 }
