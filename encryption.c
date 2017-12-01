@@ -1,58 +1,54 @@
-/* dette er et udkast til en krypteringsfunktion der benytter sig af RSA-kryptering ved de nuværende INT-datatyper i C, og kryptere et enkelt heltal */
-#include <stdio.h>
-
-void get_vote(unsigned long *v);
-unsigned long encrypt_vote(unsigned long v);
-unsigned long exp_func(unsigned long v, unsigned long e);
+#include "encryption.h"
 
 int main(void){
     FILE *votes;
-    unsigned long v, c;
+    bigint v, c;
+    char vote[CHARLENGTH];
+    int i;
+
 
     votes = fopen("secretvotes.txt","a");
 
-    get_vote(&v);
+    get_vote(vote);
+    v = create_bigint_from_string(vote);
     c = encrypt_vote(v);
 
-    /*printf("The encrypted vote is: %lu\n", c);*/	
-    fprintf(votes, "\n" "%lu",c);
-    
+    fprintf(votes,"\n");
+    for (i = c.length - 1; i >= 0; i--) {
+        printf("%d", c.digits[i]);
+        fprintf(votes,"%d",c.digits[i]);
+    }
+    printf("\n");
     fclose(votes);
 
     return 0;
 }
 
 /* Gets the vote from user and stores in v-variable */
-void get_vote(unsigned long *v){
+void get_vote(char *v){
 
     printf("Enter a positive integer below 20, as a symbol for a vote\n");
-    scanf(" %lu", v);
+    scanf(" %s", v);
 }
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
-unsigned long encrypt_vote(unsigned long v){
-    unsigned long p1, p2, e, n;
+bigint encrypt_vote(bigint v){
+    bigint e, n;
+    char nstring[CHARLENGTH], estring[CHARLENGTH];
+    FILE *value;
+
+    value = fopen("superhemmeligvalues","r");
+
+    fscanf(value," N=%s",nstring);
+    fscanf(value," E=%s",estring);
+
+
+    fclose(value);
 
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
-    p1 = 3;
-    p2 = 11;
-    
-    e = 7;
-    n = p1 * p2;
 
-    return exp_func(v,e) % n;
+    e = create_bigint_from_string(estring);
+    n = create_bigint_from_string(nstring);
+
+    return bigint_modulus(bigint_pow(v, e), n);
 }
-
-/* takes a number and a value for exponent - multiplies the given number with itself as many times as the exponent indicates */
-unsigned long exp_func(unsigned long v, unsigned long exp){
-    int i;
-    unsigned long result = v;
-
-    for (i = 1; i < exp; i++){
-        result = result * v; 
-    }
-    return result;
-}
-    
-    
-
