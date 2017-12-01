@@ -142,7 +142,7 @@ int voting_function(void){
 /*
 Now that the user confirmed his input, we send the vote to the corresponding party
 */
-int    vote_counting(int decrypted_vote){
+int vote_counting(int decrypted_vote){
 
     char    party_voted_on[50], filename[50];
     FILE    *vote_count_file;
