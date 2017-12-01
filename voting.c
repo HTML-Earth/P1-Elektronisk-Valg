@@ -1,6 +1,7 @@
 #include    "bigints.h"
 #include    "encryption.h"
-#include    "decryption.h"
+#include    "structs.h"
+#include    "file-man.h"
 
 int vote_counting(int decrypted_vote);
 int vote_decrypt(int decrypted_vote);
@@ -10,8 +11,10 @@ void check(char *pin);
 
 int main (void){
     int decrypted_vote;
-    char *pin[12]
-
+    char pin[12], string_vote[5]; 
+    bigint enc_vote;
+    single_vote enc_votes[500];
+    
     decrypted_vote = vote_or_decrypt;
 
     if(decrypted_vote==-1)
@@ -20,11 +23,15 @@ int main (void){
         printf("Please enter your Randomly generated pin.\n")
         scanf("%s\n",pin);
         if(check(pin)){
-            decryption(); 
+            import_vote();
+            decryption(&dec_votes);
+            print_votes(&dec_votes); 
+        }
     }
     else
-    encryption(decrypted_vote);
-
+    enc_vote = encryption(decrypted_vote);
+    bigint_print_string(string_vote, enc_vote);
+    export_vote(string_vote);
     return(0);
 }
 
@@ -276,3 +283,11 @@ Here the user can decrypt his own vote to make sure it was counted right
     return(0);
 }
 */
+
+void print_votes(all_votes *dec_votes){
+    int i;
+
+    for(i = 0; i < dec_votes->counted_votes; i++){
+        printf("Vote: %s\n", dec_votes->single_vote[i]);
+    }
+}

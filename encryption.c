@@ -1,26 +1,7 @@
 #include "encryption.h"
 
 int main(void){
-    FILE *votes;
-    bigint v, c;
-    char vote[CHARLENGTH];
-    int i;
-
-
-    votes = fopen("secretvotes.txt","a");
-
-    get_vote(vote);
-    v = create_bigint_from_string(vote);
-    c = encrypt_vote(v);
-
-    fprintf(votes,"\n");
-    for (i = c.length - 1; i >= 0; i--) {
-        printf("%d", c.digits[i]);
-        fprintf(votes,"%d",c.digits[i]);
-    }
-    printf("\n");
-    fclose(votes);
-
+    
     return 0;
 }
 
@@ -62,15 +43,15 @@ bigint encryption(int v){
     bigint e, n, bv;
     char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
-
+    
+    /* create a string and bigint from vote value */
     sprintf(vote, %d, v);
     bv = create_bigint_from_string(vote);
 
     value = fopen("superhemmeligvalues","r");
-
+  
     fscanf(value," N=%s",nstring);
     fscanf(value," E=%s",estring);
-
 
     fclose(value);
 
@@ -79,17 +60,25 @@ bigint encryption(int v){
     e = create_bigint_from_string(estring);
     n = create_bigint_from_string(nstring);
 
-    return bigint_modulus(bigint_pow(v, e), n);
+    return bigint_modulus(bigint_pow(bv, e), n);
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
 bigint decryption(bigint c){
-    bigint p1, p2, n, d;
-    p1 = create_bigint_from_string("3");
-    p2 = create_bigint_from_string("11");
+    bigint n, d;
+    char nstring[CHARLENGTH], dstring[CHARLENGTH], vote[CHARLENGTH]; 
+    FILE *value;
 
-    d = create_bigint_from_string("3");
-    n = bigint_multiply(p1, p2);
+    value = fopen("superhemmeligvalues","r");
+  
+    fscanf(value," N=%s",nstring);
+    fscanf(value," D=%s",dstring);
+
+    fclose(value);
+
+    d = create_bigint_from_string(dstring);
+    n = create_bigint_from_string(nstring);
+    
 
     return bigint_modulus(bigint_pow(c, d ), n);
 }
