@@ -87,11 +87,14 @@ bigint bigint_subtract(bigint a, bigint b) {
     bigint result;
     int i, length, subbed, mente = 0, borrow, temp_a, temp_b;
 
+    /* result length is length of longest parameter */
     length = (a.length > b.length) ? a.length : b.length;
 
+    /* create result variable */
     result = create_bigint(length);
 
     for (i = 0; i < length; i++) {
+        /* use zero if i over length */
         temp_a = (i < a.length) ? a.digits[i] : 0;
         temp_b = (i < b.length) ? b.digits[i] : 0;
 
@@ -99,13 +102,21 @@ bigint bigint_subtract(bigint a, bigint b) {
         subbed = temp_a - temp_b + borrow - mente;
         mente = (temp_a < temp_b || temp_a < mente) ? 1 : 0;
 
+        if (subbed < 0) {
+            subbed += 10;
+            mente = 1;
+        }
+
         result.digits[i] = (subbed < 0) ? 0 : subbed;
     }
+
     i = length-1;
+
     while (i > 0 && result.digits[i] == 0) {
         length--;
         i--;
     }
+
     result.length = length;
 
     return result;
@@ -189,7 +200,7 @@ bigint bigint_divide(bigint a, bigint b) {
 bigint bigint_modulus(bigint a, bigint b) {
     bigint result, subtractor;
     char b_str[MAX_DIGITS];
-    int i, zeroes, loopcount = 0;
+    int i, zeroes;
 
     if (a.length < b.length)
         return a;
@@ -200,9 +211,6 @@ bigint bigint_modulus(bigint a, bigint b) {
         result = a;
 
         do {
-            /*
-            printf("doin the mod %d\n", loopcount);
-            loopcount++;*/
             memset(b_str, '\0', MAX_DIGITS);
             bigint_print_string(b_str, b);
 
@@ -215,8 +223,6 @@ bigint bigint_modulus(bigint a, bigint b) {
 
             subtractor = create_bigint_from_string(b_str);
             result = bigint_subtract(result, subtractor);
-            bigint_print(result);
-            printf("\n");
         }
         while (bigint_compare(result, b) >= 0);
 

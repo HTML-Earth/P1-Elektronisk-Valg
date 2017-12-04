@@ -20,6 +20,7 @@ int main(int argc, char *argv[]){
 
     if (argc < 2) { /* no arguments */
         automated_test();
+        printf("ALL TESTS COMPLETED\n");
     }
     else if (strcmp(argv[1], "manual") == 0) {
         manual_test();
@@ -95,6 +96,7 @@ void automated_test() {
     test_subtract("10000000","1","9999999");
     test_subtract("123456789","123456789","0");
     test_subtract("1000000000000","739870000000","260130000000");
+    test_subtract("233716","73987","159729");
     test_subtract("23371600000","7398700000","15972900000");
 
     printf("TESTING bigint_multiply:\n\n");
