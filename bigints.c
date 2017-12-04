@@ -26,6 +26,11 @@ bigint create_bigint_from_string(char *string) {
     return b;
 }
 
+/* frees up a bigint's allocated digits */
+void bigint_clear (bigint *b) {
+    free(b->digits);
+}
+
 /* Prints bigint to standard output */
 void bigint_print(bigint b) {
     int i;
@@ -126,7 +131,9 @@ bigint bigint_subtract(bigint a, bigint b) {
 bigint bigint_multiply(bigint a, bigint b) {
     bigint result, temp;
     int ia, ib, zeroes, tempint;
-    char str[MAX_DIGITS];
+    char *str;
+
+    str = (char *)calloc(a.length + b.length, sizeof(char));
 
     /* result max digits is combined digit amount */
     result = create_bigint(a.length + b.length);
@@ -155,6 +162,9 @@ bigint bigint_multiply(bigint a, bigint b) {
             result = bigint_add(result, temp);
         }
     }
+
+    free(str);
+    bigint_clear(&temp);
 
     return result;
 }
@@ -193,6 +203,9 @@ bigint bigint_divide(bigint a, bigint b) {
     if (bigint_compare(sum, a) > 0)
         times = bigint_subtract(times, one);
 
+    bigint_clear(&sum);
+    bigint_clear(&one);
+
     return times;
 }
 
@@ -225,6 +238,8 @@ bigint bigint_modulus(bigint a, bigint b) {
             result = bigint_subtract(result, subtractor);
         }
         while (bigint_compare(result, b) >= 0);
+
+        bigint_clear(&subtractor);
 
         return result;
     }
@@ -260,6 +275,9 @@ bigint bigint_pow(bigint a, bigint b) {
         result = bigint_multiply(result, a);
         i = bigint_add(i, one);
     }
+
+    bigint_clear(&i);
+    bigint_clear(&one);
 
     return result;
 }

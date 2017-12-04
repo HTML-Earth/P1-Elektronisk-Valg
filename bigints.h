@@ -15,6 +15,9 @@ bigint create_bigint(int length);
 /* Creates a bigint from a string */
 bigint create_bigint_from_string(char *string);
 
+/* frees up a bigint's allocated digits */
+void bigint_clear (bigint *b);
+
 /* Prints bigint to standard output */
 void bigint_print(bigint b);
 
