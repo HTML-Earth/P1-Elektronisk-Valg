@@ -1,4 +1,4 @@
- A  Socialdemokratiet:
+A.  Socialdemokratiet:
     Orla Hav:
     Peter Duetoft:
     Ane Halsboe-Joergensen:
@@ -8,7 +8,7 @@
     Flemming Moeller Mortensen:
     Rasmus Prehn:
     Morten Ryom:
-B  Radikale Venstre:
+B.  Radikale Venstre:
     Giajenthiran Velmurugan:
     Daniel Nyboe Andersen:
     Kasper Bagnkop:
@@ -18,13 +18,13 @@ B  Radikale Venstre:
     Kjeld Lundager Joergensen:
     Helle Sommer Kjaergaard:
     Louise Lundbeck Krog:
-C  Det Konservative Folkeparti:
+C.  Det Konservative Folkeparti:
     Daniel Rugholm:
     Henrik Dalgaard:
     Torben Overgaard:
     Line Vanggaard Pedersen:
     Morten Thiessen:
-F  SF - Socialistisk Folkeparti:
+F.  SF - Socialistisk Folkeparti:
     Thomas Krog:
     Paul Rode Andersen:
     Anders Tendal Christiansen:
@@ -34,7 +34,7 @@ F  SF - Socialistisk Folkeparti:
     Lisbeth Bech Poulsen:
     Frank Tronborg:
     Jacob Klivager Vestergaard:
-I  Liberal Alliance:
+I.  Liberal Alliance:
     Christina Egelund:
     Klaus Hjulmand:
     Henrik Viholm:
@@ -42,13 +42,13 @@ I  Liberal Alliance:
     Bo Ritterbusch:
     Martin K  Madsen:
     Claus Hermansen:
-K  Kristendemokraterne:
+K.  Kristendemokraterne:
     Nick Hansen:
     Lene Meng Andersen:
     Britta Eckhardt:
     Ruth Tidemand Nielsen:
     Inger Ottesen:
-O  Dansk Folkeparti:
+O.  Dansk Folkeparti:
     Gert Ingolf Johansen:
     Lise Bech:
     Bent Boegsted:
@@ -58,7 +58,7 @@ O  Dansk Folkeparti:
     Ib Poulsen:
     Laila Sortland:
     Kristoffer Hjort Storm:
-V  Venstre, Danmarks Liberale Parti:
+V.  Venstre, Danmarks Liberale Parti:
     Preben Bang Henriksen:
     Kristian Andersen:
     Per Bisgaard:
@@ -68,7 +68,7 @@ V  Venstre, Danmarks Liberale Parti:
     Karsten Lauritzen:
     Mariann Noergaard:
     Torsten Schack Pedersen:
-oe  Enhedslisten - De Roed-Groenne:
+OE. Enhedslisten - De Roed-Groenne:
     Caecilie Lyndgaard Andersen:
     Stine Brix:
     Peder Hvelplund:
@@ -78,10 +78,10 @@ oe  Enhedslisten - De Roed-Groenne:
     Emma Lyng Svensson:
     Miguel J  Valentine:
     Povl Erik Andersen:
-aa  Alternativet:
+AA. Alternativet:
     Torsten Gejl:
     Kennith Nielsen:
     Ulla Berndt Soerensen:
     Joergen Vangsted:
-Uden for partierne:
+Uden for partierne.:
     Hans Schultz
