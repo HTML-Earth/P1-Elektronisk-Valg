@@ -34,8 +34,8 @@ void get_vote(char *v){
 }
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
-bigint encryption(int v){
-    bigint e, n, bv;
+bigint *encryption(int v){
+    bigint *e, *n, *bv;
     char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
 
@@ -58,8 +58,8 @@ bigint encryption(int v){
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
-bigint decryption(bigint c){
-    bigint n, d;
+bigint *decryption(bigint *c){
+    bigint *n, *d;
     char nstring[CHARLENGTH], dstring[CHARLENGTH];
     FILE *value;
 

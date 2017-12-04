@@ -1,107 +1,108 @@
 #include "bigints.h"
 
 /* Creates an empty bigint with defined length */
-bigint create_bigint (int length) {
-    bigint b;
-    b.length = 1;
-    b.max_digits = length;
-    b.digits = (int*)calloc(length, sizeof(int));
+bigint *create_bigint (int length) {
+    bigint *b = (bigint *)calloc(1, sizeof(bigint));
+    b->length = 1;
+    b->max_digits = length;
+    b->digits = (int*)calloc(length, sizeof(int));
     return b;
 }
 
 /* Creates a bigint from a string */
-bigint create_bigint_from_string(char *string) {
-    bigint b;
+bigint *create_bigint_from_string(char *string) {
+    bigint *b;
     int i, ph, j = 0;
 
     b = create_bigint(strlen(string));
-    b.length = b.max_digits;
+    b->length = b->max_digits;
 
-    for (i = b.max_digits - 1; i >= 0; i--) {
+    for (i = b->max_digits - 1; i >= 0; i--) {
        ph = char_to_int(string[j]);
-       b.digits[i] = ph;
+       b->digits[i] = ph;
        j++;
     }
 
     return b;
 }
 
-/* frees up a bigint's allocated digits */
+/* frees up a bigint's allocated memory */
 void bigint_clear (bigint *b) {
     free(b->digits);
+    free(b);
 }
 
 /* Prints bigint to standard output */
-void bigint_print(bigint b) {
+void bigint_print(bigint *b) {
     int i;
-    for (i = b.length - 1; i >= 0; i--) {
-        printf("%d", b.digits[i]);
+    for (i = b->length - 1; i >= 0; i--) {
+        printf("%d", b->digits[i]);
     }
 }
 
 /* Prints bigint to a string */
-void bigint_print_string(char *str, bigint b) {
+void bigint_print_string(char *str, bigint *b) {
     int i, j = 0;
-    for (i = b.length - 1; i >= 0; i--) {
-        sprintf(str+j, "%d", b.digits[i]);
+    for (i = b->length - 1; i >= 0; i--) {
+        sprintf(str+j, "%d", b->digits[i]);
         j++;
     }
 }
 
 /* Prints bigint to a file */
-void bigint_print_file(FILE *file, bigint b) {
+void bigint_print_file(FILE *file, bigint *b) {
     int i;
-    for (i = b.length - 1; i >= 0; i--) {
-        fprintf(file, "%d", b.digits[i]);
+    for (i = b->length - 1; i >= 0; i--) {
+        fprintf(file, "%d", b->digits[i]);
     }
 }
 
 /* Adds two bigints */
-bigint bigint_add(bigint a, bigint b) {
-    bigint result;
+bigint *bigint_add(bigint *a, bigint *b) {
+    bigint *result;
     int i, length, added, temp_a, temp_b;
 	int mente = 0;
 
-    length = (a.length > b.length) ? a.length : b.length;
+    length = (a->length > b->length) ? a->length : b->length;
 
     result = create_bigint(length+1);
 
     for (i = 0; i < length; i++) {
-        temp_a = (i < a.length) ? a.digits[i] : 0;
-        temp_b = (i < b.length) ? b.digits[i] : 0;
+        temp_a = (i < a->length) ? a->digits[i] : 0;
+        temp_b = (i < b->length) ? b->digits[i] : 0;
         added = temp_a + temp_b + mente;
 
         if (added > 9) {
-            result.digits[i] = added - 10;
+            result->digits[i] = added - 10;
             mente = 1;
             if (i == length-1)
                 length++;
         }
         else {
-            result.digits[i] = added;
+            result->digits[i] = added;
             mente = 0;
         }
     }
-    result.length = length;
+    result->length = length;
 
     return result;
 }
 
 /* Subtracts two bigints (only works for a >= b) */
-bigint bigint_subtract(bigint a, bigint b) {
-    bigint result;
+bigint *bigint_subtract(bigint *a, bigint *b) {
+    bigint *result;
     int i, length, subbed, mente = 0, borrow, temp_a, temp_b;
 
     /* result length is length of longest parameter */
-    length = (a.length > b.length) ? a.length : b.length;
+    length = (a->length > b->length) ? a->length : b->length;
 
     /* create result variable */
     result = create_bigint(length);
 
     for (i = 0; i < length; i++) {
         /* use zero if i over length */
-        temp_a = (i < a.length) ? a.digits[i] : 0;
-        temp_b = (i < b.length) ? b.digits[i] : 0;
+        temp_a = (i < a->length) ? a->digits[i] : 0;
+        temp_b = (i < b->length) ? b->digits[i] : 0;
 
         borrow = (temp_a < temp_b || temp_a < mente) ? 10 : 0;
         subbed = temp_a - temp_b + borrow - mente;
@@ -112,42 +113,45 @@ bigint bigint_subtract(bigint a, bigint b) {
             mente = 1;
         }
 
-        result.digits[i] = (subbed < 0) ? 0 : subbed;
+        result->digits[i] = (subbed < 0) ? 0 : subbed;
     }
 
     i = length-1;
 
-    while (i > 0 && result.digits[i] == 0) {
+    while (i > 0 && result->digits[i] == 0) {
         length--;
         i--;
     }
 
-    result.length = length;
+    result->length = length;
 
     return result;
 }
 
 /* Multiplies two bigints */
-bigint bigint_multiply(bigint a, bigint b) {
-    bigint result, temp;
+bigint *bigint_multiply(bigint *a, bigint *b) {
+    bigint *result, *previous, *temp;
     int ia, ib, zeroes, tempint;
     char *str;
 
-    str = (char *)calloc(a.length + b.length, sizeof(char));
+    str = (char *)calloc(a->length + b->length, sizeof(char));
 
     /* result max digits is combined digit amount */
-    result = create_bigint(a.length + b.length);
+    result = create_bigint(a->length + b->length);
 
-    if ((a.length == 1 && a.digits[0] == 0) || (b.length == 1 && b.digits[0] == 0)){
+    if ((a->length == 1 && a->digits[0] == 0) || (b->length == 1 && b->digits[0] == 0)){
         /* multiplication by 0, therefore the result is 0 */
+        free(str);
         return result;
     }
 
+    previous = result;
+
     /* for each digit pair */
-    for (ia = 0; ia < a.length; ia++) {
-        for (ib = 0; ib < b.length; ib++) {
+    for (ia = 0; ia < a->length; ia++) {
+        for (ib = 0; ib < b->length; ib++) {
             /* multiply ints */
-            tempint = a.digits[ia] * b.digits[ib];
+            tempint = a->digits[ia] * b->digits[ib];
 
             /* add result to string */
             sprintf(str, "%d", tempint);
@@ -160,23 +164,28 @@ bigint bigint_multiply(bigint a, bigint b) {
             temp = create_bigint_from_string(str);
 
             result = bigint_add(result, temp);
+
+            bigint_clear(temp);
+
+            bigint_clear(previous);
+            previous = result;
         }
     }
 
     free(str);
-    bigint_clear(&temp);
+    bigint_clear(temp);
 
     return result;
 }
 
 /* UNOPTIMIZED Multiplies two bigints */
-bigint bigint_multiply_old(bigint a, bigint b) {
+bigint *bigint_multiply_old(bigint *a, bigint *b) {
     int i, j;
-    bigint result;
+    bigint *result;
     result = create_bigint_from_string("0");
 
-    for (i = 0; i < b.length; i++) {
-        for (j = 0; j < custom_pow(10, i) * b.digits[i]; j++) {
+    for (i = 0; i < b->length; i++) {
+        for (j = 0; j < custom_pow(10, i) * b->digits[i]; j++) {
             result = bigint_add(result, a);
         }
     }
@@ -185,14 +194,14 @@ bigint bigint_multiply_old(bigint a, bigint b) {
 }
 
 /* Divides two bigints */
-bigint bigint_divide(bigint a, bigint b) {
-    bigint sum, times, one;
+bigint *bigint_divide(bigint *a, bigint *b) {
+    bigint *sum, *times, *one;
     int sum_length;
 
-    sum_length = (a.length > b.length) ? a.length : b.length;
+    sum_length = (a->length > b->length) ? a->length : b->length;
 
     sum = create_bigint(sum_length+1);
-    times = create_bigint(a.length);
+    times = create_bigint(a->length);
     one = create_bigint_from_string("1");
 
     while (bigint_compare(sum, a) < 0) {
@@ -203,21 +212,21 @@ bigint bigint_divide(bigint a, bigint b) {
     if (bigint_compare(sum, a) > 0)
         times = bigint_subtract(times, one);
 
-    bigint_clear(&sum);
-    bigint_clear(&one);
+    bigint_clear(sum);
+    bigint_clear(one);
 
     return times;
 }
 
 /* a % b */
-bigint bigint_modulus(bigint a, bigint b) {
-    bigint result, subtractor;
+bigint *bigint_modulus(bigint *a, bigint *b) {
+    bigint *result, *subtractor;
     char b_str[MAX_DIGITS];
     int i, zeroes;
 
-    if (a.length < b.length)
+    if (a->length < b->length)
         return a;
-    else if (a.length == b.length && bigint_compare(a,b) == -1){
+    else if (a->length == b->length && bigint_compare(a,b) == -1){
         return a;
     }
     else {
@@ -227,8 +236,8 @@ bigint bigint_modulus(bigint a, bigint b) {
             memset(b_str, '\0', MAX_DIGITS);
             bigint_print_string(b_str, b);
 
-            if (result.length > b.length + 1) {
-                zeroes = result.length - b.length - 1;
+            if (result->length > b->length + 1) {
+                zeroes = result->length - b->length - 1;
 
                 for (i = 0; i < zeroes; i++)
                     strcat(b_str, "0");
@@ -239,17 +248,17 @@ bigint bigint_modulus(bigint a, bigint b) {
         }
         while (bigint_compare(result, b) >= 0);
 
-        bigint_clear(&subtractor);
+        bigint_clear(subtractor);
 
         return result;
     }
 }
 
 /* UNOPTIMIZED a % b */
-bigint bigint_modulus_old(bigint a, bigint b) {
-    bigint result;
+bigint *bigint_modulus_old(bigint *a, bigint *b) {
+    bigint *result;
 
-    result = create_bigint(b.length);
+    result = create_bigint(b->length);
 
     while (bigint_compare(result, a) < 0) {
         result = bigint_add(result, b);
@@ -264,39 +273,48 @@ bigint bigint_modulus_old(bigint a, bigint b) {
 }
 
 /* Bigint power function */
-bigint bigint_pow(bigint a, bigint b) {
-    bigint result, i, one;
+bigint *bigint_pow(bigint *a, bigint *b) {
+    bigint *result, *i, *one, *previous;
 
-    i = create_bigint(b.length);
+    i = create_bigint(b->length);
     one = create_bigint_from_string("1");
     result = create_bigint_from_string("1");
+    previous = result;
 
     while (bigint_compare(i, b) < 0) {
-        result = bigint_multiply(result, a);
+        result = bigint_multiply(previous, a);
+        bigint_clear(previous);
+        previous = result;
+
         i = bigint_add(i, one);
+        bigint_print(i);
+        printf(" / ");
+        bigint_print(b);
+        printf("\n");
     }
 
-    bigint_clear(&i);
-    bigint_clear(&one);
+    bigint_clear(i);
+    bigint_clear(one);
+    bigint_clear(previous);
 
     return result;
 }
 
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
-int bigint_compare(bigint a, bigint b) {
-    if (a.length > b.length)
+int bigint_compare(bigint *a, bigint *b) {
+    if (a->length > b->length)
         return 1;
-    else if (a.length < b.length)
+    else if (a->length < b->length)
         return -1;
     else
-        return bigint_compare_helper(a, b, a.length);
+        return bigint_compare_helper(a, b, a->length);
 }
 
 /* Recursive function used by bigint_compare */
-int bigint_compare_helper(bigint a, bigint b, int length) {
-    if (a.digits[length-1] > b.digits[length-1])
+int bigint_compare_helper(bigint *a, bigint *b, int length) {
+    if (a->digits[length-1] > b->digits[length-1])
         return 1;
-    else if (a.digits[length-1] < b.digits[length-1])
+    else if (a->digits[length-1] < b->digits[length-1])
         return -1;
     else {
         if (length < 2)

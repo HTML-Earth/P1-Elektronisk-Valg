@@ -1,3 +1,7 @@
+test-bigint.c: bigints.o test-bigint.c
+	gcc -ansi bigints.o test-bigint.c \
+		-o test.exe
+
 voting.exe: bigints.o encryption.o voting.c
 	gcc -Wall -ansi -pedantic bigints.o encryption.o file-man.o voting.c \
 		-o voting.exe

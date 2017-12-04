@@ -34,7 +34,7 @@ int main(int argc, char *argv[]){
 
 void manual_test()
 {
-    bigint n1, n2, result;
+    bigint *n1, *n2, *result;
     char nc1[MAX_NUMBER], nc2[MAX_NUMBER];
     int i, func_choice, done = 0;
 
@@ -62,8 +62,8 @@ void manual_test()
                 default : printf("You have chosen invalid option\n");
             }
             printf("The result is:");
-            for (i = result.length - 1; i >= 0; i--) {
-                printf("%d", result.digits[i]);
+            for (i = result->length - 1; i >= 0; i--) {
+                printf("%d", result->digits[i]);
             }
             printf("\n");
         }
@@ -158,7 +158,7 @@ void test_pow(char *a, char *b, char *expected) {
 }
 
 void test_compare(char *a, char *b, int expected) {
-    bigint bi_a, bi_b;
+    bigint *bi_a, *bi_b;
     int actual;
     char c_expected, c_actual;
 
@@ -175,8 +175,8 @@ void test_compare(char *a, char *b, int expected) {
 
     actual = bigint_compare(bi_a, bi_b);
 
-    bigint_clear(&bi_a);
-    bigint_clear(&bi_b);
+    bigint_clear(bi_a);
+    bigint_clear(bi_b);
 
     switch (actual) {
         case -1: c_actual = '<'; break;
@@ -189,7 +189,7 @@ void test_compare(char *a, char *b, int expected) {
 }
 
 void test_generic(char *a, char *b, char *expected, char symbol) {
-    bigint bi_a, bi_b, bi_actual;
+    bigint *bi_a, *bi_b, *bi_actual;
     char str_actual[MAX_DIGITS];
 
     printf("    %s\n  %c %s\n  = %s\n", a, symbol, b, expected);
@@ -207,12 +207,12 @@ void test_generic(char *a, char *b, char *expected, char symbol) {
         default : printf("Invalid symbol\n");
     }
 
-    bigint_clear(&bi_a);
-    bigint_clear(&bi_b);
+    bigint_clear(bi_a);
+    bigint_clear(bi_b);
 
     bigint_print_string(str_actual, bi_actual);
 
-    bigint_clear(&bi_actual);
+    bigint_clear(bi_actual);
 
     printf("Got %s\n\n", str_actual);
     assert((strcmp(expected, str_actual)) == 0);
