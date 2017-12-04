@@ -1,4 +1,4 @@
-A Socialdemokratiet
+﻿A Socialdemokratiet
 Thomas Kastrup-Larsen
 Mai-Britt Iversen
 Anna Kirsten Olesen
@@ -25,6 +25,8 @@ Henrik Korsbæk Flyvbjerg
 Esben Elbæk
 Kai Korsgaard
 
+!
+
 B  Radikale Venstre
 Daniel Nyboe Andersen
 Louise Lundbeck Krog
@@ -33,6 +35,7 @@ Peter Larsen
 Lise Lundgreen
 Thomas Fisker Nielsen
 Heidi Vive
+!
 
 C Det Konservative Folkeparti
 Thomas Krarup
@@ -48,6 +51,7 @@ Rasmus Trenskow
 Michael K. Mikkelsen
 Peter Ross Jakobsen
 Dan Kristensen
+!
 
 F Socialistisk Folkeparti
 Jens Toft-Nielsen
@@ -70,9 +74,11 @@ Joan Jensen
 Troels Bank Olesen
 Nikolaj Andersen
 Finn Karstenskov
+!
 
 G Miljøpartiet Fokus
 Klaus Frederiksen
+!
 
 I Liberal Alliance
 HP Beck
@@ -85,15 +91,18 @@ Nikolaj Nors-Ganer
 René Skall
 Lise Therkelsen
 Henrik Viholm
+!
 
 K Kristendemokraterne
 Peter Øhrstrøm
 Gurli Joensen
 Hans-Peter Hansen
 Patrik Näsfors
+!
 
 M Michael Madsen
 Michael Madsen
+!
 
 O Dansk Folkeparti
 Tommy Eggers
@@ -112,12 +121,15 @@ Cindy Petersen
 Erik T. Hansen
 Mogens Danielsen
 Jørgen Svenstrup
+!
 
 P På Kanten
 Gert Bach
+!
 
 T Trafikalt Folkeparti
 Anders Wested
+!
 
 V Venstre
 Tina French Nielsen
@@ -146,9 +158,11 @@ Erland M. Jensen
 Michelle Josephsen
 Jørgen Hansen
 Caroline Ramskov
+!
 
 W Vedtaget
 Daniel Lassen
+!
 
 Ø Enhedslisten
 Per Clausen
@@ -186,6 +200,7 @@ Kim Pors
 Nicolai L. Sejrup
 Line Boye Danielsen
 Hugh Rockwell
+!
 
 Å Den Sociale Fællesliste
 Poul Erik Lyngdorf
@@ -197,3 +212,4 @@ Per Hansen
 Flemming Ejstrup
 Helge Steffensen
 Finn Knudsen
+!
