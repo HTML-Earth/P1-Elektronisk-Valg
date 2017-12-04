@@ -12,7 +12,7 @@ int main (void){
     int decrypted_vote, i, counted_votes = 0;
     char pin[12], string_vote[5];
     single_vote enc_votes[500], dec_votes[500];
-    bigint enc_vote, temp_vote;
+    bigint *enc_vote, *temp_vote;
 
     decrypted_vote = vote_or_decrypt();
 
@@ -23,7 +23,7 @@ int main (void){
         scanf("%s",pin);
         if(check(pin)){
             import_vote(enc_votes, &counted_votes);
-            
+
             for (i = 0; i < counted_votes; i++){
                 temp_vote = create_bigint_from_string(enc_votes[i].vote);
                 temp_vote = decryption(temp_vote);
