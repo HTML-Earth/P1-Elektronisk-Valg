@@ -1,215 +1,185 @@
-﻿A Socialdemokratiet
-Thomas Kastrup-Larsen
-Mai-Britt Iversen
-Anna Kirsten Olesen
-Hans Henrik Henriksen
-Helle Frederiksen
-Lasse Frimand Jensen
-Nuuradiin S. Hussein
-Christian Korsgaard
-Lene Krabbe Dah
-Mette Ekstrøm
-Arne B. Schade
-Lisbeth Lauritsen
-Tina Staun Sørensen
-Bjarne Sørensen
-René Andreasen
-Christian Hede Hagelskjær
-Rose Sloth Hansen
-Ninna Holm Palm
-Henrik Hyldig Nielsen
-Ali Hassan
-Nina Lykke Madsen
-Lars Bang Jensen
-Henrik Korsbæk Flyvbjerg
-Esben Elbæk
-Kai Korsgaard
-
-!
-
-B  Radikale Venstre
-Daniel Nyboe Andersen
-Louise Lundbeck Krog
-Jørgen Hein
-Peter Larsen
-Lise Lundgreen
-Thomas Fisker Nielsen
-Heidi Vive
-!
-
-C Det Konservative Folkeparti
-Thomas Krarup
-Vibeke Gamst
-Louise Bonde Risager
-Morten Thiessen
-Anette Valentin
-Mikkel Kaffka Schwarz
-Rasmus Rodenberg Pedersen
-Helen Westen-Jensen
-Gry Tange
-Rasmus Trenskow
-Michael K. Mikkelsen
-Peter Ross Jakobsen
-Dan Kristensen
-!
-
-F Socialistisk Folkeparti
-Jens Toft-Nielsen
-Inge Ibsen Fomcenco
-Kristian Klitgaard Nielsen
-Allan Norré Pedersen
-Jacob Klivager Vestergaard
-Britta Mølgaard
-Anders Hind
-Jørgen E. Jensen
-Per Jacobsen
-Erik Busse
-Selmer Nielsen
-Hanne Dam
-Kjeld Walsted
-Ulla Overgaard
-Lars Hoffmeyer Novrup
-Benjamin Schou
-Joan Jensen
-Troels Bank Olesen
-Nikolaj Andersen
-Finn Karstenskov
-!
-
-G Miljøpartiet Fokus
-Klaus Frederiksen
-!
-
-I Liberal Alliance
-HP Beck
-Kristian Axelsen
-Christina Egelund
-Carsten Kristensen
-Mia Dahl Mikkelsen
-Agnethe Benedikt Mørch
-Nikolaj Nors-Ganer
-René Skall
-Lise Therkelsen
-Henrik Viholm
-!
-
-K Kristendemokraterne
-Peter Øhrstrøm
-Gurli Joensen
-Hans-Peter Hansen
-Patrik Näsfors
-!
-
-M Michael Madsen
-Michael Madsen
-!
-
-O Dansk Folkeparti
-Tommy Eggers
-Kristoffer Hjort Storm
-Kirsten Algren
-Ronni Steenfeldt Sørensen
-Karina Christensen
-Gert Ingolf Johansen
-Jess Kristensen
-Carsten Normann Munk
-Jørgen Larsen Møller
-Trine Olesen
-Hans C. W. Olsen
-Lars Bjørck Mortensen
-Cindy Petersen
-Erik T. Hansen
-Mogens Danielsen
-Jørgen Svenstrup
-!
-
-P På Kanten
-Gert Bach
-!
-
-T Trafikalt Folkeparti
-Anders Wested
-!
-
-V Venstre
-Tina French Nielsen
-Mads Duedahl
-Mariann Nørgaard
-Jakob K. Svendsen
-Mads Sølver Pedersen
-John G. Nielsen
-Anne Honoré Østergaard
-Hans Thorup
-Jan Nymark Thaysen
-Mads Thomsen
-Palle Neumann
-Hans Jørgen Dalum
-Anne Mette Legaard
-Mohammed El-Hajj
-Lars Peter Frisk
-Ole Steen Jensen
-Jette Bjerrum
-Jens Neustrup Simonsen
-Kristian Andersen
-Gert Andersen
-Christian Brath
-Bo Sittrup Jensen
-Erland M. Jensen
-Michelle Josephsen
-Jørgen Hansen
-Caroline Ramskov
-!
-
-W Vedtaget
-Daniel Lassen
-!
-
-Ø Enhedslisten
-Per Clausen
-Lasse P. N. Olsen
-Cæcilie L. Andersen
-Anja Lundtoft Thomsen
-Anders Heltborg Samuelsen
-Jennifer Elbæk
-Ole Hvarre
-Anne Froberg
-Oskar Hvelplund
-Amina Olander Lap
-Susanne Flydtkjær
-Jan Jensen
-Shilan A. Sadek
-Gitte Thomsen
-Anders Geisler Møller
-Søren Bruun Jensen
-Kristina Gammelgård
-Nick Groth
-Malene Gramstrup
-Valentina Gioppo
-Peter Halgren Madsen
-Andreas Rytter
-Marlene Jærv
-Sofie Degn
-Kasper Pedersen
-Søren Hansen
-Johan Lorasch Seimann
-Stinne Poulsen
-Bente Schjødt
-Jacob Nørholm
-Johannes S. Andersen
-Kim Pors
-Nicolai L. Sejrup
-Line Boye Danielsen
-Hugh Rockwell
-!
-
-Å Den Sociale Fællesliste
-Poul Erik Lyngdorf
-Felix Henriksen
-Susanne Jonstrup
-Lotte M. Christensen
-Peter H. Larsen
-Per Hansen
-Flemming Ejstrup
-Helge Steffensen
-Finn Knudsen
-!
+﻿A Socialdemokratiet:
+Thomas Kastrup-Larsen:
+Mai-Britt Iversen:
+Anna Kirsten Olesen:
+Hans Henrik Henriksen:
+Helle Frederiksen:
+Lasse Frimand Jensen:
+Nuuradiin S. Hussein:
+Christian Korsgaard:
+Lene Krabbe Dah:
+Mette Ekstroem:
+Arne B. Schade:
+Lisbeth Lauritsen:
+Tina Staun Soerensen:
+Bjarne Soerensen:
+Rene Andreasen:
+Christian Hede Hagelskjaer:
+Rose Sloth Hansen:
+Ninna Holm Palm:
+Henrik Hyldig Nielsen:
+Ali Hassan:
+Nina Lykke Madsen:
+Lars Bang Jensen:
+Henrik Korsbaek Flyvbjerg:
+Esben Elbaek:
+Kai Korsgaard:
+B  Radikale Venstre:
+Daniel Nyboe Andersen:
+Louise Lundbeck Krog:
+Joergen Hein:
+Peter Larsen:
+Lise Lundgreen:
+Thomas Fisker Nielsen:
+Heidi Vive:
+C Det Konservative Folkeparti:
+Thomas Krarup:
+Vibeke Gamst:
+Louise Bonde Risager:
+Morten Thiessen:
+Anette Valentin:
+Mikkel Kaffka Schwarz:
+Rasmus Rodenberg Pedersen:
+Helen Westen-Jensen:
+Gry Tange:
+Rasmus Trenskow:
+Michael K. Mikkelsen:
+Peter Ross Jakobsen:
+Dan Kristensen:
+F Socialistisk Folkeparti:
+Jens Toft-Nielsen:
+Inge Ibsen Fomcenco:
+Kristian Klitgaard Nielsen:
+Allan Norre Pedersen:
+Jacob Klivager Vestergaard:
+Britta Moelgaard:
+Anders Hind:
+Joergen E. Jensen:
+Per Jacobsen:
+Erik Busse:
+Selmer Nielsen:
+Hanne Dam:
+Kjeld Walsted:
+Ulla Overgaard:
+Lars Hoffmeyer Novrup:
+Benjamin Schou:
+Joan Jensen:
+Troels Bank Olesen:
+Nikolaj Andersen:
+Finn Karstenskov:
+G Miljoepartiet Fokus:
+Klaus Frederiksen:
+I Liberal Alliance:
+HP Beck:
+Kristian Axelsen:
+Christina Egelund:
+Carsten Kristensen:
+Mia Dahl Mikkelsen:
+Agnethe Benedikt Moerch:
+Nikolaj Nors-Ganer:
+Rene Skall:
+Lise Therkelsen:
+Henrik Viholm:
+K Kristendemokraterne:
+Peter oehrstroem:
+Gurli Joensen:
+Hans-Peter Hansen:
+Patrik Nasfors:
+M Michael Madsen:
+Michael Madsen:
+O Dansk Folkeparti:
+Tommy Eggers:
+Kristoffer Hjort Storm:
+Kirsten Algren:
+Ronni Steenfeldt Soerensen:
+Karina Christensen:
+Gert Ingolf Johansen:
+Jess Kristensen:
+Carsten Normann Munk:
+Joergen Larsen Moeller:
+Trine Olesen:
+Hans C. W. Olsen:
+Lars Bjoerck Mortensen:
+Cindy Petersen:
+Erik T. Hansen:
+Mogens Danielsen:
+Joergen Svenstrup:
+P Paa Kanten:
+Gert Bach:
+T Trafikalt Folkeparti:
+Anders Wested:
+V Venstre:
+Tina French Nielsen:
+Mads Duedahl:
+Mariann Noergaard:
+Jakob K. Svendsen:
+Mads Soelver Pedersen:
+John G. Nielsen:
+Anne Honore oestergaard:
+Hans Thorup:
+Jan Nymark Thaysen:
+Mads Thomsen:
+Palle Neumann:
+Hans Joergen Dalum:
+Anne Mette Legaard:
+Mohammed El-Hajj:
+Lars Peter Frisk:
+Ole Steen Jensen:
+Jette Bjerrum:
+Jens Neustrup Simonsen:
+Kristian Andersen:
+Gert Andersen:
+Christian Brath:
+Bo Sittrup Jensen:
+Erland M. Jensen:
+Michelle Josephsen:
+Joergen Hansen:
+Caroline Ramskov:
+W Vedtaget:
+Daniel Lassen:
+oe Enhedslisten:
+Per Clausen:
+Lasse P. N. Olsen:
+Caecilie L. Andersen:
+Anja Lundtoft Thomsen:
+Anders Heltborg Samuelsen:
+Jennifer Elbaek:
+Ole Hvarre:
+Anne Froberg:
+Oskar Hvelplund:
+Amina Olander Lap:
+Susanne Flydtkjaer:
+Jan Jensen:
+Shilan A. Sadek:
+Gitte Thomsen:
+Anders Geisler Moeller:
+Soeren Bruun Jensen:
+Kristina Gammelgaard:
+Nick Groth:
+Malene Gramstrup:
+Valentina Gioppo:
+Peter Halgren Madsen:
+Andreas Rytter:
+Marlene Jaerv:
+Sofie Degn:
+Kasper Pedersen:
+Soeren Hansen:
+Johan Lorasch Seimann:
+Stinne Poulsen:
+Bente Schjoedt:
+Jacob Noerholm:
+Johannes S. Andersen:
+Kim Pors:
+Nicolai L. Sejrup:
+Line Boye Danielsen:
+Hugh Rockwell:
+aa Den Sociale Faellesliste:
+Poul Erik Lyngdorf:
+Felix Henriksen:
+Susanne Jonstrup:
+Lotte M. Christensen:
+Peter H. Larsen:
+Per Hansen:
+Flemming Ejstrup:
+Helge Steffensen:
+Finn Knudsen:

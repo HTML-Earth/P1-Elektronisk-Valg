@@ -1,66 +1,83 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MAX_CHARS 50
+#define MAX_CHARS 100
 
-struct stemmeseddel{
-    struct partier *p_2015;
-    struct kanditat *k_2015;
-};
+typedef struct{
+    char navn[MAX_CHARS];
+    int stemmer;
+}kandidat; 
 
-struct partier{
-    char p_navn[MAX_CHARS];
-    int stemme_cnt;
-};
+typedef struct{
+    char navn[MAX_CHARS];
+    int stemmer;
+}parti;
 
-struct kanditat{
-    char k_navn[MAX_CHARS];
-    int stemme_cnt;
-};
+typedef struct{
+    kandidat *kandidater;
+    parti *partier;
+}stemmeseddel;
 
-struct valgkreds{
-    char v_navn[MAX_CHARS];
-    int ant_partier;
-    int ant_kandidater;
-    struct stemmeseddel;
-};
+typedef struct{
+    kandidat *temp_kan;
+    int total_loaded;
+}all;
 
-typedef struct valgkreds valgkreds;
-typedef struct stemmesdl stemmeseddel;
-typedef struct partier partier;
-typedef struct kanditat kandidat;
-
-void check_vote_info(valgkreds *info_2015);
+int count_file_data(void);
+void load_file_data(all *all_data);
 
 int main(void){
-
-    valgkreds *info_2015;
-  
-    info_2015 = (valgkreds*)calloc(1, sizeof(valgkreds));
-
-    check_vote_info(info_2015);
+    int i, data_in_file;
+    all *all_data;
+    stemmeseddel *aalborg_2015;
     
+    all_data = (all *)calloc(1,sizeof(stemmeseddel));
+    aalborg_2015 = (stemmeseddel *)calloc(1,sizeof(stemmeseddel));  
+   
+    data_in_file = count_file_data();
+
+    all_data->temp_kan = (kandidat *)calloc(data_in_file, sizeof(kandidat));
+    
+    load_file_data(all_data);
+       
+    
+    for(i = 0; i < all_data->total_loaded; i++){
+        printf("Navn %s\n", all_data->temp_kan[i].navn);
+    }   
 
     return 0;
 }
 
-void check_vote_info(valgkreds *info_2015){
+int count_file_data(void){
+  int scan_control, file_lines = 1;
+  FILE *fp;
+
+  fp = fopen("stemmeseddel.txt", "r");
+  if (fp != NULL){
+    while((scan_control = fgetc(fp))  != EOF){
+      if (scan_control == '\n'){
+        file_lines++;
+      }
+    }
+  }
+  fclose(fp);
+  return file_lines;
+}
+
+void load_file_data(all *all_data){
 
     FILE *fp;
-    int scan_control, file_lines = 0;
-    
+    int  i = 0;   
 
-    fp = fopen("Liste_af_Kandidater.txt", "r");
+    fp = fopen("stemmeseddel.txt", "r");
+     
 
     if (fp != NULL){
-        while((scan_control = fgetc(fp))  != 33){
-            if((scan_control = fgetc(fp)) != 33){      
-                if (scan_control == '\n'){
-                    file_lines++;
-                }
-            }
+        while(!(feof(fp))){
+            fscanf(fp, " %[abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXZY.- ]:", all_data->temp_kan[i].navn);
+            i++;
+            all_data->total_loaded += 1;      
         }
     }
-    printf("This many lines were counted: %d\n", file_lines); 
-  fclose(fp);
+    fclose(fp);
 }
