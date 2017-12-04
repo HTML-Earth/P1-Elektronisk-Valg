@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #define MAX_DIGITS 1000
+#define BIGINT_BASE 10
 
 typedef struct {
     int length;
@@ -15,7 +16,10 @@ bigint *create_bigint(int length);
 /* Creates a bigint from a string */
 bigint *create_bigint_from_string(char *string);
 
-/* frees up a bigint's allocated digits */
+/* Creates a copy of b and returns a pointer to it */
+bigint *create_bigint_copy(bigint *b);
+
+/* Frees up a bigint's allocated digits */
 void bigint_clear (bigint *b);
 
 /* Prints bigint to standard output */

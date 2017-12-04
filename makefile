@@ -1,4 +1,4 @@
-test-bigint.c: bigints.o test-bigint.c
+test.exe: bigints.o test-bigint.c
 	gcc -ansi bigints.o test-bigint.c \
 		-o test.exe
 
