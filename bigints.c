@@ -1,16 +1,19 @@
 #include "bigints.h"
 
-static int bigints_allocated = 0;
+/*static int bigints_allocated = 0;*/
 
 /* Creates an empty bigint with defined length */
 bigint *create_bigint (int length) {
     bigint *b = (bigint *)calloc(1, sizeof(bigint));
+
     b->length = 1;
     b->max_digits = length;
     b->digits = (int*)calloc(length, sizeof(int));
 
-    bigints_allocated++;
-    printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);
+    /*if (b != NULL && b->digits != NULL)
+        bigints_allocated++;*/
+
+    /*printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);*/
 
     return b;
 }
@@ -40,23 +43,31 @@ bigint *create_bigint_copy(bigint *b) {
     copy->max_digits = b->max_digits;
     copy->digits = (int*)calloc(b->max_digits, sizeof(int));
 
+    /*if (copy != NULL && copy->digits != NULL)
+        bigints_allocated++;*/
+
     for (i = 0; i < b->length; i++) {
         copy->digits[i] = b->digits[i];
     }
 
-    bigints_allocated++;
-    printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);
+    /*printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);*/
 
     return copy;
 }
 
 /* frees up a bigint's allocated memory */
-void bigint_clear (bigint *b) {
-    free(b->digits);
-    free(b);
+void bigint_clear (bigint **b) {
+    /*if (*b != NULL)
+        bigints_allocated--;
+    else
+        printf("ALREADY NULL\n");*/
 
-    bigints_allocated--;
-    printf("O%*s%d\n", bigints_allocated, "", bigints_allocated);
+    free((*b)->digits);
+    free((*b));
+
+    *b = NULL;
+
+    /*printf("-%*s%d\n", bigints_allocated, "", bigints_allocated);*/
 }
 
 /* Prints bigint to standard output */
@@ -192,9 +203,9 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
 
             result = bigint_add(previous, temp);
 
-            bigint_clear(temp);
+            bigint_clear(&temp);
 
-            bigint_clear(previous);
+            bigint_clear(&previous);
             previous = result;
         }
     }
@@ -237,8 +248,8 @@ bigint *bigint_divide(bigint *a, bigint *b) {
         sum = bigint_add(prev_sum, b);
         times = bigint_add(prev_times, one);
 
-        bigint_clear(prev_times);
-        bigint_clear(prev_sum);
+        bigint_clear(&prev_times);
+        bigint_clear(&prev_sum);
 
         prev_sum = sum;
         prev_times = times;
@@ -247,8 +258,8 @@ bigint *bigint_divide(bigint *a, bigint *b) {
     if (bigint_compare(sum, a) > 0)
         times = bigint_subtract(times, one);
 
-    bigint_clear(one);
-    bigint_clear(sum);
+    bigint_clear(&one);
+    bigint_clear(&sum);
 
     return times;
 }
@@ -283,8 +294,8 @@ bigint *bigint_modulus(bigint *a, bigint *b) {
             subtractor = create_bigint_from_string(b_str);
             result = bigint_subtract(previous, subtractor);
 
-            bigint_clear(subtractor);
-            bigint_clear(previous);
+            bigint_clear(&subtractor);
+            bigint_clear(&previous);
 
             previous = result;
         }
@@ -314,24 +325,28 @@ bigint *bigint_modulus_old(bigint *a, bigint *b) {
 
 /* Bigint power function */
 bigint *bigint_pow(bigint *a, bigint *b) {
-    bigint *result, *i, *one, *previous;
+    bigint *result, *i, *one, *previous, *prev_i;
 
     i = create_bigint(b->length);
     one = create_bigint_from_string("1");
     result = create_bigint_from_string("1");
+
     previous = result;
+    prev_i = i;
 
     while (bigint_compare(i, b) < 0) {
         result = bigint_multiply(previous, a);
-        bigint_clear(previous);
+        i = bigint_add(prev_i, one);
+
+        bigint_clear(&previous);
         previous = result;
 
-        i = bigint_add(i, one);
+        bigint_clear(&prev_i);
+        prev_i = i;
     }
 
-    bigint_clear(previous);
-    bigint_clear(one);
-    bigint_clear(i);
+    bigint_clear(&one);
+    bigint_clear(&prev_i);
 
     return result;
 }
