@@ -43,7 +43,7 @@ int main (int argc, char *argv[]){
     /* If admin-mode has been set to true - then we run admin mod with choice to set-file-data or decrypt votes */
     if(admin_mode == TRUE){
         if(admin_check()){
-            printf("Press 1 to set vote-data or 2 for decryption of votes\n");
+            printf("Press 1 to set vote-data or 2 for decryption of votes, or press other number to exit program\n");
             scanf(" %d", &admin_choice);
             
             if(admin_choice == 2){

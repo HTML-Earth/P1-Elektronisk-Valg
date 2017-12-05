@@ -1,9 +1,9 @@
 #include "voting.h"
 
 int get_user_vote(stemmeseddel *generic_stemmeseddel){
-    int i, user_vote, temp, l_choice, done, enc_add = 2;
+    int i, user_vote, temp, l_choice, done = 0, enc_add = 2;
     
-    do{
+     while(!done){
         printf("Du stemmer i valgkreds %s\nDu har nu foelgende kandidater at stemme paa\n\n", generic_stemmeseddel->valgkreds_navn);
     
         for(i = 0; i < generic_stemmeseddel->antal_kandidater; i++){
@@ -12,7 +12,7 @@ int get_user_vote(stemmeseddel *generic_stemmeseddel){
 
         scanf(" %d", &temp);
 
-        if((temp < 0) || (temp > generic_stemmeseddel->antal_kandidater-1)){
+        if((temp < -1) || (temp > generic_stemmeseddel->antal_kandidater)){
             printf("Du har indtastet et forkert nummer - Proev igen\n");
             done = 0;
         }
@@ -37,13 +37,14 @@ int get_user_vote(stemmeseddel *generic_stemmeseddel){
                 user_vote = temp;
                 generic_stemmeseddel->kandidater[temp].stemmer += 1;
                 done = 1;
+                printf("Nu er done %d\n", done);
             }
             else{
                 done = 0;
+                printf("Done blev reset\n");
             }
         }
     }
-    while(!done);
 
     return user_vote+enc_add;
 }
