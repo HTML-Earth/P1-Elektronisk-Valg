@@ -25,3 +25,42 @@ void import_vote(single_vote *dec_votes, int *counted_votes){
     }
     fclose(vote_file);
 }
+
+int check_voting_data(char *file_name){
+
+    int scan_control, file_lines = 1;
+    FILE *fp;
+
+    fp = fopen(file_name, "r");
+    if (fp != NULL){
+      while((scan_control = fgetc(fp))  != EOF){
+        if (scan_control == '\n'){
+          file_lines++;
+        }
+      }
+    }
+    fclose(fp);
+    return file_lines;
+}
+
+  
+void import_voting_data(stemmeseddel *generic_stemmeseddel, char *file_name, char *valgkreds){
+
+    FILE *fp;
+    int  i = 0;   
+
+    strcpy(generic_stemmeseddel->valgkreds_navn, valgkreds);
+
+    fp = fopen(file_name, "r");
+     
+
+    if (fp != NULL){
+        while(!(feof(fp))){
+            fscanf(fp, " %[abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXZY.- ]:", generic_stemmeseddel->kandidater[i].navn);
+            i++;
+            generic_stemmeseddel->antal_kandidater += 1;      
+        }
+    }
+    fclose(fp);
+}
+  
