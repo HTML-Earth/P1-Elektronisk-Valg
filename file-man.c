@@ -43,6 +43,7 @@ void set_file_info(void){
         fprintf(fp, "%s\n%s\n", file_name, valgkreds); 
     }
     fclose(fp);
+    printf("File info has been set - Thank you\n");
 }
 
 
