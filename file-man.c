@@ -1,4 +1,5 @@
 #include "file-man.h"
+#include <string.h>
 
 void export_vote(char *v){
     FILE *vote_file;

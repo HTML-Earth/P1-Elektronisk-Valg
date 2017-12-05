@@ -1,19 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "structs.h"
 #include "file-man.h"
 
 int main(void){
     int i, data_in_file;
     stemmeseddel *aalborg_2015;
-    char *file_name;
-    char *valgkreds;
+    char file_name[MAX_CHARS];
+    char valgkreds[MAX_CHARS];
 
     printf("Enter Valgkreds:\n");
-    scanf(" %s", &valgkreds);
-    printf"Enter file name\n");
-    scanf(" %s", &file_name);   
+    scanf(" %s", valgkreds);
+    printf("Enter file name\n");
+    scanf(" %s", file_name);   
 
 
     aalborg_2015 = (stemmeseddel *)calloc(1,sizeof(stemmeseddel));  
@@ -22,7 +21,7 @@ int main(void){
 
     aalborg_2015->kandidater = (kandidat *)calloc(data_in_file, sizeof(kandidat));
     
-    load_file_data(aalborg_2015, file_name, valgkreds);
+    import_voting_data(aalborg_2015, file_name, valgkreds);
     
     printf("Du stemmer i %s\n", aalborg_2015->valgkreds_navn);
     for(i = 0; i < aalborg_2015->antal_kandidater; i++){
@@ -31,7 +30,3 @@ int main(void){
 
     return 0;
 }
-
-
-    
-
