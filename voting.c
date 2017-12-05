@@ -37,7 +37,6 @@ int get_user_vote(stemmeseddel *generic_stemmeseddel){
                 user_vote = temp;
                 generic_stemmeseddel->kandidater[temp].stemmer += 1;
                 done = 1;
-                printf("Nu er done %d\n", done);
             }
             else{
                 done = 0;
