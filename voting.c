@@ -7,7 +7,7 @@ int get_user_vote(stemmeseddel *generic_stemmeseddel){
         printf("Du stemmer i valgkreds %s\nDu har nu foelgende kandidater at stemme paa\n\n", generic_stemmeseddel->valgkreds_navn);
     
         for(i = 0; i < generic_stemmeseddel->antal_kandidater; i++){
-            printf("Kandidat %-40s - Tast %5d\n", generic_stemmeseddel->kandidater[i].navn, i);
+            printf("%-5d %-40s\n", i, generic_stemmeseddel->kandidater[i].navn);
         }
 
         scanf(" %d", &temp);
