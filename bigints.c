@@ -3,9 +3,10 @@
 /*static int bigints_allocated = 0;*/
 
 /* Creates an empty bigint with defined length */
-bigint *create_bigint (int length) {
+bigint *create_bigint (int base, int length) {
     bigint *b = (bigint *)calloc(1, sizeof(bigint));
 
+    b->base = base;
     b->length = 1;
     b->max_digits = length;
     b->digits = (int*)calloc(length, sizeof(int));
@@ -23,7 +24,7 @@ bigint *create_bigint_from_string(char *string) {
     bigint *b;
     int i, ph, j = 0;
 
-    b = create_bigint(strlen(string));
+    b = create_bigint(10, strlen(string));
     b->length = b->max_digits;
 
     for (i = b->max_digits - 1; i >= 0; i--) {
@@ -103,15 +104,15 @@ bigint *bigint_add(bigint *a, bigint *b) {
 
     length = (a->length > b->length) ? a->length : b->length;
 
-    result = create_bigint(length+1);
+    result = create_bigint(a->base, length+1);
 
     for (i = 0; i < length; i++) {
         temp_a = (i < a->length) ? a->digits[i] : 0;
         temp_b = (i < b->length) ? b->digits[i] : 0;
         added = temp_a + temp_b + mente;
 
-        if (added > (BIGINT_BASE - 1)) {
-            result->digits[i] = added - BIGINT_BASE;
+        if (added > (a->base - 1)) {
+            result->digits[i] = added - a->base;
             mente = 1;
             if (i == length-1)
                 length++;
@@ -135,19 +136,19 @@ bigint *bigint_subtract(bigint *a, bigint *b) {
     length = (a->length > b->length) ? a->length : b->length;
 
     /* create result variable */
-    result = create_bigint(length);
+    result = create_bigint(a->base, length);
 
     for (i = 0; i < length; i++) {
         /* use zero if i over length */
         temp_a = (i < a->length) ? a->digits[i] : 0;
         temp_b = (i < b->length) ? b->digits[i] : 0;
 
-        borrow = (temp_a < temp_b || temp_a < mente) ? BIGINT_BASE : 0;
+        borrow = (temp_a < temp_b || temp_a < mente) ? a->base : 0;
         subbed = temp_a - temp_b + borrow - mente;
         mente = (temp_a < temp_b || temp_a < mente) ? 1 : 0;
 
         if (subbed < 0) {
-            subbed += BIGINT_BASE;
+            subbed += a->base;
             mente = 1;
         }
 
@@ -175,7 +176,7 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
     str = (char *)calloc(a->length + b->length, sizeof(char));
 
     /* result max digits is combined digit amount */
-    result = create_bigint(a->length + b->length);
+    result = create_bigint(a->base, a->length + b->length);
 
     if ((a->length == 1 && a->digits[0] == 0) || (b->length == 1 && b->digits[0] == 0)){
         /* multiplication by 0, therefore the result is 0 */
@@ -222,7 +223,7 @@ bigint *bigint_multiply_old(bigint *a, bigint *b) {
     result = create_bigint_from_string("0");
 
     for (i = 0; i < b->length; i++) {
-        for (j = 0; j < custom_pow(BIGINT_BASE, i) * b->digits[i]; j++) {
+        for (j = 0; j < custom_pow(a->base, i) * b->digits[i]; j++) {
             result = bigint_add(result, a);
         }
     }
@@ -237,8 +238,8 @@ bigint *bigint_divide(bigint *a, bigint *b) {
 
     sum_length = (a->length > b->length) ? a->length : b->length;
 
-    sum = create_bigint(sum_length+1);
-    times = create_bigint(a->length);
+    sum = create_bigint(a->base, sum_length+1);
+    times = create_bigint(a->base, a->length);
     one = create_bigint_from_string("1");
 
     prev_sum = sum;
@@ -309,7 +310,7 @@ bigint *bigint_modulus(bigint *a, bigint *b) {
 bigint *bigint_modulus_old(bigint *a, bigint *b) {
     bigint *result;
 
-    result = create_bigint(b->length);
+    result = create_bigint(a->base, b->length);
 
     while (bigint_compare(result, a) < 0) {
         result = bigint_add(result, b);
@@ -327,7 +328,7 @@ bigint *bigint_modulus_old(bigint *a, bigint *b) {
 bigint *bigint_pow(bigint *a, bigint *b) {
     bigint *result, *i, *one, *previous, *prev_i;
 
-    i = create_bigint(b->length);
+    i = create_bigint(a->base, b->length);
     one = create_bigint_from_string("1");
     result = create_bigint_from_string("1");
 
