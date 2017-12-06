@@ -2,22 +2,25 @@
 #include <string.h>
 #include <stdlib.h>
 #define MAX_DIGITS 1000
+#define MAX_BASE 256
 
 typedef struct {
     int base;
     int length;
     int max_digits;
-    int *digits;
+    unsigned char *digits;
 } bigint;
 
 /* Creates an empty bigint with defined length */
 bigint *create_bigint(int base, int length);
 
 /* Creates a bigint from a string */
-bigint *create_bigint_from_string(char *string);
+bigint *create_bigint_from_string(int base, char *string);
 
 /* Creates a copy of b and returns a pointer to it */
 bigint *create_bigint_copy(bigint *b);
+
+bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0);
 
 /* Frees up a bigint's allocated digits */
 void bigint_clear (bigint **b);
