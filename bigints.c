@@ -325,7 +325,6 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
                 while (i > 0) {
                     i--;
                     sprintf(str + str_pos, "%d:", digits[i]);
-                    printf("str = %s\n", str);
 
                     if (digits[i] > 99)
                         str_pos += 4;
