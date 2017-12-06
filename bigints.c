@@ -116,7 +116,6 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
 
         digit++;
     }
-    printf("digit=%d\n", digit);
     bigint_clear(&temp_divide);
 
     /*allocate memory*/
