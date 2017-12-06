@@ -4,6 +4,7 @@
 # Backup files
 *.c~
 *.h~
+*~
 
 # Object files
 *.o
