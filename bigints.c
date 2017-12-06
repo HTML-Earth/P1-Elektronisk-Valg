@@ -11,7 +11,7 @@ bigint *create_bigint (int base, int length) {
         b->base = base;
         b->length = 1;
         b->max_digits = length;
-        b->digits = (unsigned char*)calloc(length, sizeof(unsigned char));
+        b->digits = (uint8_t*)calloc(length, sizeof(uint8_t));
     }
 
     /*if (b != NULL && b->digits != NULL)
@@ -57,7 +57,7 @@ bigint *create_bigint_from_string(int base, char *string) {
         {
             sscanf(str_pos + 1, "%d:", &number_int);
             str_pos = strchr(str_pos + 1, ':');
-            b->digits[i] = (unsigned char)number_int;
+            b->digits[i] = (uint8_t)number_int;
         }
     }
 
@@ -71,7 +71,7 @@ bigint *create_bigint_copy(bigint *b) {
     copy->base = b->base;
     copy->length = b->length;
     copy->max_digits = b->max_digits;
-    copy->digits = (unsigned char*)calloc(b->max_digits, sizeof(unsigned char));
+    copy->digits = (uint8_t*)calloc(b->max_digits, sizeof(uint8_t));
 
     /*if (copy != NULL && copy->digits != NULL)
         bigints_allocated++;*/
@@ -182,7 +182,16 @@ void bigint_print_string(char *str, bigint *b) {
 
     for (i = b->length - 1; i >= 0; i--) {
         sprintf(str+j, format, b->digits[i]);
-        j++;
+        if (b->base <= 10)
+            j++;
+        else {
+            if (b->digits[i] > 99)
+                j += 4;
+            else if (b->digits[i] > 9)
+                j += 3;
+            else
+                j += 2;
+        }
     }
 }
 
@@ -220,7 +229,7 @@ bigint *bigint_add(bigint *a, bigint *b) {
                 length++;
         }
         else {
-            result->digits[i] = (unsigned char)added;
+            result->digits[i] = (uint8_t)added;
             mente = 0;
         }
 
@@ -273,15 +282,17 @@ bigint *bigint_subtract(bigint *a, bigint *b) {
 /* Multiplies two bigints */
 bigint *bigint_multiply(bigint *a, bigint *b) {
     bigint *result, *previous, *temp;
-    int ia, ib, zeroes, tempint;
+    int ia, ib, zeroes, tempint, i, str_pos = 0;
     char str[MAX_DIGITS];
+    uint8_t digits[MAX_DIGITS];
 
     /*str = (char *)calloc(a->length + b->length + 1, sizeof(char));*/
 
     /* result max digits is combined digit amount */
     result = create_bigint(a->base, a->length + b->length);
 
-    if ((a->length == 1 && a->digits[0] == 0) || (b->length == 1 && b->digits[0] == 0)){
+    if ((a->length == 1 && a->digits[0] == 0) ||
+        (b->length == 1 && b->digits[0] == 0)) {
         /* multiplication by 0, therefore the result is 0 */
         /*free(str);*/
         return result;
@@ -298,8 +309,32 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
             /* add result to string */
             if (a->base <= 10)
                 sprintf(str, "%d", tempint);
-            else
+            else if (tempint < a->base) {
                 sprintf(str, "%d:", tempint);
+            }
+            else {
+                i = 0;
+                while (tempint >= a->base) {
+                    digits[i] = tempint % a->base;
+                    tempint = tempint / a->base;
+                    i++;
+                }
+                digits[i] = tempint % a->base;
+                tempint = tempint / a->base;
+                i++;
+                while (i > 0) {
+                    i--;
+                    sprintf(str + str_pos, "%d:", digits[i]);
+                    printf("str = %s\n", str);
+
+                    if (digits[i] > 99)
+                        str_pos += 4;
+                    else if (digits[i] > 9)
+                        str_pos += 3;
+                    else
+                        str_pos += 2;
+                }
+            }
 
             if (tempint > 0) {
                 /* add zeroes to end of string */

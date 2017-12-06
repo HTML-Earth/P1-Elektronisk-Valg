@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #define MAX_DIGITS 10000
 #define MAX_BASE 256
 
@@ -8,7 +9,7 @@ typedef struct {
     int base;
     int length;
     int max_digits;
-    unsigned char *digits;
+    uint8_t *digits;
 } bigint;
 
 /* Creates an empty bigint with defined length */
