@@ -5,23 +5,14 @@
 /* Creates an empty bigint with defined length */
 bigint *create_bigint (int base, int length) {
     bigint *b;
-    printf("help\n");
 
     b = (bigint *)calloc(1, sizeof(bigint));
-    printf("calloc bigint\n");
     if (b != NULL) {
         b->base = base;
         b->length = 1;
         b->max_digits = length;
         b->digits = (unsigned char*)calloc(length, sizeof(unsigned char));
-
-        if (b->digits != NULL)
-            printf("calloc digits\n");
-        else
-            printf("fail\n");
     }
-    else
-        printf("fail\n");
 
     /*if (b != NULL && b->digits != NULL)
         bigints_allocated++;*/
@@ -50,7 +41,6 @@ bigint *create_bigint_from_string(int base, char *string) {
         }
     }
 
-    printf("base: %d digits: %d\n", base, digits);
     b = create_bigint(base, digits);
 
     b->length = b->max_digits;
@@ -126,7 +116,7 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
 
         digit++;
     }
-
+    printf("digit=%d\n", digit);
     bigint_clear(&temp_divide);
 
     /*allocate memory*/
@@ -217,7 +207,7 @@ bigint *bigint_add(bigint *a, bigint *b) {
 
     length = (a->length > b->length) ? a->length : b->length;
 
-    result = create_bigint(a->base, length+1);
+    result = create_bigint(a->base, length + 1);
 
     for (i = 0; i < length; i++) {
         temp_a = (i < a->length) ? a->digits[i] : 0;
@@ -231,9 +221,10 @@ bigint *bigint_add(bigint *a, bigint *b) {
                 length++;
         }
         else {
-            result->digits[i] = added;
+            result->digits[i] = (unsigned char)added;
             mente = 0;
         }
+
     }
     result->length = length;
 
@@ -284,16 +275,16 @@ bigint *bigint_subtract(bigint *a, bigint *b) {
 bigint *bigint_multiply(bigint *a, bigint *b) {
     bigint *result, *previous, *temp;
     int ia, ib, zeroes, tempint;
-    char *str;
+    char str[MAX_DIGITS];
 
-    str = (char *)calloc(a->length + b->length, sizeof(char));
+    /*str = (char *)calloc(a->length + b->length + 1, sizeof(char));*/
 
     /* result max digits is combined digit amount */
     result = create_bigint(a->base, a->length + b->length);
 
     if ((a->length == 1 && a->digits[0] == 0) || (b->length == 1 && b->digits[0] == 0)){
         /* multiplication by 0, therefore the result is 0 */
-        free(str);
+        /*free(str);*/
         return result;
     }
 
@@ -304,7 +295,6 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
         for (ib = 0; ib < b->length; ib++) {
             /* multiply ints */
             tempint = a->digits[ia] * b->digits[ib];
-            printf("\n%d * %d = %d\n", a->digits[ia], b->digits[ib], tempint);
 
             /* add result to string */
             if (a->base <= 10)
@@ -322,16 +312,11 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
                 }
             }
 
-            printf("string: %s\n", str);
-            printf("base: %d\n", a->base);
-
             /* make bigint from string, and add to overall result */
             temp = create_bigint_from_string(a->base, str);
 
-            bigint_print(temp);
-            printf("\n");
-
             result = bigint_add(previous, temp);
+
 
             bigint_clear(&temp);
 
@@ -340,7 +325,7 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
         }
     }
 
-    free(str);
+    /*free(str);*/
 
     return result;
 }
@@ -367,7 +352,7 @@ bigint *bigint_divide(bigint *a, bigint *b) {
 
     sum_length = (a->length > b->length) ? a->length : b->length;
 
-    sum = create_bigint(a->base, sum_length+1);
+    sum = create_bigint(a->base, sum_length + 1);
     times = create_bigint(a->base, a->length);
 
     if (a->base <= 10)

@@ -71,8 +71,8 @@ void manual_test()
 
 void automated_test() {
     bigint *a, *b, *r, *r2;
-    a = create_bigint_from_string(256, "1:0:0:0:");
-    b = create_bigint_from_string(256, "1:0:");
+    a = create_bigint_from_string(256, "5:0:");
+    b = create_bigint_from_string(256, "1:0:0:");
 
     bigint_print(a);
     printf("\n");

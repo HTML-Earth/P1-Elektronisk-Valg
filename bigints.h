@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define MAX_DIGITS 1000
+#define MAX_DIGITS 10000
 #define MAX_BASE 256
 
 typedef struct {
