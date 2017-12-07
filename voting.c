@@ -1,53 +1,98 @@
-#include "voting.h"
+#include    "encryption.h"
+#include    "voting.h"
 
-int get_user_vote(stemmeseddel *generic_stemmeseddel){
-    int i, user_vote, temp, l_choice, done = 0, enc_add = 2;
+#define TRUE 1
+#define FALSE 0
+
+int admin_check(void);
+
+void print_votes(single_vote *dec_votes, int *counted_votes);
+
+int main (int argc, char *argv[]){
+    int admin_choice, user_vote, i, candidates, admin_mode = 0, counted_votes = 0;
+    char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
+    single_vote enc_votes[MAX_VOTES], dec_votes[MAX_VOTES];
+    bigint *temp_bigint_vote;
+    stemmeseddel *kandidat_data;
     
-     while(!done){
-        printf("Du stemmer i valgkreds %s\nDu har nu foelgende kandidater at stemme paa\n\n", generic_stemmeseddel->valgkreds_navn);
-    
-        for(i = 0; i < generic_stemmeseddel->antal_kandidater; i++){
-            printf("%-5d %-40s\n", i, generic_stemmeseddel->kandidater[i].navn);
-        }
+    /* Make admin check to ensure only trusted person can gain access to decryption */
+    if(admin_check()){
+        printf("Press 1 to set vote-data or 2 for decryption of votes, or press other number to exit program\n");
+        scanf(" %d", &admin_choice);
 
-        scanf(" %d", &temp);
+        if(admin_choice == 1){
+            set_file_info();
+        }           
+        else if(admin_choice == 2){                    
+            import_enc_vote(enc_votes, &counted_votes);
 
-        if((temp < -1) || (temp > generic_stemmeseddel->antal_kandidater)){
-            printf("Du har indtastet et forkert nummer - Proev igen\n");
-            done = 0;
-        }
+            for (i = 0; i < counted_votes; i++){
+                temp_bigint_vote = create_bigint_from_string(10,enc_votes[i].vote);
+                temp_bigint_vote = decryption(temp_bigint_vote);
+                bigint_print_string(string_vote, temp_bigint_vote);
+                strcpy(dec_votes[i].vote, string_vote);
+            }
+            printf("Votes have been decrypted - Do you wish to count votes for each candidate press 1 - press other number to exit program\n");
+            scanf(" %d", &admin_choice);
 
-        else if(temp == -1){
-            printf("Do you wish to enter admin-mode - if yes enter -1, else enter 0 to start voting-program again\n");
-            scanf(" %d", &temp);
-            if(temp == -1){
-                done = 1;
-                user_vote = temp;
-                printf("Entering admin-mode\n");
+            if(admin_choice == 1){
+                /* If we want to count votes, we must first collect candidate data, to compare with our decrypted votes that are int-values */
+                kandidat_data = (stemmeseddel *)calloc(1,sizeof(stemmeseddel));
+                load_file_info(file_name, valgkreds);
+                candidates = check_voting_data(file_name);
+
+                kandidat_data->kandidater = (kandidat *)calloc(candidates,sizeof(kandidat));
+                import_voting_data(kandidat_data, file_name, valgkreds);
+
+                count_votes(dec_votes, &counted_votes, kandidat_data);
+                print_voting_result(kandidat_data);
             }
-            else{
-                done = 0;
-            }
+            else printf("Exiting program\n");    
         }
-        else{
-            printf("Du har indtastet %d, for at stemme paa %s\nEr dette korrekt? tast 1 - Ellers tast vilkaarligt for at proeve igen\n", temp, generic_stemmeseddel->kandidater[temp].navn);
-            scanf(" %d", &l_choice);
-    
-            if(l_choice == 1){
-                user_vote = temp;
-                generic_stemmeseddel->kandidater[temp].stemmer += 1;
-                done = 1;
-            }
-            else{
-                done = 0;
-                printf("Done blev reset\n");
-            }
-        }
+        else printf("Input with no function entered - Ending Program\n");
     }
-
-    return user_vote+enc_add;
+    else printf("Failed admin check - closing program\n");
+        
+    return(0);
 }
-  
 
-    
+/* checks if admin-pin is entered - maximum 3 tries - if wrong then exit program */
+int admin_check(void){
+    char pincheck[12], pin[12];
+    FILE *pinregistry;
+    int check, tries = 0;
 
+    pinregistry = fopen("pin.txt","r");
+
+    fscanf(pinregistry, "%s", pincheck);
+
+    fclose(pinregistry);
+
+    do{
+       
+        printf("Please enter your admin pin.\n");
+        scanf("%s",pin); 
+
+        if(strcmp(pincheck , pin) ==0){
+            check = TRUE;
+            tries = 3;
+        }
+
+        else {
+            check = FALSE;
+            printf("Wrong pin - try again\n");
+        }
+        tries++;
+    }
+    while(tries < 3);
+    return check;
+}
+
+
+void print_votes(single_vote *dec_votes, int *counted_votes){
+    int i;
+
+    for(i = 0; i < *counted_votes; i++){
+        printf("Vote: %s\n", dec_votes[i].vote);
+    }
+}

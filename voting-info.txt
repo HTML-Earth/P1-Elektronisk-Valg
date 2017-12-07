@@ -1,2 +1,2 @@
 stemmeseddel.txt
-Viborg
+Aalborg

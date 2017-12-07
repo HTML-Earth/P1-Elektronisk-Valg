@@ -10,7 +10,6 @@ typedef struct{
     kandidat *kandidater;
     char valgkreds_navn[MAX_CHARS];
     int antal_kandidater;
-    int stemmer;
 }stemmeseddel;
 
 typedef struct{
