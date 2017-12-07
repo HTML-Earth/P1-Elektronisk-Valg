@@ -524,10 +524,16 @@ bigint *bigint_pow(bigint *a, bigint *b) {
 bigint *bigint_pow(bigint *a, bigint *b) {
     bigint *zero, *one, *two,
     *result, *subtracted, *multiplied, *divided, *mod, *raised;
+    char number[3];
 
-    zero = create_bigint_from_string(a->base, "0");
-    one = create_bigint_from_string(a->base, "1");
-    two = create_bigint_from_string(a->base, "2");
+    sprintf(number, (a->base <= 10) ? "%d" : "%d:", 0);
+    zero = create_bigint_from_string(a->base, number);
+
+    sprintf(number, (a->base <= 10) ? "%d" : "%d:", 1);
+    one = create_bigint_from_string(a->base, number);
+
+    sprintf(number, (a->base <= 10) ? "%d" : "%d:", 2);
+    two = create_bigint_from_string(a->base, number);
 
     if (bigint_compare(b, one) == 1) {
 

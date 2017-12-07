@@ -156,8 +156,8 @@ void automated_test() {
     printf("TESTING bigint_pow:\n\n");
     test_pow("10","2","100");
     test_pow("10","3","1000");
-    /*
     test_pow("10","10","10000000000");
+    /*
     test_pow("10", "100", "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
     test_pow("9", "100", "265613988875874769338781322035779626829233452653394495974574961739092490901302182994384699044001");
     test_pow("10", "383", "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
@@ -255,25 +255,28 @@ void test_generic(int base, char *a, char *b, char *expected, char symbol) {
     bigint_clear(&bi_b);
 
     printf("Got %s\n", str_actual);
-    printf("Calculation took: %5.4f seconds (%d clocks)\n\n", total_t, end_t - start_t);
+    printf("[Calculated in %5.4f sec (%d clocks)]\n\n", total_t, end_t - start_t);
     assert((strcmp(expected, str_actual)) == 0);
 }
 
 void test_generic_base256(char *a, char *b, char *expected, char symbol) {
     bigint *bi_a, *bi_b, *bi_a_256, *bi_b_256, *bi_expected, *bi_expected_256;
     char str_a[MAX_DIGITS], str_b[MAX_DIGITS], str_expected[MAX_DIGITS];
+    clock_t start_t, end_t;
+    double total_t;
 
+    start_t = clock();
     printf("Converting");
     bi_a = create_bigint_from_string(10, a); printf(".");
     bi_b = create_bigint_from_string(10, b); printf(".");
-    bi_expected = create_bigint_from_string(10, expected); printf(".");
+    bi_expected = create_bigint_from_string(10, expected); printf(". ");
 
     bi_a_256 = bigint_convert_base(bi_a, 256, 2, 5, 6);
     bigint_clear(&bi_a); printf(".");
     bi_b_256 = bigint_convert_base(bi_b, 256, 2, 5, 6);
     bigint_clear(&bi_b); printf(".");
     bi_expected_256 = bigint_convert_base(bi_expected, 256, 2, 5, 6);
-    bigint_clear(&bi_expected); printf(".");
+    bigint_clear(&bi_expected); printf(". ");
 
     bigint_print_string(str_a, bi_a_256);
     bigint_clear(&bi_a_256); printf(".");
@@ -281,7 +284,11 @@ void test_generic_base256(char *a, char *b, char *expected, char symbol) {
     bigint_clear(&bi_b_256); printf(".");
     bigint_print_string(str_expected, bi_expected_256);
     bigint_clear(&bi_expected_256); printf(".");
-    printf("DONE\n");
+    printf("DONE");
+
+    end_t = clock();
+    total_t = (double)(end_t - start_t) / (double)CLOCKS_PER_SEC;
+    printf(" [%4.3f sec]\n", total_t, end_t - start_t);
 
     test_generic(256, str_a, str_b, str_expected, symbol);
 }
