@@ -485,6 +485,7 @@ bigint *bigint_modulus_old(bigint *a, bigint *b) {
 }
 
 /* Bigint power function */
+/*
 bigint *bigint_pow(bigint *a, bigint *b) {
     bigint *result, *i, *one, *previous, *prev_i;
 
@@ -519,33 +520,77 @@ bigint *bigint_pow(bigint *a, bigint *b) {
     return result;
 }
 
-/*
+*/
 bigint *bigint_pow(bigint *a, bigint *b) {
-
-    bigint *zero, *one, *two;
+    bigint *zero, *one, *two,
+    *result, *subtracted, *multiplied, *divided, *mod, *raised;
 
     zero = create_bigint_from_string(a->base, "0");
     one = create_bigint_from_string(a->base, "1");
     two = create_bigint_from_string(a->base, "2");
 
-if (bigint_compare(b, one) == 1){
-  if (bigint_compare(bigint_modulus(b, two), zero) == 0)
-  {
-    return bigint_pow(bigint_multiply(a, a), bigint_divide(b,two));
-  }
-  else
-  {
-    return bigint_multiply(a, bigint_pow(bigint_multiply(a, a), bigint_divide(bigint_subtract(b , one),two)));
-  }
+    if (bigint_compare(b, one) == 1) {
 
+        mod = bigint_modulus(b, two);
+
+        if (bigint_compare(mod, zero) == 0) {
+            bigint_clear(&one);
+            bigint_clear(&mod);
+            bigint_clear(&zero);
+
+            multiplied = bigint_multiply(a, a);
+
+            divided = bigint_divide(b,two);
+            bigint_clear(&two);
+
+            result = bigint_pow(multiplied, divided);
+            bigint_clear(&multiplied);
+            bigint_clear(&divided);
+
+            return result;
+        }
+        else {
+            bigint_clear(&mod);
+            bigint_clear(&zero);
+
+            multiplied = bigint_multiply(a, a);
+
+            subtracted = bigint_subtract(b, one);
+            bigint_clear(&one);
+
+            divided = bigint_divide(subtracted, two);
+            bigint_clear(&subtracted);
+            bigint_clear(&two);
+
+            raised = bigint_pow(multiplied, divided);
+            bigint_clear(&multiplied);
+            bigint_clear(&divided);
+
+            result = bigint_multiply(a, raised);
+            bigint_clear(&raised);
+
+            return result;
+        }
+    }
+    else if(bigint_compare(b, zero) == 0) {
+        bigint_clear(&two);
+        bigint_clear(&zero);
+
+        result = create_bigint_copy(one);
+        bigint_clear(&one);
+
+        return result;
+    }
+    else {
+        bigint_clear(&two);
+        bigint_clear(&zero);
+        bigint_clear(&one);
+
+        result = create_bigint_copy(a);
+
+        return result;
+    }
 }
-else if(bigint_compare(b, zero) == 0){
-  return one;
-}
-else
-  return a;
-}
-*/
 
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
 int bigint_compare(bigint *a, bigint *b) {
