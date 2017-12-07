@@ -29,7 +29,7 @@ int main(void){
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint *encryption(int v){
-    bigint *e, *n, *bv;
+    bigint *e, *n, *bv, *i, *c, *one;
     char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
 
@@ -44,11 +44,20 @@ bigint *encryption(int v){
     fclose(value);
 
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
-
+    i = create_bigint_from_string(10, "0");
     e = create_bigint_from_string(10, estring);
     n = create_bigint_from_string(10, nstring);
-
-    return bigint_modulus(bigint_pow(bv, e), n);
+    c = create_bigint_from_string(10, "1");
+    one = create_bigint_from_string(10, "1");
+    
+    while(bigint_compare(i, e) == -1){
+           c = bigint_modulus(bigint_multiply(c, bv), n); 
+           bigint_add(i, one);
+       }
+    printf("I was in the loop maaaan\n");
+    return c;
+    
+    /*return bigint_modulus(bigint_pow(bv, e), n);*/
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
