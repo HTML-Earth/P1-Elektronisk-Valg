@@ -52,9 +52,8 @@ bigint *encryption(int v){
     
     while(bigint_compare(i, e) == -1){
            c = bigint_modulus(bigint_multiply(c, bv), n); 
-           bigint_add(i, one);
+           i = bigint_add(i, one);
        }
-    printf("I was in the loop maaaan\n");
     return c;
     
     /*return bigint_modulus(bigint_pow(bv, e), n);*/
@@ -62,7 +61,7 @@ bigint *encryption(int v){
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
 bigint *decryption(bigint *c){
-    bigint *n, *d, *two;
+    bigint *n, *d, *two, *one, *nc, *i;
     char nstring[CHARLENGTH], dstring[CHARLENGTH];
     FILE *value;
 
@@ -72,10 +71,19 @@ bigint *decryption(bigint *c){
 
     fclose(value);
 
+    i = create_bigint_from_string(10, "0");
+    nc = create_bigint_from_string(10, "1");
+    one = create_bigint_from_string(10, "1");
     d = create_bigint_from_string(10, dstring);
-    n = create_bigint_from_string(10, nstring);
-    
+    n = create_bigint_from_string(10, nstring); 
     two = create_bigint_from_string(10, "2");
 
-    return bigint_subtract(bigint_modulus(bigint_pow(c, d ), n),two);
+    
+    while(bigint_compare(i, d) == -1){
+           nc = bigint_modulus(bigint_multiply(nc, c), n); 
+           i = bigint_add(i, one);
+       }
+    return bigint_subtract(nc, two);
+
+/*    return bigint_subtract(bigint_modulus(bigint_pow(c, d ), n),two); */
 }
