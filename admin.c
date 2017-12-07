@@ -1,7 +1,7 @@
 #include    "encryption.h"
 #include    "voting.h"
 
-int main (int argc, char *argv[]){
+int main (void){
     int admin_choice, user_vote, i, candidates, done = 0, admin_mode = 0, counted_votes = 0;
     char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
     single_vote enc_votes[MAX_VOTES], dec_votes[MAX_VOTES];
