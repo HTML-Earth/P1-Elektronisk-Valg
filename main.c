@@ -51,7 +51,7 @@ int main (int argc, char *argv[]){
                 import_enc_vote(enc_votes, &counted_votes);
 
                 for (i = 0; i < counted_votes; i++){
-                    temp_vote = create_bigint_from_string(enc_votes[i].vote);
+                    temp_vote = create_bigint_from_string(10,enc_votes[i].vote);
                     temp_vote = decryption(temp_vote);
                     bigint_print_string(string_vote, temp_vote);
                     strcpy(dec_votes[i].vote, string_vote);

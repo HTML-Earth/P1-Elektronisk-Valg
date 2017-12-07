@@ -41,7 +41,7 @@ bigint *encryption(int v){
 
     /* create a string and bigint from vote value */
     sprintf(vote, "%d", v);
-    bv = create_bigint_from_string(vote);
+    bv = create_bigint_from_string(10, vote);
 
     value = fopen("encryption_values.txt","r");
 
@@ -51,8 +51,8 @@ bigint *encryption(int v){
 
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
 
-    e = create_bigint_from_string(estring);
-    n = create_bigint_from_string(nstring);
+    e = create_bigint_from_string(10, estring);
+    n = create_bigint_from_string(10, nstring);
 
     return bigint_modulus(bigint_pow(bv, e), n);
 }
@@ -69,8 +69,8 @@ bigint *decryption(bigint *c){
 
     fclose(value);
 
-    d = create_bigint_from_string(dstring);
-    n = create_bigint_from_string(nstring);
+    d = create_bigint_from_string(10, dstring);
+    n = create_bigint_from_string(10, nstring);
 
 
     return bigint_modulus(bigint_pow(c, d ), n);
