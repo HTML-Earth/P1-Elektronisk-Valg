@@ -33,13 +33,14 @@ void set_file_info(void){
     FILE *fp;
     char file_name[MAX_CHARS], valgkreds[MAX_CHARS];
 
+    printf("Enter Valgkreds:\n");
+    scanf(" %s", valgkreds);
+    printf("Enter file name\n");
+    scanf(" %s", file_name); 
+
     fp = fopen("voting-info.txt", "w");
     if (fp != NULL){
-        printf("Enter Valgkreds:\n");
-        scanf(" %s", valgkreds);
-        printf("Enter file name\n");
-        scanf(" %s", file_name); 
-
+        
         fprintf(fp, "%s\n%s\n", file_name, valgkreds); 
     }
     fclose(fp);

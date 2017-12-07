@@ -25,6 +25,7 @@ int main (void){
         }           
         else if(admin_choice == 2){                    
             import_enc_vote(enc_votes, &counted_votes);
+            print_votes(enc_votes, &counted_votes);
 
             for (i = 0; i < counted_votes; i++){
                 temp_bigint_vote = create_bigint_from_string(10,enc_votes[i].vote);
