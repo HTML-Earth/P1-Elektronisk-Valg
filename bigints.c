@@ -519,6 +519,34 @@ bigint *bigint_pow(bigint *a, bigint *b) {
     return result;
 }
 
+/*
+bigint *bigint_pow(bigint *a, bigint *b) {
+
+    bigint *zero, *one, *two;
+
+    zero = create_bigint_from_string(a->base, "0");
+    one = create_bigint_from_string(a->base, "1");
+    two = create_bigint_from_string(a->base, "2");
+
+if (bigint_compare(b, one) == 1){
+  if (bigint_compare(bigint_modulus(b, two), zero) == 0)
+  {
+    return bigint_pow(bigint_multiply(a, a), bigint_divide(b,two));
+  }
+  else
+  {
+    return bigint_multiply(a, bigint_pow(bigint_multiply(a, a), bigint_divide(bigint_subtract(b , one),two)));
+  }
+
+}
+else if(bigint_compare(b, zero) == 0){
+  return one;
+}
+else
+  return a;
+}
+*/
+
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
 int bigint_compare(bigint *a, bigint *b) {
     if (a->length > b->length)
