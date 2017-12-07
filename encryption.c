@@ -26,12 +26,6 @@ int main(void){
 }
 */
 
-/* Gets the vote from user and stores in v-variable */
-void get_vote(char *v){
-
-    printf("Enter a positive integer below 20, as a symbol for a vote\n");
-    scanf(" %s", v);
-}
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint *encryption(int v){
