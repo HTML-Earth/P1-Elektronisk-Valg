@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <time.h>
 #include "bigints.h"
 
 #define MAX_NUMBER 10
@@ -12,7 +13,7 @@ void test_divide(char *a, char *b, char *expected);
 void test_modulus(char *a, char *b, char *expected);
 void test_pow(char *a, char *b, char *expected);
 void test_compare(char *a, char *b, int expected);
-void test_generic(char *a, char *b, char *expected, char symbol);
+void test_generic(int base, char *a, char *b, char *expected, char symbol);
 void test_generic_base256(char *a, char *b, char *expected, char symbol);
 
 int main(int argc, char *argv[]){
@@ -127,6 +128,8 @@ void automated_test() {
     test_multiply("2","5","10");
     test_multiply("25","25","625");
     test_multiply("999999","0","0");
+    test_multiply("10000","10","100000");
+    test_multiply("1000000","10","10000000");
 
     printf("TESTING bigint_divide:\n\n");
     test_divide("10","2","5");
@@ -218,14 +221,18 @@ void test_compare(char *a, char *b, int expected) {
     assert(expected == actual);
 }
 
-void test_generic(char *a, char *b, char *expected, char symbol) {
+void test_generic(int base, char *a, char *b, char *expected, char symbol) {
     bigint *bi_a, *bi_b, *bi_actual;
     char str_actual[MAX_DIGITS];
+    clock_t start_t, end_t;
+    double total_t;
 
     printf("    %s\n  %c %s\n  = %s\n", a, symbol, b, expected);
 
-    bi_a = create_bigint_from_string(10, a);
-    bi_b = create_bigint_from_string(10, b);
+    bi_a = create_bigint_from_string(base, a);
+    bi_b = create_bigint_from_string(base, b);
+
+    start_t = clock();
 
     switch (symbol){
         case '+' : bi_actual = bigint_add(bi_a, bi_b);      break;
@@ -237,6 +244,9 @@ void test_generic(char *a, char *b, char *expected, char symbol) {
         default : printf("Invalid symbol\n");
     }
 
+    end_t = clock();
+    total_t = (double)(end_t - start_t) / (double)CLOCKS_PER_SEC;
+
     bigint_print_string(str_actual, bi_actual);
 
     bigint_clear(&bi_actual);
@@ -244,53 +254,34 @@ void test_generic(char *a, char *b, char *expected, char symbol) {
     bigint_clear(&bi_a);
     bigint_clear(&bi_b);
 
-    printf("Got %s\n\n", str_actual);
+    printf("Got %s\n", str_actual);
+    printf("Calculation took: %5.4f seconds (%d clocks)\n\n", total_t, end_t - start_t);
     assert((strcmp(expected, str_actual)) == 0);
 }
 
 void test_generic_base256(char *a, char *b, char *expected, char symbol) {
-    bigint *bi_a, *bi_b, *bi_a_256, *bi_b_256, *bi_expected, *bi_expected_256, *bi_actual;
-    char str_256[MAX_DIGITS], str_actual[MAX_DIGITS];
+    bigint *bi_a, *bi_b, *bi_a_256, *bi_b_256, *bi_expected, *bi_expected_256;
+    char str_a[MAX_DIGITS], str_b[MAX_DIGITS], str_expected[MAX_DIGITS];
 
-    bi_a = create_bigint_from_string(10, a);
-    bi_b = create_bigint_from_string(10, b);
-    bi_expected = create_bigint_from_string(10, expected);
+    printf("Converting");
+    bi_a = create_bigint_from_string(10, a); printf(".");
+    bi_b = create_bigint_from_string(10, b); printf(".");
+    bi_expected = create_bigint_from_string(10, expected); printf(".");
 
     bi_a_256 = bigint_convert_base(bi_a, 256, 2, 5, 6);
+    bigint_clear(&bi_a); printf(".");
     bi_b_256 = bigint_convert_base(bi_b, 256, 2, 5, 6);
+    bigint_clear(&bi_b); printf(".");
     bi_expected_256 = bigint_convert_base(bi_expected, 256, 2, 5, 6);
-    bigint_print_string(str_256, bi_expected_256);
+    bigint_clear(&bi_expected); printf(".");
 
-    printf("    %3s = ", a);
-    bigint_print(bi_a_256);
-    printf("\n  %c %3s = ", symbol, b);
-    bigint_print(bi_b_256);
-    printf("\n  = %3s = %s\n", expected, str_256);
-    printf("\n");
+    bigint_print_string(str_a, bi_a_256);
+    bigint_clear(&bi_a_256); printf(".");
+    bigint_print_string(str_b, bi_b_256);
+    bigint_clear(&bi_b_256); printf(".");
+    bigint_print_string(str_expected, bi_expected_256);
+    bigint_clear(&bi_expected_256); printf(".");
+    printf("DONE\n");
 
-    bigint_clear(&bi_a);
-    bigint_clear(&bi_b);
-
-    bigint_clear(&bi_expected);
-    bigint_clear(&bi_expected_256);
-
-    switch (symbol){
-        case '+' : bi_actual = bigint_add(bi_a_256, bi_b_256);      break;
-        case '-' : bi_actual = bigint_subtract(bi_a_256, bi_b_256); break;
-        case '*' : bi_actual = bigint_multiply(bi_a_256, bi_b_256); break;
-        case '/' : bi_actual = bigint_divide(bi_a_256, bi_b_256);   break;
-        case 'p' : bi_actual = bigint_pow(bi_a_256, bi_b_256);      break;
-        case '%' : bi_actual = bigint_modulus(bi_a_256, bi_b_256);  break;
-        default : printf("Invalid symbol\n");
-    }
-
-    bigint_print_string(str_actual, bi_actual);
-
-    bigint_clear(&bi_actual);
-
-    bigint_clear(&bi_a_256);
-    bigint_clear(&bi_b_256);
-
-    printf("Got %s\n\n", str_actual);
-    assert((strcmp(str_256, str_actual)) == 0);
+    test_generic(256, str_a, str_b, str_expected, symbol);
 }

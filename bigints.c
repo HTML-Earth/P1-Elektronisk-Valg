@@ -282,7 +282,7 @@ bigint *bigint_subtract(bigint *a, bigint *b) {
 /* Multiplies two bigints */
 bigint *bigint_multiply(bigint *a, bigint *b) {
     bigint *result, *previous, *temp;
-    int ia, ib, zeroes, tempint, i, str_pos = 0;
+    int ia, ib, zeroes, initial_value, tempint, i, str_pos = 0;
     char str[MAX_DIGITS];
     uint8_t digits[MAX_DIGITS];
 
@@ -304,8 +304,10 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
     for (ia = 0; ia < a->length; ia++) {
         for (ib = 0; ib < b->length; ib++) {
             /* multiply ints */
-            tempint = a->digits[ia] * b->digits[ib];
+            initial_value = a->digits[ia] * b->digits[ib];
+            tempint = initial_value;
 
+            str_pos = 0;
             /* add result to string */
             if (a->base <= 10)
                 sprintf(str, "%d", tempint);
@@ -335,7 +337,8 @@ bigint *bigint_multiply(bigint *a, bigint *b) {
                 }
             }
 
-            if (tempint > 0) {
+
+            if (initial_value > 0) {
                 /* add zeroes to end of string */
                 for (zeroes = 0; zeroes < ia + ib; zeroes++) {
                     if (a->base <= 10)
