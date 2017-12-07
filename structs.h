@@ -13,7 +13,7 @@ typedef struct{
 }stemmeseddel;
 
 typedef struct{
-  char vote[1000];
+  char vote[10000];
 } single_vote;
 
 
