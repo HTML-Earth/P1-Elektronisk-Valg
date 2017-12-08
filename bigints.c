@@ -385,7 +385,65 @@ bigint *bigint_multiply_old(bigint *a, bigint *b) {
     return result;
 }
 
-/* Divides two bigints */
+bigint *bigint_divide(bigint *a, bigint *b){
+    bigint *sum, *sum_prev, *subtractor, *times, *times_prev, *add_bigint;
+    char b_str[MAX_DIGITS], add_str[MAX_DIGITS];
+    int i, zeroes;
+
+        times = create_bigint(a->base, a->length);
+        times_prev = times;
+
+        sum = create_bigint_copy(a);
+        sum_prev = sum;
+
+
+        do {
+            memset(b_str, '\0', MAX_DIGITS);
+            memset(add_str, '\0', MAX_DIGITS);
+            bigint_print_string(b_str, b);
+
+            if(a->base <= 10)
+                strcpy(add_str, "1");
+            else
+                strcpy(add_str, "1:");
+
+            if (sum->length > b->length + 1) {
+                zeroes = sum->length - b->length - 1;
+
+                for (i = 0; i < zeroes; i++)
+                {
+                    if (a->base <= 10){
+                        strcat(b_str, "0");
+                        strcat(add_str, "0");
+                    }
+                    else{
+                        strcat(b_str, "0:");
+                        strcat(add_str, "0:");
+                    }
+                }
+            }
+           
+            add_bigint = create_bigint_from_string(a->base, add_str);
+            subtractor = create_bigint_from_string(a->base, b_str);
+            sum = bigint_subtract(sum, subtractor);
+            times = bigint_add(times, add_bigint);
+                  
+            bigint_clear(&times_prev);
+            bigint_clear(&subtractor);
+            bigint_clear(&sum_prev);
+            
+            times_prev = times;
+            sum_prev = sum;
+        }
+        while (bigint_compare(sum, b) >= 0);
+
+        return times;
+    
+}
+
+
+/* Divides two bigints - old multiply */
+/*
 bigint *bigint_divide(bigint *a, bigint *b) {
     bigint *sum, *prev_sum, *times, *prev_times, *one;
     int sum_length;
@@ -421,7 +479,7 @@ bigint *bigint_divide(bigint *a, bigint *b) {
 
     return times;
 }
-
+*/
 /* a % b */
 bigint *bigint_modulus(bigint *a, bigint *b) {
     bigint *result, *previous, *subtractor;
