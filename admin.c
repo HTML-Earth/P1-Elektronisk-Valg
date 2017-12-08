@@ -6,15 +6,13 @@
 
 int admin_check(void);
 
-void print_votes(single_vote *dec_votes, int *counted_votes);
-
 int main (void){
     int admin_choice, i, candidates, counted_votes = 0;
     char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
     single_vote enc_votes[MAX_VOTES], dec_votes[MAX_VOTES];
     bigint *temp_bigint_vote;
     stemmeseddel *kandidat_data;
-    
+
     /* Make admin check to ensure only trusted person can gain access to decryption */
     if(admin_check()){
         printf("Press 1 to set vote-data or 2 for decryption of votes, or press other number to exit program\n");
@@ -22,11 +20,11 @@ int main (void){
 
         if(admin_choice == 1){
             set_file_info();
-        }           
-        else if(admin_choice == 2){                    
+        }
+        else if(admin_choice == 2){
             import_enc_vote(enc_votes, &counted_votes);
-            print_votes(enc_votes, &counted_votes);
 
+            /*Encrypted votes are strings - convert to bigint before decryption - after we copy our decrypted vote to struct of single votes */
             for (i = 0; i < counted_votes; i++){
                 temp_bigint_vote = create_bigint_from_string(10,enc_votes[i].vote);
                 temp_bigint_vote = decryption(temp_bigint_vote);
@@ -48,12 +46,12 @@ int main (void){
                 count_votes(dec_votes, &counted_votes, kandidat_data);
                 print_voting_result(kandidat_data);
             }
-            else printf("Exiting program\n");    
+            else printf("Exiting program\n");
         }
         else printf("Input with no function entered - Ending Program\n");
     }
     else printf("Failed admin check - closing program\n");
-        
+
     return(0);
 }
 
@@ -70,9 +68,9 @@ int admin_check(void){
     fclose(pinregistry);
 
     do{
-       
+
         printf("Please enter your admin pin.\n");
-        scanf("%s",pin); 
+        scanf("%s",pin);
 
         if(strcmp(pincheck , pin) ==0){
             check = TRUE;
@@ -87,13 +85,4 @@ int admin_check(void){
     }
     while(tries < 3);
     return check;
-}
-
-
-void print_votes(single_vote *dec_votes, int *counted_votes){
-    int i;
-
-    for(i = 0; i < *counted_votes; i++){
-        printf("Vote: %s\n", dec_votes[i].vote);
-    }
 }
