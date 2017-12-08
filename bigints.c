@@ -6,58 +6,75 @@
 bigint *create_bigint (int base, int length) {
     bigint *b;
 
+    /* allocate memory for 1 bigint */
     b = (bigint *)calloc(1, sizeof(bigint));
     if (b != NULL) {
         b->base = base;
         b->length = 1;
         b->max_digits = length;
+        /* allocate length amount of digits */
         b->digits = (uint8_t*)calloc(length, sizeof(uint8_t));
     }
 
-    /*if (b != NULL && b->digits != NULL)
-        bigints_allocated++;*/
-
-    /*printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);*/
-
+    /*
+    if (b != NULL && b->digits != NULL)
+        bigints_allocated++;
+    printf("+%*s%d\n", bigints_allocated, "", bigints_allocated);
+    */
     return b;
 }
 
 /* Creates a bigint from a string */
 bigint *create_bigint_from_string(int base, char *string) {
     bigint *b;
-    int i, ph, j = 0, str_length, digits = 0, number_int;
+    int i, ph, str_index = 0, str_length, digits = 0, number_int;
     char *str_pos;
 
+    /* store input string's length */
     str_length = strlen(string);
 
-    if (base <= 10)
+    if (base <= 10) {
+        /* for bases up to 10, use length directly */
         digits = str_length;
+    }
     else {
+        /* for bases greater than 10, count amount of ':' characters instead */
         str_pos = string;
         while (str_pos != NULL && str_pos < string + str_length) {
+            /* set str_pos to position after next ':' */
             str_pos = strchr(str_pos + 1, ':');
+
+            /* if a ':' was found, increment digits*/
             if (str_pos != NULL)
                 digits++;
         }
     }
 
+    /* create bigint and set its length to digit amount */
     b = create_bigint(base, digits);
-
     b->length = b->max_digits;
 
+    /* reset str_pos */
     str_pos = string - 1;
 
+    /* count down from last digit, to zero */
     for (i = b->max_digits - 1; i >= 0; i--) {
         if (base <= 10) {
-            ph = char_to_int(string[j]);
+            /* for bases up to 10, convert current char to integer */
+            ph = char_to_int(string[str_index]);
+            /* set current digit to that integer */
             b->digits[i] = ph;
-            j++;
+            /* increment string index */
+            str_index++;
         }
         else
         {
+            /* for bases greater than 10, scan digit without the ':' */
             sscanf(str_pos + 1, "%d:", &number_int);
-            str_pos = strchr(str_pos + 1, ':');
+            /* set current digit to scanned integer */
             b->digits[i] = (uint8_t)number_int;
+            /* set str_pos to position after next ':' */
+            str_pos = strchr(str_pos + 1, ':');
         }
     }
 
@@ -67,15 +84,23 @@ bigint *create_bigint_from_string(int base, char *string) {
 /* Creates a copy of b and returns a pointer to it */
 bigint *create_bigint_copy(bigint *b) {
     int i;
-    bigint *copy = (bigint *)calloc(1, sizeof(bigint));
+    bigint *copy;
+
+    /* allocate memory for 1 bigint */
+    copy = (bigint *)calloc(1, sizeof(bigint));
+
+    /* copy variables from b to copy */
     copy->base = b->base;
     copy->length = b->length;
     copy->max_digits = b->max_digits;
+
+    /* allocate length amount of digits */
     copy->digits = (uint8_t*)calloc(b->max_digits, sizeof(uint8_t));
 
     /*if (copy != NULL && copy->digits != NULL)
         bigints_allocated++;*/
 
+    /* copy each digit from b to copy */
     for (i = 0; i < b->length; i++) {
         copy->digits[i] = b->digits[i];
     }
@@ -88,9 +113,10 @@ bigint *create_bigint_copy(bigint *b) {
 /* Creates a version of b in a different base
    The i parameters should be each digit in new_base with leading zeroes */
 bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
-    bigint *based, *base, *temp_divide, *temp_divide_prev, *temp_mod;
-    int digit = 0, base_length;
+    bigint *converted, *base, *temp_divide, *temp_divide_prev, *temp_mod;
+    int digit = 0, base_length, converted_max_length;
 
+    /* determine how many digits new_base contains */
     if (i2 > 0)
         base_length = 3;
     else if (i1 > 0)
@@ -98,43 +124,31 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
     else
         base_length = 1;
 
+    /* create bigint to store new_base and set its length to base_length */
     base = create_bigint(b->base, base_length);
     base->length = base_length;
 
-    if (i2 > 0)
+    /* set each digit in base to i parameters */
+    if (base_length > 2)
         base->digits[2] = i2;
-    if (i1 > 0)
+    if (base_length > 1)
         base->digits[1] = i1;
     base->digits[0] = i0;
 
-    /*temp_divide = create_bigint_copy(b);
-    temp_divide_prev = temp_divide;
+    /* find max length for converted number */
+    converted_max_length = (int)ceil(b->length * log(b->base) / log(new_base));
 
+    /* create bigint to store converted number */
+    converted = create_bigint(new_base, converted_max_length);
 
-    while(bigint_compare(temp_divide, base) >= 0) {
-        temp_divide = bigint_divide(temp_divide, base);
-        bigint_clear(&temp_divide_prev);
-        temp_divide_prev = temp_divide;
-
-        digit++;
-    }
-    bigint_clear(&temp_divide);*/
-
-     /*count digits*/
-
-    digit = (int)ceil(b->length * log(b->base) / log(new_base));
-
-    /*allocate memory*/
-    based = create_bigint(new_base, digit);
-
+    /* prepare variables */
     temp_divide = create_bigint_copy(b);
     temp_divide_prev = temp_divide;
 
-    digit = 0;
-    /*calculate result*/
+    /* calculate result */
     while(bigint_compare(temp_divide, base) >= 0) {
         temp_mod = bigint_modulus(temp_divide, base);
-        based->digits[digit] = temp_mod->digits[0] + temp_mod->digits[1] * b->base + temp_mod->digits[2] * b->base * b->base;
+        converted->digits[digit] = temp_mod->digits[0] + temp_mod->digits[1] * b->base + temp_mod->digits[2] * b->base * b->base;
         bigint_clear(&temp_mod);
 
         temp_divide = bigint_divide(temp_divide, base);
@@ -143,13 +157,15 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
 
         digit++;
     }
-    based->length = digit + 1;
+
+    /* set converted number length */
+    converted->length = digit + 1;
 
     temp_mod = bigint_modulus(temp_divide, base);
-    based->digits[digit] = temp_mod->digits[0] + temp_mod->digits[1] * b->base + temp_mod->digits[2] * b->base * b->base;
+    converted->digits[digit] = temp_mod->digits[0] + temp_mod->digits[1] * b->base + temp_mod->digits[2] * b->base * b->base;
     bigint_clear(&temp_mod);
 
-    return based;
+    return converted;
 }
 
 /* frees up a bigint's allocated memory */
@@ -159,9 +175,11 @@ void bigint_clear (bigint **b) {
     else
         printf("ALREADY NULL\n");*/
 
+    /* free digit array */
     free((*b)->digits);
+    /* free bigint */
     free((*b));
-
+    /* reset the bigint pointer */
     *b = NULL;
 
     /*printf("-%*s%d\n", bigints_allocated, "", bigints_allocated);*/
