@@ -22,6 +22,8 @@ bigint *create_bigint_from_string(int base, char *string);
 /* Creates a copy of b and returns a pointer to it */
 bigint *create_bigint_copy(bigint *b);
 
+/* Creates a version of b in a different base
+   The i parameters should be each digit in new_base with leading zeroes */
 bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0);
 
 /* Frees up a bigint's allocated digits */
