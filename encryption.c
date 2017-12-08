@@ -29,7 +29,7 @@ int main(void){
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint *encryption(int v){
-    bigint *e, *n, *bv, *i, *c, *one;
+    bigint *e, *n, *bv, *c;
     char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
 
@@ -44,24 +44,19 @@ bigint *encryption(int v){
     fclose(value);
 
     /* Values for primnumbers p1 & p2, along with correct values for e & d, are chosen and calculated before-hand using the algorythms described in RSA-chapter in the report */
-    i = create_bigint_from_string(10, "0");
+
     e = create_bigint_from_string(10, estring);
     n = create_bigint_from_string(10, nstring);
-    c = create_bigint_from_string(10, "1");
-    one = create_bigint_from_string(10, "1");
-    
-    while(bigint_compare(i, e) == -1){
-           c = bigint_modulus(bigint_multiply(c, bv), n); 
-           i = bigint_add(i, one);
-       }
-    return c;
-    
+
+
+    return generic_algo(bv, e, n);
+
     /*return bigint_modulus(bigint_pow(bv, e), n);*/
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
 bigint *decryption(bigint *c){
-    bigint *n, *d, *two, *one, *nc, *i;
+    bigint *n, *d, *two;
     char nstring[CHARLENGTH], dstring[CHARLENGTH];
     FILE *value;
 
@@ -70,20 +65,46 @@ bigint *decryption(bigint *c){
     fscanf(value," N=%s D=%s",nstring, dstring);
 
     fclose(value);
-
-    i = create_bigint_from_string(10, "0");
-    nc = create_bigint_from_string(10, "1");
-    one = create_bigint_from_string(10, "1");
     d = create_bigint_from_string(10, dstring);
-    n = create_bigint_from_string(10, nstring); 
+    n = create_bigint_from_string(10, nstring);
     two = create_bigint_from_string(10, "2");
 
-    
-    while(bigint_compare(i, d) == -1){
-           nc = bigint_modulus(bigint_multiply(nc, c), n); 
-           i = bigint_add(i, one);
-       }
-    return bigint_subtract(nc, two);
+
+    return generic_algo(c,d,n);
 
 /*    return bigint_subtract(bigint_modulus(bigint_pow(c, d ), n),two); */
 }
+
+bigint *generic_algo(bigint *v, bigint *pow_v, bigint *mod_v){
+    bigint *c, *one, *temp_v, *temp_pow_v, *temp_mod_v;
+    int *counters;
+    int i;
+
+/*
+      temp_v = bigint_convert_base(v, 256, 2, 5, 6);
+      printf("\nconvert done\n");
+      temp_pow_v = bigint_convert_base(pow_v, 256, 2, 5, 6);
+      printf("convert done\n");
+      temp_mod_v = bigint_convert_base(mod_v, 256, 2, 5, 6);
+      printf("convert done\n");
+      */
+      counters = (int *)calloc(pow_v->length, sizeof(int));
+
+      i = create_bigint_from_string(10, "0");
+      c = create_bigint_from_string(10, "1");
+      one = create_bigint_from_string(10, "1");
+
+
+      for(i = 0; i < pow_v->length; i++) {
+          for(counters[i] = 0; counters[i] < pow_v->digits[i] * custom_pow(10,i); counters[i]++) {
+              c = bigint_modulus(bigint_multiply(c, v), mod_v);
+          }
+      }
+      /*
+      while(bigint_compare(i, pow_v) == -1){
+             c = bigint_modulus(bigint_multiply(c, v), mod_v);
+             i = bigint_add(i, one);
+      }
+      */
+      return c;
+  }

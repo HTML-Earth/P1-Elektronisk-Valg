@@ -3,7 +3,7 @@
 
 int main (void){
     int user_vote, candidates, done = 0;
-    char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
+    char string_vote[MAX_CHARS], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
     bigint *enc_bigint_vote;
     stemmeseddel *kandidat_data;
 

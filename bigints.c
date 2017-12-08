@@ -601,7 +601,6 @@ int char_to_int(char c) {
     OLD FUNCTIONS
 */
 
-/*
 int custom_pow(int a, int b) {
     int res = 1, i;
     for (i = 0; i < b; i++)
@@ -610,6 +609,7 @@ int custom_pow(int a, int b) {
     return res;
 }
 
+/*
 bigint *bigint_multiply_old(bigint *a, bigint *b) {
     int i, j;
     bigint *result;

@@ -1,4 +1,4 @@
-all: admin.exe voting.exe test.exe clean
+all: admin.exe voting.exe test.exe pin-enc.exe clean
 
 CC = gcc
 CFLAGS = -Wall -ansi -pedantic
@@ -14,6 +14,10 @@ admin.exe: bigints.o encryption.o voting-functions.o file-man.o
 voting.exe: bigints.o encryption.o voting-functions.o file-man.o
 	${CC} ${CFLAGS} bigints.o encryption.o file-man.o voting-functions.o voting.c \
 		-o voting.exe
+
+pin-enc.exe: bigints.o encryption.o voting-functions.o file-man.o
+	 ${CC} ${CFLAGS} bigints.o encryption.o file-man.o voting-functions.o pin-enc.c \
+		-o pin-enc.exe
 
 file-man.o: file-man.c file-man.h
 	${CC} ${CFLAGS} -c file-man.c

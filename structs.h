@@ -1,4 +1,4 @@
-#define MAX_CHARS 100
+#define MAX_CHARS 10000
 
 /* struct containing name and amount of votes for a candidate */
 typedef struct{

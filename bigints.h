@@ -64,3 +64,5 @@ int bigint_compare_helper(bigint *a, bigint *b, int length);
 
 /* Converts char to int */
 int char_to_int(char c);
+
+int custom_pow(int a, int b);
