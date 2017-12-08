@@ -474,73 +474,91 @@ bigint *bigint_pow(bigint *a, bigint *b) {
     *result, *subtracted, *multiplied, *divided, *mod, *raised;
     char number[3];
 
+    /* create 0 as bigint in current base */
     sprintf(number, (a->base <= 10) ? "%d" : "%d:", 0);
     zero = create_bigint_from_string(a->base, number);
 
+    /* create 1 as bigint in current base */
     sprintf(number, (a->base <= 10) ? "%d" : "%d:", 1);
     one = create_bigint_from_string(a->base, number);
 
+    /* create 2 as bigint in current base */
     sprintf(number, (a->base <= 10) ? "%d" : "%d:", 2);
     two = create_bigint_from_string(a->base, number);
 
+    /* if b is greater than 1 */
     if (bigint_compare(b, one) == 1) {
-
+        /* b % 2 */
         mod = bigint_modulus(b, two);
 
+        /* if b is even */
         if (bigint_compare(mod, zero) == 0) {
             bigint_clear(&one);
             bigint_clear(&mod);
             bigint_clear(&zero);
 
+            /* a * a  */
             multiplied = bigint_multiply(a, a);
 
+            /* b / 2 */
             divided = bigint_divide(b,two);
             bigint_clear(&two);
 
+            /* (a * a) ^ (b / 2) */
             result = bigint_pow(multiplied, divided);
             bigint_clear(&multiplied);
             bigint_clear(&divided);
 
             return result;
         }
+        /* if b is odd */
         else {
             bigint_clear(&mod);
             bigint_clear(&zero);
 
+            /* a * a  */
             multiplied = bigint_multiply(a, a);
 
+            /* b - 1 */
             subtracted = bigint_subtract(b, one);
             bigint_clear(&one);
 
+            /* (b - 1) / 2 */
             divided = bigint_divide(subtracted, two);
             bigint_clear(&subtracted);
             bigint_clear(&two);
 
+            /* (a * a) ^ ( (b - 1) / 2 ) */
             raised = bigint_pow(multiplied, divided);
             bigint_clear(&multiplied);
             bigint_clear(&divided);
 
+            /* a * ( (a * a) ^ ( (b - 1) / 2 ) ) */
             result = bigint_multiply(a, raised);
             bigint_clear(&raised);
 
             return result;
         }
     }
-    else if(bigint_compare(b, zero) == 0) {
+    /* if b is 1 */
+    else if(bigint_compare(b, one) == 0) {
         bigint_clear(&two);
         bigint_clear(&zero);
-
-        result = create_bigint_copy(one);
         bigint_clear(&one);
+
+        /* result is a */
+        result = create_bigint_copy(a);
 
         return result;
     }
+    /* if b is 0 (we do not support negative numbers) */
     else {
         bigint_clear(&two);
         bigint_clear(&zero);
-        bigint_clear(&one);
 
-        result = create_bigint_copy(a);
+        /* result is 1 */
+        result = create_bigint_copy(one);
+        bigint_clear(&one);
 
         return result;
     }
@@ -573,26 +591,16 @@ int bigint_compare_helper(bigint *a, bigint *b, int length) {
 /* Converts char to int */
 int char_to_int(char c) {
     switch (c) {
-        case '0':
-        return 0;
-        case '1':
-        return 1;
-        case '2':
-        return 2;
-        case '3':
-        return 3;
-        case '4':
-        return 4;
-        case '5':
-        return 5;
-        case '6':
-        return 6;
-        case '7':
-        return 7;
-        case '8':
-        return 8;
-        case '9':
-        return 9;
+        case '0': return 0;
+        case '1': return 1;
+        case '2': return 2;
+        case '3': return 3;
+        case '4': return 4;
+        case '5': return 5;
+        case '6': return 6;
+        case '7': return 7;
+        case '8': return 8;
+        case '9': return 9;
     }
     return -1;
 }
