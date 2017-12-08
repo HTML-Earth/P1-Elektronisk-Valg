@@ -9,7 +9,7 @@ int admin_check(void);
 void print_votes(single_vote *dec_votes, int *counted_votes);
 
 int main (void){
-    int admin_choice, user_vote, i, candidates, admin_mode = 0, counted_votes = 0;
+    int admin_choice, i, candidates, counted_votes = 0;
     char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
     single_vote enc_votes[MAX_VOTES], dec_votes[MAX_VOTES];
     bigint *temp_bigint_vote;

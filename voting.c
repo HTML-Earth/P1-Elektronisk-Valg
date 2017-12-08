@@ -2,9 +2,8 @@
 #include    "voting-functions.h"
 
 int main (void){
-    int admin_choice, user_vote, i, candidates, done = 0, admin_mode = 0, counted_votes = 0;
+    int user_vote, candidates, done = 0;
     char string_vote[5], file_name[MAX_CHARS], valgkreds[MAX_CHARS];
-    single_vote enc_votes[MAX_VOTES], dec_votes[MAX_VOTES];
     bigint *enc_bigint_vote;
     stemmeseddel *kandidat_data;
 
