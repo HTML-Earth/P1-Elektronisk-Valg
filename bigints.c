@@ -105,10 +105,10 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
         base->digits[1] = i1;
     base->digits[0] = i0;
 
-    temp_divide = create_bigint_copy(b);
+    /*temp_divide = create_bigint_copy(b);
     temp_divide_prev = temp_divide;
 
-    /*count digits*/
+    
     while(bigint_compare(temp_divide, base) >= 0) {
         temp_divide = bigint_divide(temp_divide, base);
         bigint_clear(&temp_divide_prev);
@@ -116,11 +116,14 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
 
         digit++;
     }
-    bigint_clear(&temp_divide);
+    bigint_clear(&temp_divide);*/
+
+     /*count digits*/
+
+    digit = (int)ceil(b->length * log(b->base) / log(new_base)); 
 
     /*allocate memory*/
-    based = create_bigint(new_base, digit + 1);
-    based->length = digit + 1;
+    based = create_bigint(new_base, digit);
 
     temp_divide = create_bigint_copy(b);
     temp_divide_prev = temp_divide;
@@ -138,6 +141,7 @@ bigint *bigint_convert_base(bigint *b, int new_base, int i2, int i1, int i0){
 
         digit++;
     }
+    based->length = digit + 1;
 
     temp_mod = bigint_modulus(temp_divide, base);
     based->digits[digit] = temp_mod->digits[0] + temp_mod->digits[1] * b->base + temp_mod->digits[2] * b->base * b->base;

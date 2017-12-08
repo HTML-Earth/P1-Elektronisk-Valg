@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <math.h>
 #define MAX_DIGITS 10000
 #define MAX_BASE 256
 
