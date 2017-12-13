@@ -617,22 +617,24 @@ int custom_pow(int a, int b) {
     return res;
 }
 
-/*
 bigint *bigint_multiply_old(bigint *a, bigint *b) {
     int i, j;
-    bigint *result;
+    bigint *result, *previous;
     result = create_bigint_from_string(a->base, "0");
+    previous = result;
 
     for (i = 0; i < b->length; i++) {
         for (j = 0; j < custom_pow(a->base, i) * b->digits[i]; j++) {
-            result = bigint_add(result, a);
+            result = bigint_add(previous, a);
+            bigint_clear(&previous);
+            previous = result;
         }
     }
 
     return result;
 }
 
-bigint *bigint_divide(bigint *a, bigint *b) {
+bigint *bigint_divide_old(bigint *a, bigint *b) {
     bigint *sum, *prev_sum, *times, *prev_times, *one;
     int sum_length;
 
@@ -669,23 +671,31 @@ bigint *bigint_divide(bigint *a, bigint *b) {
 }
 
 bigint *bigint_modulus_old(bigint *a, bigint *b) {
-    bigint *result;
+    bigint *result, *previous;
 
     result = create_bigint(a->base, b->length);
+    previous = result;
 
     while (bigint_compare(result, a) < 0) {
-        result = bigint_add(result, b);
+        result = bigint_add(previous, b);
+        bigint_clear(&previous);
+        previous = result;
     }
 
     if (bigint_compare(result, a) > 0)
-        result = bigint_subtract(result, b);
+    {
+        result = bigint_subtract(previous, b);
+        bigint_clear(&previous);
+        previous = result;
+    }
 
-    result = bigint_subtract(a, result);
+    result = bigint_subtract(a, previous);
+    bigint_clear(&previous);
 
     return result;
 }
 
-bigint *bigint_pow(bigint *a, bigint *b) {
+bigint *bigint_pow_old(bigint *a, bigint *b) {
     bigint *result, *i, *one, *previous, *prev_i;
 
     i = create_bigint(a->base, b->length);
@@ -718,4 +728,3 @@ bigint *bigint_pow(bigint *a, bigint *b) {
 
     return result;
 }
-*/

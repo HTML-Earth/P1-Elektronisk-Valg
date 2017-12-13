@@ -46,15 +46,19 @@ bigint *bigint_subtract(bigint *a, bigint *b);
 
 /* Multiplies two bigints */
 bigint *bigint_multiply(bigint *a, bigint *b);
+bigint *bigint_multiply_old(bigint *a, bigint *b);
 
 /* Divides two bigints */
 bigint *bigint_divide(bigint *a, bigint *b);
+bigint *bigint_divide_old(bigint *a, bigint *b);
 
 /* a % b */
 bigint *bigint_modulus(bigint *a, bigint *b);
+bigint *bigint_modulus_old(bigint *a, bigint *b);
 
 /* Bigint power function */
 bigint *bigint_pow(bigint *a, bigint *b);
+bigint *bigint_pow_old(bigint *a, bigint *b);
 
 /* Returns 1 if a is bigger, -1 if b is bigger, or 0 if they are equal */
 int bigint_compare(bigint *a, bigint *b);
