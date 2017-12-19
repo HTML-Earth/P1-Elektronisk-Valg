@@ -29,7 +29,7 @@ int main(void){
 
 /* takes vote from main - Encrypts using RSA-encryption algorithm - returns encrypted vote to c-variable in main */
 bigint *encryption(int v){
-    bigint *e, *n, *bv, *c;
+    bigint *e, *n, *bv;
     char nstring[CHARLENGTH], estring[CHARLENGTH], vote[CHARLENGTH];
     FILE *value;
 
@@ -50,13 +50,11 @@ bigint *encryption(int v){
 
 
     return generic_algo(bv, e, n);
-
-    /*return bigint_modulus(bigint_pow(bv, e), n);*/
 }
 
 /* takes encrypted vote from main along with needed values for d & n - decrypts vote using RSA-algorithm - returns decrypted vote to dec_vote variable in main */
 bigint *decryption(bigint *c){
-    bigint *n, *d, *two;
+    bigint *n, *d;
     char nstring[CHARLENGTH], dstring[CHARLENGTH];
     FILE *value;
 
@@ -67,32 +65,18 @@ bigint *decryption(bigint *c){
     fclose(value);
     d = create_bigint_from_string(10, dstring);
     n = create_bigint_from_string(10, nstring);
-    two = create_bigint_from_string(10, "2");
 
 
     return generic_algo(c,d,n);
-
-/*    return bigint_subtract(bigint_modulus(bigint_pow(c, d ), n),two); */
 }
 
 bigint *generic_algo(bigint *v, bigint *pow_v, bigint *mod_v){
-    bigint *c, *one, *temp_v, *temp_pow_v, *temp_mod_v;
+    bigint *c;
     int *counters;
     int i;
-
-/*
-      temp_v = bigint_convert_base(v, 256, 2, 5, 6);
-      printf("\nconvert done\n");
-      temp_pow_v = bigint_convert_base(pow_v, 256, 2, 5, 6);
-      printf("convert done\n");
-      temp_mod_v = bigint_convert_base(mod_v, 256, 2, 5, 6);
-      printf("convert done\n");
-      */
       counters = (int *)calloc(pow_v->length, sizeof(int));
 
-      i = create_bigint_from_string(10, "0");
       c = create_bigint_from_string(10, "1");
-      one = create_bigint_from_string(10, "1");
 
 
       for(i = 0; i < pow_v->length; i++) {
@@ -100,11 +84,5 @@ bigint *generic_algo(bigint *v, bigint *pow_v, bigint *mod_v){
               c = bigint_modulus(bigint_multiply(c, v), mod_v);
           }
       }
-      /*
-      while(bigint_compare(i, pow_v) == -1){
-             c = bigint_modulus(bigint_multiply(c, v), mod_v);
-             i = bigint_add(i, one);
-      }
-      */
       return c;
   }
