@@ -47,7 +47,6 @@ bigint *bigint_subtract(bigint *a, bigint *b);
 /* Multiplies two bigints */
 bigint *bigint_multiply(bigint *a, bigint *b);
 bigint *bigint_multiply_old(bigint *a, bigint *b);
-bigint *bigint_256_multiply(bigint *a, bigint *b);
 
 /* Divides two bigints */
 bigint *bigint_divide(bigint *a, bigint *b);
