@@ -58,7 +58,7 @@ void count_votes(single_vote *enc_votes, int *counted_votes, stemmeseddel *gener
 
     for(i = 0; i < generic_stemmeseddel->antal_kandidater; i++){
         for(j = 0; j < *counted_votes; j++){
-            temp_cmp = atoi(enc_votes[j].vote);
+            temp_cmp = atoi(enc_votes[j].vote) - 2;
             if(i == temp_cmp){
                 generic_stemmeseddel->kandidater[i].stemmer += 1;
             }
