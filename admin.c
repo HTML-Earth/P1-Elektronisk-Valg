@@ -37,14 +37,30 @@ int main (void){
             if(admin_choice == 1){
                 /* If we want to count votes, we must first collect candidate data, to compare with our decrypted votes that are int-values */
                 kandidat_data = (stemmeseddel *)calloc(1,sizeof(stemmeseddel));
-                load_file_info(file_name, valgkreds);
-                candidates = check_voting_data(file_name);
 
-                kandidat_data->kandidater = (kandidat *)calloc(candidates,sizeof(kandidat));
-                import_voting_data(kandidat_data, file_name, valgkreds);
+                if(kandidat_data != NULL){
+                    load_file_info(file_name, valgkreds);
+                    candidates = check_voting_data(file_name);
 
-                count_votes(dec_votes, &counted_votes, kandidat_data);
-                print_voting_result(kandidat_data);
+                    kandidat_data->kandidater = (kandidat *)calloc(candidates,sizeof(kandidat));
+
+                    if(kandidat_data->kandidater != NULL){
+                        import_voting_data(kandidat_data, file_name, valgkreds);
+
+                        count_votes(dec_votes, &counted_votes, kandidat_data);
+                        print_voting_result(kandidat_data);
+                        free(kandidat_data->kandidater);
+                    }
+                    else{
+                        printf("calloc returned NULL pointer\n");
+                        return (0);
+                    }
+                    free(kandidat_data);
+                }
+                else{
+                    printf("calloc returned NULL pointer\n");
+                    return (0);
+                }
             }
             else printf("Exiting program\n");
         }
